@@ -19,3 +19,9 @@
 - Direction: push-to-foundation (Weapons_Lore → Foundation_template)
 - Items: TEST_LESSONS.md, PERIODIC_REVIEW_PROCESS.md, LESSONS.md
 - Notes: First contribution push. Items extracted via grill-me review of Weapons_Lore's QA_LESSONS_LEARNED.md, PERIODIC_REVIEW_2026-03-11.md, and anti-pattern analysis. Quality gate applied: project-specific items (UI.modal.open refs, COF domain rules, FBI specifics) filtered out.
+
+## 2026-04-06 17:12 UTC — EDI-33 subtask complete
+
+- Direction: internal work (Foundation_template)
+- Items: 5 agent roles created (QA, Developer, Librarian, DevOps, Security)
+- Notes: Grill-me assessment of Weapons_Lore non-canonical agents — all project-specific, not portable. Created 5 new generic agent roles in Foundation_template.
