@@ -20,6 +20,7 @@ Pick what your project needs. Skills marked **Standalone** work independently. O
 | **test-runner** | Execute tests, triage failures, drive coverage | Yes | None |
 | **grill-me** | Design interrogation and stress testing | Yes | None |
 | **validate-gates** | Second-pass audit of implement's quality gate output | Yes | Requires implement output to validate |
+| **aar** | After Action Review — catches dropped tests, missing docs, process gaps | Yes | None |
 
 ## Agent Roles
 
@@ -56,7 +57,7 @@ All others: standalone
 ## Recommended Starting Sets
 
 **Minimal (solo project, no Jira):**
-- review-code, test-runner, grill-me, validate-gates
+- review-code, test-runner, grill-me, validate-gates, aar
 
 **Standard (project with issue tracking):**
 - implement, all agent roles, all review skills, test-runner, grill-me
