@@ -47,4 +47,4 @@ Each agent also has skill implementations in `.agent/skills/`:
 - `board-meeting` — Multi-persona brainstorm and interrogation
 - `grill-me` — Design interrogation
 - `write-a-skill` — Skill authoring
-- `foundation-sync` — Bidirectional sync with Foundation_template
+- `foundation-sync` — Bidirectional sync with Foundation_template (git subtree)

@@ -140,12 +140,17 @@ Output a tailored recommendation:
 - skill-name — why it's not needed now, when to reconsider
 
 ### Install
-cp -r Foundation_template/.agent/skills/{list} your-project/.agent/skills/
-cp -r Foundation_template/.agent/.ai/{list} your-project/.agent/.ai/
-cp Foundation_template/.agent/TOOLCHAIN_DISCOVERY.md your-project/.agent/
+# If foundation-sync is already initialized:
+# Skills are in .foundation/ — symlink or copy what you need:
+ln -s .foundation/.agent/skills/{skill} .agent/skills/{skill}
+ln -s .foundation/.claude/skills/{skill} .claude/skills/{skill}
+cp .foundation/.agent/TOOLCHAIN_DISCOVERY.md .agent/
+
+# If starting fresh, run foundation-sync init first:
+/foundation-sync init
 ```
 
-After the recommendation, offer: "Want me to copy these into your project now?"
+After the recommendation, offer: "Want me to run `foundation-sync init` and set these up?"
 
 ## Output
 

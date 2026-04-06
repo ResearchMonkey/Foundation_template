@@ -19,7 +19,7 @@ This is not an application template — there's no app code here. It's the well 
 .agent/hooks/            — Generic pre-commit hook template
 .agent/TOOLCHAIN_DISCOVERY.md — Runtime toolchain detection rules
 .claude/skills/          — Claude Code wrappers (thin pointers to canonical skills)
-skills/contributions/    — Lessons pushed back from fork projects
+skills/contributions/    — Lessons pushed back from fork projects (legacy; new forks use git subtree)
 CATALOG.md               — Skill dependency map and recommended starting sets
 BACKLOG.md               — Open items from project grilling sessions
 projects.json            — Registry of known forks
@@ -42,7 +42,7 @@ See [CATALOG.md](CATALOG.md) for the full dependency map and recommended sets.
 | **test-runner** | Execute tests, triage failures, drive coverage | Yes |
 | **grill-me** | Design interrogation + project intake for new forks | Yes |
 | **write-a-skill** | Scaffold new canonical + wrapper skill | Yes |
-| **foundation-sync** | Bidirectional sync with fork projects | Partial |
+| **foundation-sync** | Bidirectional sync with fork projects (git subtree) | Partial |
 
 ## Getting Started
 
@@ -57,26 +57,32 @@ This interviews you about your project and recommends which skills, agents, and 
 ### Existing project? Sync:
 
 ```
-/foundation-sync pull    — pull canonical skills into your project
-/foundation-sync push    — push contributions back (contributions/ only)
-/foundation-sync status  — check sync state
+/foundation-sync init    — first-time setup (adds git subtree remote + .foundation/ prefix)
+/foundation-sync pull    — merge upstream changes into .foundation/ (git subtree pull)
+/foundation-sync push    — push .foundation/ commits to contrib/<project> branch for review
+/foundation-sync status  — check sync state and divergence
 ```
 
 ## Sync Contract
 
-| Direction | Scope | Quality Gate |
-|-----------|-------|--------------|
-| Foundation → Fork | `.claude/skills/`, `.agent/skills/`, `.agent/.ai/MEMORY_ANTI_PATTERNS.md` | grill-me on copy step |
-| Fork → Foundation | `contributions/` only | grill-me before push |
+Uses `git subtree` with prefix `.foundation/` in each fork.
+
+| Direction | Mechanism | Scope | Conflict handling |
+|-----------|-----------|-------|-------------------|
+| Foundation → Fork | `git subtree pull` | Full template content in `.foundation/` | Git 3-way merge; conflicts surface for manual resolution |
+| Fork → Foundation | `git subtree push` | Commits touching `.foundation/` | Pushed to `contrib/<project>` branch for review |
 
 ## Adding Your Project
 
-Add an entry to `projects.json`:
+1. Run `/foundation-sync init` in your project to set up the subtree
+2. Add an entry to `projects.json`:
 
 ```json
 {
   "name": "Your_Project",
   "url": "https://github.com/YOUR_ORG/Your_Project",
+  "prefix": ".foundation",
+  "remote": "foundation",
   "lastSync": "2026-04-06"
 }
 ```
