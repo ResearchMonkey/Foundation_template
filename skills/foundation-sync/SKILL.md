@@ -28,7 +28,7 @@ EDI, run foundation-sync status [local-project-path]
 
 | Direction | What syncs | Quality gate |
 |-----------|-----------|---------------|
-| Foundation → Fork | `.claude/skills/`, `.agent/skills/`, `skills/`, `MEMORY_ANTI_PATTERNS.md` | grill-me on EDI's copy step before committing |
+| Foundation → Fork | `.claude/skills/`, `.agent/skills/`, `skills/`, `.agent/.ai/MEMORY_ANTI_PATTERNS.md` | grill-me on EDI's copy step before committing |
 | Fork → Foundation | `contributions/` only | grill-me before anything goes into contributions/ |
 
 **Conflict resolution:** Drop unresolvable pieces, log them, continue.
@@ -66,7 +66,7 @@ else:
 
 ```
 # Find canonical directories in Foundation_template
-foundation_items = find SOURCE/{.claude/skills,.agent/skills,skills,MEMORY_ANTI_PATTERNS.md}
+foundation_items = find SOURCE/{.claude/skills,.agent/skills,skills,.agent/.ai/MEMORY_ANTI_PATTERNS.md}
 
 For each item:
   check if it exists in LOCAL_PROJECT

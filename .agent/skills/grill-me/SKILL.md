@@ -19,10 +19,11 @@ You are a **relentless technical interviewer**. Your job is to walk down every b
 
 Determine the plan source from the argument:
 
-1. **File path** → read it
-2. **Jira key** → fetch the issue via MCP
-3. **Description** → use it as the plan seed
-4. **No argument** → ask the user what plan or design to interrogate
+1. **`intake`** → enter **Project Intake Mode** (see below)
+2. **File path** → read it
+3. **Jira key** → fetch the issue via MCP
+4. **Description** → use it as the plan seed
+5. **No argument** → ask the user what plan or design to interrogate
 
 Then explore the codebase to understand relevant existing code, patterns, and constraints. Do not ask the user questions you can answer yourself by reading the code.
 
@@ -86,9 +87,69 @@ List any decisions that were deferred or need more information.
 
 What to do first, what to validate early, what can wait.
 
+---
+
+## Project Intake Mode
+
+Triggered when argument is `intake`. Purpose: interview the user about a new project to determine which Foundation_template skills, agents, and anti-patterns to pull.
+
+### Intake Step 1 — Discover the Project
+
+Ask these questions **one at a time** (do not bundle):
+
+1. **What does this project do?** (one sentence)
+2. **What's the tech stack?** (languages, frameworks, database, hosting)
+3. **Does it have user authentication?**
+4. **Does it handle sensitive data?** (PII, payments, credentials, compliance-regulated)
+5. **Is there an existing test suite?** (if yes, what framework)
+6. **Is there CI/CD?** (if yes, what platform)
+7. **Is this solo or team?**
+8. **What's the current pain?** (bugs, velocity, quality, docs, none — it's new)
+
+Skip questions you can answer by reading the codebase. If the project directory is available, explore it first.
+
+### Intake Step 2 — Risk Profile
+
+Based on answers, classify the project:
+
+| Profile | Criteria | Recommended set |
+|---------|----------|-----------------|
+| **Lightweight** | No auth, no sensitive data, solo | review-code, test-runner, grill-me |
+| **Standard** | Auth or sensitive data, or team, or existing test suite | + implement, all agents, review-tests, review-security, validate-gates |
+| **Full governance** | Auth + sensitive data + team + CI/CD | Everything including foundation-sync, write-a-skill, pre-commit hooks |
+
+### Intake Step 3 — Recommend
+
+Output a tailored recommendation:
+
+```markdown
+## Foundation_template Intake — [Project Name]
+
+**Risk profile:** Lightweight / Standard / Full governance
+
+### Recommended skills
+- [ ] skill-name — why it's relevant to this project
+
+### Recommended agents
+- [ ] @Role — why this role matters here
+
+### Anti-patterns to watch
+- [ ] Anti-XXX — why it applies to this project's domain
+
+### Not recommended (yet)
+- skill-name — why it's not needed now, when to reconsider
+
+### Install
+cp -r Foundation_template/.agent/skills/{list} your-project/.agent/skills/
+cp -r Foundation_template/.agent/.ai/{list} your-project/.agent/.ai/
+cp Foundation_template/.agent/TOOLCHAIN_DISCOVERY.md your-project/.agent/
+```
+
+After the recommendation, offer: "Want me to copy these into your project now?"
+
 ## Output
 
-Interactive Q&A session (Steps 0–3) concluding with the synthesis table (Step 4).
+Interactive Q&A session (Steps 0–3) concluding with the synthesis table (Step 4), or intake recommendation (Intake Steps 1–3).
 
 ## References
 

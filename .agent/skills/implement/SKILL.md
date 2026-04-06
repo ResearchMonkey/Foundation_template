@@ -91,7 +91,7 @@ At batch end, output a summary table:
 ### Resolve Toolchain & Branch
 
 - **Coding standards:** Check `docs/CODING_STANDARDS.md`, `CODING_STANDARDS.md`, `.github/CODING_STANDARDS.md`, `CONTRIBUTING.md` in order; use if found.
-- **Lint/Test:** From `package.json` scripts use `npm run lint`, `npm run test:unit` (or project equivalent); store as `LINT_CMD`, `TEST_CMD`.
+- **Lint/Test:** Follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available lint/test commands. Store discovered commands as `LINT_CMD`, `TEST_CMD`. If no test runner is found, WARN and mark test gates as `"skipped"` in `quality_gates`.
 - **Target branch:** `stage` is always the PR target branch. CI mode: use `target_branch` from JSON context (default: `stage`). Interactive mode: use `stage` directly — do NOT use `git remote show origin` (it returns `main`, which is the promotion target, not the PR target). Store as `DEFAULT_BRANCH=stage`.
 
 ### Initialization Status Report
@@ -307,9 +307,31 @@ Your FINAL output must include a fenced JSON block. CI mode: this is parsed by t
   "tests_passed": true,
   "lint_clean": true,
   "abort_reason": null,
-  "flash_lessons": []
+  "flash_lessons": [],
+  "quality_gates": [
+    {"gate": "ARCH_ANALYSIS", "phase": 1, "result": "pass|fail|skipped", "evidence": "..."},
+    {"gate": "SEC_RISK_CLASSIFICATION", "phase": 2, "result": "pass|skipped", "evidence": "LOW — whitelisted"},
+    {"gate": "QA_PLAN_VALIDATION", "phase": 2, "result": "pass|fail|veto", "evidence": "..."},
+    {"gate": "ENFORCEMENT_CHECK", "phase": 2, "result": "pass|n/a", "evidence": "not a governance ticket"},
+    {"gate": "LINT_CLEAN", "phase": 3, "result": "pass|fail", "evidence": "npm run lint exit 0"},
+    {"gate": "TESTS_PASS", "phase": 3, "result": "pass|fail", "evidence": "12/12 tests passed"},
+    {"gate": "LIB_DOC_AUDIT", "phase": 3, "result": "pass|fail", "evidence": "checklist 6/6 verified"},
+    {"gate": "CONSTANTS_REGISTERED", "phase": 3, "result": "pass|n/a", "evidence": "no new constants"},
+    {"gate": "API_FIELDS_DOCUMENTED", "phase": 3, "result": "pass|n/a", "evidence": "no new API fields"},
+    {"gate": "TEST_REGISTRY_UPDATED", "phase": 3, "result": "pass|n/a", "evidence": "2 rows added"},
+    {"gate": "ANTI_PATTERN_SWEEP", "phase": 3, "result": "pass|fail", "evidence": "Anti-003,005,006 checked"},
+    {"gate": "JIRA_STATE_VERIFIED", "phase": 4, "result": "pass|fail", "evidence": "5/5 checks passed"},
+    {"gate": "AAR_COMPLETE", "phase": 5, "result": "pass|skipped", "evidence": "plan compliance verified"}
+  ]
 }
 ```
+
+**Quality gates rules:**
+- Every gate in `quality_gates` MUST have a `result` — no gate may be omitted from the output.
+- `evidence` must be a concrete artifact (command output, file checked, grep result), not a self-assertion like "looks good."
+- If a gate was not reached due to abort, set `result` to `"skipped"` with `evidence` explaining why (e.g., `"aborted at phase 2 — QA veto"`).
+- A `"fail"` result does NOT necessarily mean abort — it means the gate flagged an issue. The `status` field reflects the overall outcome.
+- The `validate-gates` skill (BL-005) consumes this array for second-pass verification.
 
 **Status values:**
 - `success` — PR created (CI) or merged/queued (interactive), all tests pass, lint clean

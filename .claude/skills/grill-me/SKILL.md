@@ -1,7 +1,7 @@
 ---
 name: grill-me
-description: "Interrogate a Jira ticket with hard questions. Use when Caleb asks to 'grill' or 'review' a ticket, or to identify gaps, missing info, undefined scope, or unclear requirements before work begins."
-argument-hint: "<JIRA-ISSUE-KEY>"
+description: "Interrogate a Jira ticket with hard questions, or run project intake to recommend Foundation_template skills for a new project. Use when Caleb asks to 'grill' or 'review' a ticket, or to onboard a new project."
+argument-hint: "<JIRA-ISSUE-KEY or 'intake'>"
 ---
 
 # Grill Me — Interrogate Jira Tickets
@@ -43,3 +43,7 @@ You are a critical reviewer. Your job is to identify everything wrong with a Jir
 - One question at a time. Wait.
 - If something is genuinely well-specified, say so briefly and move to the next topic.
 - If the ticket has no acceptance criteria, say so immediately.
+
+## Project Intake Mode
+
+If argument is `intake`, switch to project onboarding mode. Read `.agent/skills/grill-me/SKILL.md` for the full intake process. Interview the user about their project, classify its risk profile, and recommend which Foundation_template skills/agents/anti-patterns to pull.

@@ -22,7 +22,7 @@ EDI, run foundation-sync status [local-project-path]
 
 | Direction | Scope | Quality Gate |
 |-----------|-------|--------------|
-| Foundation → Fork | `.claude/skills/`, `.agent/skills/`, `skills/`, `MEMORY_ANTI_PATTERNS.md` | grill-me before commit |
+| Foundation → Fork | `.claude/skills/`, `.agent/skills/`, `skills/`, `.agent/.ai/MEMORY_ANTI_PATTERNS.md` | grill-me before commit |
 | Fork → Foundation | `contributions/` only | grill-me before push |
 
 ## Key Rules

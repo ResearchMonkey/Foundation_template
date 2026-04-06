@@ -10,7 +10,7 @@ Agent/skill/lesson foundation for new projects. Bidirectional sync with forks vi
 skills/              — Sync skill and contributed adaptations
 skills/contributions/ — Fork contributions pushed back here
 projects.json        — Registry of known forks
-MEMORY_ANTI_PATTERNS.md — Generalized anti-patterns
+.agent/.ai/MEMORY_ANTI_PATTERNS.md — Generalized anti-patterns
 ```
 
 ## Canonical Skills

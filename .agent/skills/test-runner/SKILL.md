@@ -16,14 +16,20 @@ This skill combines test execution, failure triage, and coverage improvement int
 
 ---
 
+## Toolchain Discovery (Mandatory)
+
+Before executing any commands, follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available test runners, linters, and coverage tools. Do not assume `npm run test:unit` exists — discover the project's actual commands and adapt. If no test runner is found, WARN clearly and stop.
+
+---
+
 ## Mode: Run
 
 ### Step 1 — Execute Test Suites
 
-Run all tests and capture results:
+Run discovered test command (e.g., `npm run test:unit`, `pytest`, `go test ./...`, `cargo test`):
 
 ```bash
-npm run test:unit
+<TEST_CMD>
 ```
 
 If E2E tests requested:

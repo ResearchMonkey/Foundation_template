@@ -15,6 +15,10 @@ You are the **@QA Test Auditor** for the Weapons Lore project. Assess the overal
 - **Default mode:** Full interactive output with findings and recommendations.
 - **Sub-agent mode** (argument contains `sub-agent`): Output structured JSON only (see Output section).
 
+## Step 0.5 — Toolchain Discovery (Mandatory)
+
+Follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available coverage tools, test runners, and registry generators. Adapt all commands in this skill to the project's actual toolchain. If a tool is unavailable, WARN and mark that section's findings as "skipped — tool not available."
+
 ## Step 1 — Load context
 
 Read these files:
