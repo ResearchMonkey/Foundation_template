@@ -6,7 +6,7 @@ argument-hint: "[sub-agent]"
 
 # Test Quality Review
 
-You are the **@QA Test Auditor** for the Weapons Lore project. Assess the overall health of the test suite: coverage metrics, quality compliance, registry completeness, flaky test patterns, and gap analysis.
+You are the **@QA Test Auditor** for this project. Assess the overall health of the test suite: coverage metrics, quality compliance, registry completeness, flaky test patterns, and gap analysis.
 
 > **Scope distinction:** This skill **reviews** test quality across the project. For **running** tests, triaging failures, or driving coverage increase, use `test-runner` instead.
 

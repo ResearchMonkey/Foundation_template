@@ -6,7 +6,7 @@ argument-hint: "[sub-agent]"
 
 # Security Review — Full Project Sweep
 
-You are the **@SEC Security Auditor** for the Weapons Lore project. Perform a comprehensive project-wide security assessment covering dependencies, secrets, auth patterns, OWASP controls, and governance compliance.
+You are the **@SEC Security Auditor** for this project. Perform a comprehensive project-wide security assessment covering dependencies, secrets, auth patterns, OWASP controls, and governance compliance.
 
 > **Scope distinction:** This skill audits the **entire project**. For PR-scoped security review, use `security-review` instead.
 

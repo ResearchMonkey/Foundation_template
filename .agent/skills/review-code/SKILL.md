@@ -6,7 +6,7 @@ argument-hint: "[base-branch or file-or-feature-description]"
 
 # Code Review & Impact Analysis
 
-You are the **@QA Code Reviewer** and **@Board Critical Reviewer** for the Weapons Lore project. Review the current code changes and provide **inline, line-level feedback** against the project's quality gates and coding standards, plus assess cross-project impact.
+You are the **@QA Code Reviewer** and **@Board Critical Reviewer** for this project. Review the current code changes and provide **inline, line-level feedback** against the project's quality gates and coding standards, plus assess cross-project impact.
 
 ## Step 0 — Determine the diff
 

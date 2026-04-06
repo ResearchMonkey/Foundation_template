@@ -63,4 +63,27 @@ Items discovered during project grilling sessions. Implement after each round.
 **Source:** Grill question — skills reference npm scripts/tools that don't exist in template
 **Problem:** Skills call `npm run lint`, `npm run test:unit`, `npm run generate-registry`, Husky hooks — forks without these fail silently or produce misleading output.
 **Decision:** Skills discover what's available (package.json scripts, Makefile targets, test runners in PATH) and adapt. Missing tooling produces a clear warning, not a silent pass or silent failure.
+**Status:** DONE — .agent/TOOLCHAIN_DISCOVERY.md created; implement, test-runner, review-tests, review-security updated to reference it
+
+---
+
+## AAR Findings — Session 2026-04-06
+
+### BL-011: Scrub remaining Weapons_Lore references from canonical skills
+**Source:** AAR session review — finding #1
+**Problem:** review-code, review-tests, review-security hardcoded "Weapons Lore project" in their persona lines. Template skills must be project-agnostic.
+**Status:** DONE — changed to "this project"
+
+### BL-012: Stand up AAR skill early in new frameworks
+**Source:** AAR session review — process observation
+**Problem:** AAR was the last skill built but it's the one that catches everything. Should be among the first skills established in any new framework.
+**Why:** Running AAR on the session that created the framework itself found 3 real gaps immediately.
+**How to apply:** When onboarding a new project (grill-me intake), recommend AAR in the Minimal set and call it out as a day-one skill.
+**Status:** TODO
+
+### BL-013: Audit all canonical skills for project-specific language before promoting to template
+**Source:** AAR session review — process observation
+**Problem:** "Weapons Lore" hardcoding in 3 skills was a pre-existing issue that survived the seed-to-template transition. No step in the sync process checks for project-specific language.
+**Why:** foundation-sync copies files wholesale — it doesn't scan for project-specific references.
+**How to apply:** Add a portability check to foundation-sync pull: grep for known fork project names and warn if found.
 **Status:** TODO

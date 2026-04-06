@@ -48,6 +48,9 @@ implement (master orchestrator)
 validate-gates (post-implement verifier)
 └── implement output (quality_gates JSON)
 
+aar (standalone retrospective)
+└── no dependencies — works on any scope
+
 foundation-sync
 └── grill-me (validation gate)
 
@@ -60,7 +63,15 @@ All others: standalone
 - review-code, test-runner, grill-me, validate-gates, aar
 
 **Standard (project with issue tracking):**
-- implement, all agent roles, all review skills, test-runner, grill-me
+- implement, all agent roles, all review skills, test-runner, grill-me, validate-gates, aar
 
 **Full:**
 - Everything, including foundation-sync and write-a-skill
+
+## Infrastructure (all sets should include)
+
+These aren't skills but should be pulled into every fork:
+
+- `.agent/TOOLCHAIN_DISCOVERY.md` — runtime command detection (skills depend on this)
+- `.agent/hooks/pre-commit` — generic pre-commit hook (opt-in, copy to `.git/hooks/`)
+- `.agent/.ai/MEMORY_ANTI_PATTERNS.md` — 14 portable anti-patterns
