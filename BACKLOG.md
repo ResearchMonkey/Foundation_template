@@ -87,3 +87,10 @@ Items discovered during project grilling sessions. Implement after each round.
 **Why:** foundation-sync copies files wholesale — it doesn't scan for project-specific references.
 **How to apply:** Add a portability check to foundation-sync pull: grep for known fork project names and warn if found.
 **Status:** TODO
+
+### BL-014: LIB doc audit missed stale references on behavioral changes
+**Source:** BL-001 AAR — LIB passed but 3 files still described old file-copy sync
+**Problem:** The LIB Doc Audit checklist (items 1–6) only catches *additions* (new constants, new API fields). When a skill's contract changes (replacement, not addition), references to the old behavior in other files go undetected.
+**Why:** README, grill-me intake, and AGENTS.md all described the old file-copy model after BL-001 shipped. The checklist passed because there were no new constants or API fields — it never asked "did anything *change* that other files still describe the old way?"
+**How to apply:** Added checklist item #7: "Stale references to old behavior?" — grep for old command names, workflow descriptions, and contract terms when a skill or interface changes behavior. Severity: HIGH (blocks merge).
+**Status:** DONE — item #7 added to LIB Doc Audit checklist, STALE_REFS_CHECKED gate added to quality_gates JSON

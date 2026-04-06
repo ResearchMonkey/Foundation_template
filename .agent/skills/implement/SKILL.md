@@ -243,6 +243,9 @@ After OPS tests pass and before `review-code` / PR creation, run the **LIB proac
 | 4 | **TEST_REGISTRY updated?** | If test files were added/modified, check `TEST_REGISTRY.md` for rows (AAR-004). | MED — add rows |
 | 5 | **User docs current?** | If the feature is user-facing, check `Instructor_Guide.md` or relevant user doc for a section. | MED — add section or file ticket |
 | 6 | **Design doc exists?** | If a new module/subsystem was created (new file > 200 lines), check for a design doc or architecture note. | LOW — note in PR |
+| 7 | **Stale references to old behavior?** | If a skill, contract, or interface changed behavior (not just added new), grep the project for references to the old behavior (old command names, old workflow descriptions, old contract terms). Every match must be updated or acknowledged. | HIGH — update before merge |
+
+> **Rationale for #7 (BL-001 AAR 2026-04-06):** When foundation-sync changed from file-copy to git subtree, the LIB audit passed (no new constants, no new API fields) but README, grill-me intake, and AGENTS.md still described the old file-copy model. The checklist only caught *additions*, not *replacements*. This gate catches stale references to superseded behavior.
 
 > **Rationale (WEAP-49 AAR 2026-03-27):** The previous prose-based audit ("answer three questions") was rubber-stamped on a 1082-line new feature, missing 6 documentation gaps including 14 unregistered constants and missing API field documentation. This checklist makes each verification step explicit and auditable.
 
@@ -315,10 +318,11 @@ Your FINAL output must include a fenced JSON block. CI mode: this is parsed by t
     {"gate": "ENFORCEMENT_CHECK", "phase": 2, "result": "pass|n/a", "evidence": "not a governance ticket"},
     {"gate": "LINT_CLEAN", "phase": 3, "result": "pass|fail", "evidence": "npm run lint exit 0"},
     {"gate": "TESTS_PASS", "phase": 3, "result": "pass|fail", "evidence": "12/12 tests passed"},
-    {"gate": "LIB_DOC_AUDIT", "phase": 3, "result": "pass|fail", "evidence": "checklist 6/6 verified"},
+    {"gate": "LIB_DOC_AUDIT", "phase": 3, "result": "pass|fail", "evidence": "checklist 7/7 verified"},
     {"gate": "CONSTANTS_REGISTERED", "phase": 3, "result": "pass|n/a", "evidence": "no new constants"},
     {"gate": "API_FIELDS_DOCUMENTED", "phase": 3, "result": "pass|n/a", "evidence": "no new API fields"},
     {"gate": "TEST_REGISTRY_UPDATED", "phase": 3, "result": "pass|n/a", "evidence": "2 rows added"},
+    {"gate": "STALE_REFS_CHECKED", "phase": 3, "result": "pass|n/a", "evidence": "grep for old behavior — 0 stale refs or all updated"},
     {"gate": "ANTI_PATTERN_SWEEP", "phase": 3, "result": "pass|fail", "evidence": "Anti-003,005,006 checked"},
     {"gate": "JIRA_STATE_VERIFIED", "phase": 4, "result": "pass|fail", "evidence": "5/5 checks passed"},
     {"gate": "AAR_COMPLETE", "phase": 5, "result": "pass|skipped", "evidence": "plan compliance verified"}
