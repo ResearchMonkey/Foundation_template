@@ -22,6 +22,9 @@ Examine the argument to determine **execution mode**:
 | Path ending in `.json` | **CI** | None (capture for JSON output) | PR only, no merge | `/implement /tmp/ctx/WEAP-123.json` |
 | Jira key (`WEAP-###`) or URL | **Interactive** | Direct MCP tools | Try auto-merge | `/implement WEAP-123` |
 | Backlog ID (`BL-###`) | **Local** | None | Commit to `main` | `/implement BL-001` |
+| Anything else (freeform text) | **Local** | None | Commit to `main` | `/implement add a new agent named joe` |
+
+**Match order:** JSON path → Jira key/URL → BL-### → freeform. First match wins.
 
 **CI mode rules:**
 1. Read the JSON context file. Required structure:
@@ -47,12 +50,16 @@ Examine the argument to determine **execution mode**:
 2. Conversational output is shown to the user in real-time.
 
 **Local mode rules:**
-1. Read `BACKLOG.md`, find the matching `BL-###` entry. Extract: Problem, Decision, Status. If Status is already `DONE` → warn and confirm before proceeding.
-2. **Do NOT call any Jira/MCP tools.** No Jira I/O — context comes from BACKLOG.md.
+1. **Context source:**
+   - `BL-###`: Read `BACKLOG.md`, find the matching entry. Extract: Problem, Decision, Status. If Status is already `DONE` → warn and confirm before proceeding.
+   - Freeform text: The argument **is** the task description. Use it directly as the context for Phase 1 analysis.
+2. **Do NOT call any Jira/MCP tools.** No Jira I/O — context comes from BACKLOG.md or the freeform argument.
 3. Conversational output is shown to the user in real-time (like Interactive).
 4. No PR workflow — commit directly to `main` (like internal template work).
-5. On completion, update `BACKLOG.md` status to `DONE` with implementation summary.
-6. Structured JSON output still emitted (Phase 4) with `issue_key` set to the `BL-###` ID.
+5. On completion:
+   - `BL-###`: Update `BACKLOG.md` status to `DONE` with implementation summary.
+   - Freeform: No backlog update (there's no entry to update).
+6. Structured JSON output still emitted (Phase 4) with `issue_key` set to the `BL-###` ID or a slug derived from the freeform text (e.g., `LOCAL-add-agent-joe`).
 
 **All three modes** execute the identical Board resolution sequence: ARCH → SEC → QA → OPS → LIB.
 
