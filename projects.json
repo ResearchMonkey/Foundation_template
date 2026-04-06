@@ -2,7 +2,10 @@
   {
     "name": "Weapons_Lore",
     "url": "https://github.com/Echo8Lore/Weapons_Lore",
-    "upstream": true,
-    "lastSync": "2026-04-06"
+    "prefix": ".foundation",
+    "remote": "foundation",
+    "lastSync": "2026-04-06",
+    "migrated": false,
+    "notes": "Legacy file-copy sync — needs migration to git subtree (see skills/foundation-sync/SKILL.md § Migration)"
   }
 ]

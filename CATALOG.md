@@ -7,7 +7,7 @@ Pick what your project needs. Skills marked **Standalone** work independently. O
 | Skill | Purpose | Standalone | Prerequisites |
 |-------|---------|:----------:|---------------|
 | **implement** | Unified board issue processor (ARCH → SEC → QA → OPS → LIB) | No | All agent roles, review-code, review-security, review-tests, test-runner, grill-me |
-| **foundation-sync** | Bidirectional sync with Foundation_template | Partial | grill-me (validation gate) |
+| **foundation-sync** | Bidirectional sync with Foundation_template (git subtree) | Partial | git subtree, grill-me (validation gate) |
 | **write-a-skill** | Scaffold new canonical + wrapper skill | Yes | None |
 
 ## Review & Analysis Skills
