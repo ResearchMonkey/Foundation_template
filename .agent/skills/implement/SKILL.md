@@ -21,6 +21,7 @@ Examine the argument to determine **execution mode**:
 |---|---|---|---|---|
 | Path ending in `.json` | **CI** | None (capture for JSON output) | PR only, no merge | `/implement /tmp/ctx/WEAP-123.json` |
 | Jira key (`WEAP-###`) or URL | **Interactive** | Direct MCP tools | Try auto-merge | `/implement WEAP-123` |
+| Backlog ID (`BL-###`) | **Local** | None | Commit to `main` | `/implement BL-001` |
 
 **CI mode rules:**
 1. Read the JSON context file. Required structure:
@@ -45,7 +46,15 @@ Examine the argument to determine **execution mode**:
 1. Use Jira MCP tools normally for reads, writes, comments, and transitions.
 2. Conversational output is shown to the user in real-time.
 
-**Both modes** execute the identical Board resolution sequence: ARCH → SEC → QA → OPS → LIB.
+**Local mode rules:**
+1. Read `BACKLOG.md`, find the matching `BL-###` entry. Extract: Problem, Decision, Status. If Status is already `DONE` → warn and confirm before proceeding.
+2. **Do NOT call any Jira/MCP tools.** No Jira I/O — context comes from BACKLOG.md.
+3. Conversational output is shown to the user in real-time (like Interactive).
+4. No PR workflow — commit directly to `main` (like internal template work).
+5. On completion, update `BACKLOG.md` status to `DONE` with implementation summary.
+6. Structured JSON output still emitted (Phase 4) with `issue_key` set to the `BL-###` ID.
+
+**All three modes** execute the identical Board resolution sequence: ARCH → SEC → QA → OPS → LIB.
 
 ### Batch Support (Interactive mode only)
 
@@ -277,7 +286,7 @@ Push branch.
 - **Transition to Done** only if merge status is "merged" or "queued".
 - **Remove** `agent-fix-pending` only if issue was transitioned to Done.
 
-### Jira State Verification (Interactive mode — MANDATORY before JSON output, WEAP-241)
+### Jira State Verification (Interactive mode only — skip for CI and Local; MANDATORY before JSON output, WEAP-241)
 
 Before emitting the structured JSON, verify that all Jira I/O for this issue has been completed. Answer each question; if any is "no," go back and fix it before proceeding:
 
@@ -289,9 +298,9 @@ Before emitting the structured JSON, verify that all Jira I/O for this issue has
 
 This checklist is a cognitive speedbump — it cannot be skipped in batch mode.
 
-### Structured JSON Output (Both modes — ALWAYS emit)
+### Structured JSON Output (All modes — ALWAYS emit)
 
-Your FINAL output must include a fenced JSON block. CI mode: this is parsed by the orchestrator. Interactive mode: this provides a machine-readable summary.
+Your FINAL output must include a fenced JSON block. CI mode: this is parsed by the orchestrator. Interactive/Local mode: this provides a machine-readable summary.
 
 ```json
 {
