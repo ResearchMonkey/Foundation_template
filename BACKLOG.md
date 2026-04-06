@@ -79,7 +79,7 @@ Items discovered during project grilling sessions. Implement after each round.
 **Problem:** AAR was the last skill built but it's the one that catches everything. Should be among the first skills established in any new framework.
 **Why:** Running AAR on the session that created the framework itself found 3 real gaps immediately.
 **How to apply:** When onboarding a new project (grill-me intake), recommend AAR in the Minimal set and call it out as a day-one skill.
-**Status:** TODO
+**Status:** DONE — added aar to Lightweight recommended set in grill-me intake. CATALOG.md already had it.
 
 ### BL-013: Audit all canonical skills for project-specific language before promoting to template
 **Source:** AAR session review — process observation

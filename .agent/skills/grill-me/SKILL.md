@@ -114,7 +114,7 @@ Based on answers, classify the project:
 
 | Profile | Criteria | Recommended set |
 |---------|----------|-----------------|
-| **Lightweight** | No auth, no sensitive data, solo | review-code, test-runner, grill-me |
+| **Lightweight** | No auth, no sensitive data, solo | review-code, test-runner, grill-me, aar |
 | **Standard** | Auth or sensitive data, or team, or existing test suite | + implement, all agents, review-tests, review-security, validate-gates |
 | **Full governance** | Auth + sensitive data + team + CI/CD | Everything including foundation-sync, write-a-skill, pre-commit hooks |
 
