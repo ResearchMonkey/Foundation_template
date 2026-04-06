@@ -86,7 +86,7 @@ Items discovered during project grilling sessions. Implement after each round.
 **Problem:** "Weapons Lore" hardcoding in 3 skills was a pre-existing issue that survived the seed-to-template transition. No step in the sync process checks for project-specific language.
 **Why:** foundation-sync copies files wholesale — it doesn't scan for project-specific references.
 **How to apply:** Add a portability check to foundation-sync pull: grep for known fork project names and warn if found.
-**Status:** TODO
+**Status:** DONE — Post-pull portability scan added (Step 5). Loads fork names from projects.json, greps .foundation/ for matches. Warns but doesn't block (fork needs the update; leaked names should be fixed upstream). Push already had a blocking check; top-level Portability Check section updated to cover both directions.
 
 ### BL-014: LIB doc audit missed stale references on behavioral changes
 **Source:** BL-001 AAR — LIB passed but 3 files still described old file-copy sync

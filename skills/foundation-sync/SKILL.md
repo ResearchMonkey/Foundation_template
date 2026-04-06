@@ -39,11 +39,18 @@ EDI, run foundation-sync status [local-project-path]  # show sync state
 
 ## Portability Check (BL-013)
 
-Before any push, scan `.foundation/` for project-specific language:
+Foundation_template content must be project-agnostic. Both directions scan for project-specific language.
+
+**On push (blocks):** Before pushing, scan `.foundation/` for the fork's project name. If found, STOP — fix before pushing.
+
+**On pull (warns):** After pulling, scan `.foundation/` for all known fork project names from `projects.json`. If found, WARN — this means Foundation_template has leaked project-specific language upstream. Report it but don't block (the fork still needs the update).
+
 ```
-grep -ri "<fork-project-name>" .foundation/
+# Build list of known fork names from projects.json
+fork_names = [entry.name for entry in projects.json]
+
+grep -ri "<fork-name-1>\|<fork-name-2>\|..." .foundation/
 ```
-If matches found, WARN and list them. Do not push until resolved — Foundation_template content must be project-agnostic.
 
 ---
 
@@ -227,7 +234,25 @@ if [new skills found]:
     echo "  - skill (see .foundation/skills/skill/SKILL.md)"
 ```
 
-### Step 5 — Update sync log
+### Step 5 — Post-pull portability check (BL-013)
+
+```
+# Load known fork project names from projects.json (in .foundation/ or local)
+fork_names = [entry.name for entry in projects.json]
+
+# Scan pulled content for project-specific language
+for name in fork_names:
+  matches = grep -ri "$name" .foundation/
+  if [matches found]:
+    WARN: "Found references to fork project '$name' in upstream content:"
+    show matches
+    echo "Foundation_template may contain project-specific language."
+    echo "Consider filing an issue or fixing upstream."
+```
+
+This is a **warning**, not a blocker. The fork needs the update regardless — but leaked project names in the template should be reported and fixed upstream.
+
+### Step 6 — Update sync log
 
 Append to `SYNC_LOG.md`:
 ```
@@ -237,6 +262,7 @@ Append to `SYNC_LOG.md`:
 - Files changed: <count>
 - New skills: <list or "none">
 - Conflicts: <count or "none">
+- Portability warnings: <count or "none">
 - Notes: ...
 ```
 
