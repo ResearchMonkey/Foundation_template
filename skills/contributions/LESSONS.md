@@ -4,6 +4,11 @@
 **Date:** 2026-04-06
 **Purpose:** Standalone lessons extracted via grill-me from Weapons_Lore experience
 
+> **Note (2026-04-06):** These lessons were pushed under the old file-copy sync model.
+> New contributions flow through `.foundation/` commits via `git subtree push`
+> (see `skills/foundation-sync/SKILL.md`). This directory is retained as historical
+> content — the lessons themselves are still valid and referenced by agent roles.
+
 ---
 
 ## Lesson 1: Quality Gates Exist But Aren't Enforced
@@ -24,7 +29,7 @@
 
 **Generalized lesson:** Some "patterns" are actually tool-specific constraints, not general lessons. Before extracting a lesson, ask: "Is this true in any web project, or only in one with this specific architecture?"
 
-**Rule for contributions/:** Only push lessons that apply to a broad class of projects (e.g., "validate impossible state combinations"). Don't push tool-specific bugs upstream.
+**Rule for contributions:** Only push lessons that apply to a broad class of projects (e.g., "validate impossible state combinations"). Don't push tool-specific bugs upstream. With git subtree sync, contributions are commits to `.foundation/` pushed via `git subtree push` — the old `contributions/` directory is no longer the contribution path.
 
 ---
 
@@ -56,13 +61,13 @@
 
 **Generalized lesson:** An anti-pattern that says "don't do X because it violates our CODING_STANDARDS §5.4" is not portable — it requires the reader to have that document.
 
-**Rule for Foundation_template:** Anti-patterns in this repo must be self-contained. If it references a project-specific path or ticket, it stays in that project, not in contributions/.
+**Rule for Foundation_template:** Anti-patterns in this repo must be self-contained. If it references a project-specific path or ticket, it stays in that project — don't push it upstream.
 
 ---
 
 ## What Stays Local (Weapons_Lore-Specific)
 
-These are NOT for contributions/ — too project-specific:
+These are NOT for upstream contribution — too project-specific:
 
 - Mobile layout bugs (Weapons_Lore-specific CSS/HTML architecture)
 - Script tag initialization bugs (manual HTML injection, no bundler)
