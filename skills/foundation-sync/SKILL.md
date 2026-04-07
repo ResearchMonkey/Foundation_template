@@ -30,12 +30,27 @@ EDI, run foundation-sync status [local-project-path]  # show sync state
 - **Pull:** `git subtree pull` — merges upstream changes into `.foundation/`, preserving fork edits
 - **Push:** `git subtree push` — extracts `.foundation/` commits back to Foundation_template
 
+## Why two sync channels?
+
+`git subtree push` only transmits content inside its `--prefix`. Contributions at the root level (e.g., `skills/contributions/`) are invisible to a subtree push with `--prefix=.foundation`.
+
+The solution: **two subtree prefixes, two contribution channels**.
+
+| What | Where it lives | Pushed via |
+|------|----------------|------------|
+| Canonical content | `.foundation/` | `git subtree push --prefix=.foundation` |
+| Fork contributions | `skills/contributions/` (root) | `git subtree push --prefix=skills/contributions` |
+
+Both run on every push. Each uses a SEPARATE subtree prefix and pushes to a SEPARATE contribution branch. The PR merges both.
+
+**Rule:** Fork contributions MUST live in `skills/contributions/` (root). They will NOT be picked up by `.foundation/` subtree operations.
+
 ## Sync Contract
 
 | Direction | Mechanism | What syncs | Conflict handling |
 |-----------|-----------|-----------|-------------------|
 | Foundation → Fork | `git subtree pull` | Everything under `.foundation/` | Git 3-way merge; conflicts surface for manual resolution |
-| Fork → Foundation | `git subtree push` | Commits touching `.foundation/` | Pushed to `contrib/<project>` branch for review |
+| Fork → Foundation | Two subtree pushes | `.foundation/` + `skills/contributions/` | Both pushed to `contrib/<project>` branch for review |
 
 ## Portability Check (BL-013)
 
@@ -318,33 +333,67 @@ if [matches found]:
 ### Step 3 — Show what will be pushed
 
 ```
-# Show commits that touched .foundation/ since last sync
-git log --oneline foundation/main..HEAD -- .foundation/
+# Channel 1: .foundation/ (canonical skills/agents)
+echo "=== Canonical content (.foundation/) ==="
+found_commits=$(git log --oneline foundation/main..HEAD -- .foundation/)
+if [ -n "$found_commits" ]; then
+  echo "$found_commits"
+else
+  echo "No canonical content changes"
+fi
+
+# Channel 2: skills/contributions/ (fork lessons)
+echo ""
+echo "=== Fork contributions (skills/contributions/) ==="
+contrib_commits=$(git log --oneline foundation/main..HEAD -- skills/contributions/ 2>/dev/null)
+if [ -n "$contrib_commits" ]; then
+  echo "$contrib_commits"
+else
+  echo "No contributions to push"
+fi
 ```
 
-If no commits touch `.foundation/`: "Nothing to push." STOP.
+If neither channel has commits: "Nothing to push." STOP.
 
-Present the commit list to user:
-```
-echo "These commits will be pushed to Foundation_template:"
-<commit list>
-echo "They will land on branch 'contrib/<project-name>' for review."
-echo "Proceed? (yes/abort)"
-```
+Present the full list to user and wait for confirmation.
 
-Wait for confirmation.
-
-### Step 4 — Subtree push
+### Step 4a — Push canonical content (.foundation/)
 
 ```
-# Push to a contribution branch, not main
-git subtree push --prefix=.foundation foundation contrib/<project-name>
+git subtree push --prefix=.foundation foundation contrib/<project-name>-canonical
 ```
 
-This extracts all commits that modified `.foundation/` and replays them on the `contrib/<project-name>` branch of Foundation_template.
+If this fails: STOP and report. Do not proceed to Step 4b.
 
-**If push succeeds:** Continue to Step 5.
-**If push fails (permission, conflict):** Report error, suggest user create a PR manually.
+### Step 4b — Push contributions (skills/contributions/)
+
+```
+# Only push if skills/contributions/ exists and has changes
+git subtree push --prefix=skills/contributions foundation contrib/<project-name>-contrib
+```
+
+**Important:** Each channel uses a SEPARATE branch because git subtree prefixes create divergent commit histories. Pushing two prefixes to the same branch will fail with "pushed branch tip is behind its remote counterpart."
+
+If Step 4a succeeds but 4b fails: report the failure but do NOT rollback 4a. Log separately.
+
+### Step 5 — Create combined PR
+
+```
+echo "Two contribution branches pushed. Creating a combined PR..."
+gh pr create \
+  --repo Echo8Lore/Foundation_template \
+  --base main \
+  --head "contrib/<project-name>-canonical" \
+  --title "contrib: changes from <project-name>" \
+  --body "Two channels merged from <project-name>:\
+\
+- contrib/<project-name>-canonical: canonical content (.foundation/)\
+- contrib/<project-name>-contrib: fork contributions (skills/contributions/)\
+\
+Merge this PR to bring both channels into Foundation_template."
+```
+
+Note: GitHub only supports one head branch per PR. Create a SECOND PR for the contrib branch if you need both tracked separately, or use the Foundation_template web UI to add the second branch as a merge target.
 
 ### Step 5 — Create PR (optional)
 
@@ -353,7 +402,6 @@ echo "Contribution branch pushed. Create a PR on Foundation_template?"
 echo "(yes/no)"
 
 if yes:
-  # Switch context to Foundation_template or use gh CLI
   gh pr create \
     --repo Echo8Lore/Foundation_template \
     --base main \
@@ -367,9 +415,10 @@ if yes:
 Append to `SYNC_LOG.md`:
 ```
 ## YYYY-MM-DD HH:MM UTC — push
-- Direction: push (git subtree push)
+- Direction: push (two-channel subtree push)
+- Channel 1 (.foundation/): <count> commits pushed
+- Channel 2 (skills/contributions/): <count> commits pushed
 - Branch: contrib/<project-name>
-- Commits pushed: <count>
 - PR: <url or "skipped">
 - Notes: ...
 ```
@@ -399,11 +448,14 @@ if [git remote -v does not show 'foundation']:
 ```
 git fetch foundation
 
-# Commits upstream that we don't have
-incoming = git log --oneline HEAD..foundation/main -- (count)
+# Channel 1: .foundation/
+incoming_canonical = git log --oneline HEAD..foundation/main -- .foundation/ (count)
+outgoing_canonical = git log --oneline foundation/main..HEAD -- .foundation/ (count)
 
-# Commits we have that upstream doesn't
-outgoing = git log --oneline foundation/main..HEAD -- .foundation/ (count)
+# Channel 2: skills/contributions/
+if [ -d "skills/contributions/" ]; then
+  outgoing_contrib = git log --oneline foundation/main..HEAD -- skills/contributions/ (count)
+fi
 ```
 
 ### Step 3 — Report
@@ -412,11 +464,16 @@ outgoing = git log --oneline foundation/main..HEAD -- .foundation/ (count)
 Foundation Sync Status
 ──────────────────────
 Remote:     foundation (https://github.com/Echo8Lore/Foundation_template.git)
-Prefix:     .foundation/
+Prefix:     .foundation/  +  skills/contributions/
 Last sync:  <from SYNC_LOG.md or git log>
 
-Incoming:   <N> commits available (run 'pull' to merge)
-Outgoing:   <N> commits to push (run 'push' to contribute)
+Canonical (.foundation/):
+  Incoming:   <N> commits available (run 'pull' to merge)
+  Outgoing:   <N> commits to push
+
+Contributions (skills/contributions/):
+  Outgoing:   <N> commits to push
+  Status:     <present or "not initialized">
 
 Skills in .foundation/:
   - <list skills with counts>
