@@ -2,7 +2,7 @@
 name: aar
 description: "After Action Review — audit recent work for dropped tests, missing docs, stale memory, process gaps, and flash lessons. Use after any session, hotfix, batch, or epic close. Scales scope automatically."
 argument-hint: "[issue key(s), 'session', 'epic EPIC-KEY', or branch name]"
-allowed-tools: Read, Grep, Glob, Bash(git log:*), Bash(git diff:*), Bash(git show:*), Bash(npm run:*), Bash(make:*)
+allowed-tools: Read, Grep, Glob, Bash(git log:*), Bash(git diff:*), Bash(git show:*), Bash(npm *), Bash(npx *), Bash(node *), Bash(python3 *), Bash(make *), Bash(cargo *), Bash(go *)
 ---
 
 # After Action Review (AAR)
@@ -12,6 +12,14 @@ You are the **@Board retrospective agent**. Your job is to catch what shipped wi
 > **Rationale (AAR 2026-03-14):** Every session over 4 consecutive sessions found significant gaps during AAR — undocumented security constants, dropped tests, stale docs, unclosed epics. Without AAR, these gaps ship silently.
 
 ---
+
+## Path Resolution (Fork Support)
+
+This skill references files under `.agent/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `.agent/TOOLCHAIN_DISCOVERY.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/.agent/TOOLCHAIN_DISCOVERY.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
 
 ## Step 0 — Determine Scope
 

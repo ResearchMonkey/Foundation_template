@@ -15,7 +15,15 @@ You are the **@QA Test Auditor** for this project. Assess the overall health of 
 - **Default mode:** Full interactive output with findings and recommendations.
 - **Sub-agent mode** (argument contains `sub-agent`): Output structured JSON only (see Output section).
 
-## Step 0.5 — Toolchain Discovery (Mandatory)
+## Step 0.5 — Path Resolution (Fork Support)
+
+This skill references files under `.agent/` and `docs/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `docs/TESTING_STANDARDS.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/docs/TESTING_STANDARDS.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
+
+## Step 0.6 — Toolchain Discovery (Mandatory)
 
 Follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available coverage tools, test runners, and registry generators. Adapt all commands in this skill to the project's actual toolchain. If a tool is unavailable, WARN and mark that section's findings as "skipped — tool not available."
 

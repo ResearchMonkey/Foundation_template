@@ -2,7 +2,7 @@
 name: review-tests
 description: "Test quality and coverage review — coverage metrics, gap analysis, flaky test identification, test quality audit, registry completeness. Use for periodic test health assessments."
 argument-hint: "[sub-agent]"
-allowed-tools: Read, Grep, Glob, Bash(npm run test:unit*), Bash(npm run -s test:unit*), Bash(npm run generate-registry), Bash(npx nyc*), Bash(grep*)
+allowed-tools: Read, Grep, Glob, Bash(npm *), Bash(npx *), Bash(node *), Bash(python3 *), Bash(make *), Bash(cargo *), Bash(go *)
 ---
 
 # Test Quality Review

@@ -8,7 +8,7 @@ This is not an application template — there's no app code here. It's the well 
 
 - **Board of Directors** — 5 agent roles (Developer, QA, Security, Librarian, DevOps) with constitutional mandates, veto powers, and a resolution sequence (ARCH → SEC → QA → OPS → LIB)
 - **Skills** — reusable workflows that execute across any tech stack. Skills detect available tooling at runtime via `.agent/TOOLCHAIN_DISCOVERY.md`
-- **Anti-patterns** — 14 portable patterns codified from real production failures
+- **Anti-patterns** — 15 portable patterns codified from real production failures
 - **Bidirectional sync** — projects pull skills from here and push generalized lessons back
 
 ## What's Here
@@ -102,6 +102,22 @@ Uses `git subtree` with prefix `.foundation/` in each fork.
   "lastSync": "2026-04-06"
 }
 ```
+
+## Cognitive Mode (`.agent/.mode`)
+
+Foundation skills operate in one of two modes:
+
+| Mode | Behavior |
+|------|----------|
+| `prototype` | Move fast — relaxed ceremony, shorter reviews, skip non-critical gates |
+| `production` | Full governance — all gates enforced, thorough reviews, complete documentation |
+
+The mode is set in `.agent/.mode` (a single-line file containing `prototype` or `production`). If the file is missing, skills default to **prototype**.
+
+**Setting mode:**
+- `grill-me intake` asks about mode and creates the file automatically
+- Or create it manually: `echo "production" > .agent/.mode`
+- Change it any time — the switch is immediate
 
 ## Pre-commit Hook (Recommended)
 

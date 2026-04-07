@@ -19,6 +19,14 @@ This is NOT a resolution sequence. There is no workflow, no gates, no sign-offs.
 
 ## Step 0 — Load Context
 
+### Path Resolution (Fork Support)
+
+This skill references files under `.agent/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `.agent/.ai/AGENTS.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/.agent/.ai/AGENTS.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
+
 ### Load the Board
 
 1. Read `.agent/.ai/AGENTS.md` — load all persona definitions

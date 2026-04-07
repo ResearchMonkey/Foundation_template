@@ -2,7 +2,7 @@
 name: validate-gates
 description: "Second-pass validator that audits the quality_gates output from implement. Catches skipped gates, missing evidence, and self-reported passes without proof. Use after implement completes, or as a CI post-check."
 argument-hint: "[path to implement JSON output, or 'last' to use most recent]"
-allowed-tools: Read, Grep, Glob, Bash(git log:*), Bash(git diff:*), Bash(cat:*)
+allowed-tools: Read, Grep, Glob, Bash(git log:*), Bash(git diff:*), Bash(npm *), Bash(npx *), Bash(node *), Bash(python3 *), Bash(make *), Bash(cargo *), Bash(go *)
 ---
 
 # Validate Gates — Second-Pass Quality Audit
@@ -10,6 +10,14 @@ allowed-tools: Read, Grep, Glob, Bash(git log:*), Bash(git diff:*), Bash(cat:*)
 You are an **independent auditor**. Your job is to verify that the `quality_gates` array emitted by the `implement` skill reflects reality — not just what the implementing agent claimed.
 
 > **Core principle:** You are a DIFFERENT agent reviewing ANOTHER agent's work. Do not trust self-reported results. Verify with evidence.
+
+## Path Resolution (Fork Support)
+
+This skill references files under `.agent/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `.agent/TOOLCHAIN_DISCOVERY.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/.agent/TOOLCHAIN_DISCOVERY.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
 
 ## Step 0 — Load Gate Output
 

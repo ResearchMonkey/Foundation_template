@@ -161,7 +161,7 @@ Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cu
 2. A fork project with only `.foundation/` (no local `.agent/` or `docs/`) can run `implement` in local mode and load all Board context
 3. A fork project with its own `docs/CODING_STANDARDS.md` uses the local version, not `.foundation/docs/CODING_STANDARDS.md`
 4. grill-me intake detects when both local and Foundation versions of a file exist and asks user how to resolve
-**Status:** OPEN
+**Status:** DONE — Path resolution preamble added to all 12 affected canonical skills (implement, review-code, review-security, review-tests, test-runner, aar, board-meeting, validate-gates, grill-me, lib, write-a-skill, developer). Each skill checks local path first, falls back to `.foundation/` prefix, prefers local on collision. grill-me intake Step 2.5 added for collision detection — asks user how to resolve when both local and Foundation versions exist. Removed stale TODO comment from lib/SKILL.md.
 
 ### BL-022: grill-me intake and bootstrap.sh give contradictory skill linking instructions
 **Source:** Onboarding experiment — Finding 2
@@ -171,7 +171,7 @@ Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cu
 **Acceptance criteria:**
 1. grill-me intake install instructions match bootstrap.sh: Claude Code → `.claude/skills/` wrappers, Cursor → `.cursor/rules/`
 2. No skill references `.agent/skills/` as a user-facing install target (that's the canonical location, not the IDE integration point)
-**Status:** OPEN
+**Status:** DONE — grill-me intake install instructions updated: Claude Code → `.claude/skills/` wrappers only, Cursor → `.cursor/rules/`, removed `.agent/skills/` symlink instructions. Added "local overrides" section explaining path resolution.
 
 ### BL-023: allowed-tools whitelists are project-specific, block toolchain discovery
 **Source:** Onboarding experiment — Finding 3
@@ -182,7 +182,7 @@ Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cu
 1. Every wrapper's `allowed-tools` includes broad patterns: `Bash(npm *)`, `Bash(node *)`, `Bash(python3 *)`, `Bash(make *)`, `Bash(cargo *)`, `Bash(go *)` as appropriate per skill
 2. Specific commands (e.g., `Bash(npm run test:unit)`) removed in favor of broad patterns
 3. Git commands remain specific (e.g., `Bash(git push:*)`) — those are safety-critical
-**Status:** OPEN
+**Status:** DONE — All wrapper skills (.claude/skills/) and canonical skills with allowed-tools updated to broad patterns: `Bash(npm *)`, `Bash(npx *)`, `Bash(node *)`, `Bash(python3 *)`, `Bash(make *)`, `Bash(cargo *)`, `Bash(go *)`. Git commands kept specific. Project-specific commands (e.g., `Bash(npm run test:unit)`, `Bash(node scripts/security/*)`) removed.
 
 ### BL-024: No .agent/.mode file created by bootstrap; no mode promotion path
 **Source:** Onboarding experiment — Finding 4
@@ -193,7 +193,7 @@ Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cu
 1. grill-me intake asks "Is this a prototype or production project?" and creates `.agent/.mode` with the answer
 2. README explains what `.agent/.mode` does and how to change it
 3. Skills continue to default to `prototype` when file is missing (no breaking change)
-**Status:** OPEN
+**Status:** DONE — grill-me intake asks "prototype or production?" as question #9 and creates `.agent/.mode`. README documents mode, how to set it, and how to change it. Default remains prototype when file missing.
 
 ### BL-025: Project-specific references remain in canonical skills (WEAP-*, stage branch, doc paths)
 **Source:** Onboarding experiment — Finding 5
@@ -205,7 +205,7 @@ Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cu
 2. Branch naming supports non-Jira patterns (e.g., `fix/LOCAL-short-slug` for local mode, not just `fix/WEAP-123-slug`)
 3. References to `docs/agent/technical/SDLC.md`, `LOW_RISK_WHITELIST.md` guarded with "if exists" — these are optional project-specific docs, not Foundation requirements
 4. WEAP-* references in `> **Rationale**` blocks left as-is (historical context)
-**Status:** OPEN
+**Status:** DONE — Target branch now detected via `git remote show origin` instead of hardcoded `stage`. Branch naming supports `fix/LOCAL-<slug>` for non-Jira local mode. `LOW_RISK_WHITELIST.md` and `SDLC.md` references guarded with "if exists". SDLC section references removed from operational instructions (kept in References section with "if exists" qualifier). WEAP rationale blocks left as-is.
 
 ### BL-026: review-security produces empty results on fresh projects
 **Source:** Onboarding experiment — Finding 6
@@ -216,7 +216,7 @@ Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cu
 1. When no dependency audit tool is available, skill falls back to grep-based source scan: secrets patterns, SQL string concatenation, unescaped user input in HTML, hardcoded credentials
 2. Skill always produces at least a secrets scan result (regex-based, no tooling required)
 3. Skipped sections clearly state what tooling would enable them (e.g., "Install dependencies and run `npm audit` for CVE scanning")
-**Status:** OPEN
+**Status:** DONE — Secrets scan (Step 2) is now fully grep-based and always runs. Dependency audit (Step 3) has a multi-stack table (npm/pip/go/cargo/bundle) with clear skip message when unavailable. Auth and OWASP scans (Steps 4-5) use stack-adaptive grep patterns instead of hardcoded `server/`/`client/` paths. Config audit (Step 6) falls back to grep when no linting tool exists. Removed all project-specific references (WEAP, `academy`, `stage` branch).
 
 ### BL-027: No CLAUDE.md generated by bootstrap
 **Source:** Onboarding experiment — Finding 7
@@ -228,6 +228,7 @@ Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cu
 2. Generated CLAUDE.md includes: pointer to `.foundation/` directory, list of activated skills, note about `foundation-sync pull` for updates
 3. Content is minimal (~10-20 lines) — just enough for Claude Code to know Foundation exists
 4. Does not overwrite an existing CLAUDE.md
+**Status:** DONE — bootstrap.sh generates a minimal CLAUDE.md (~20 lines) with Foundation pointers, available skills, key paths, and sync commands. Only creates if one doesn't already exist.
 
 ### BL-028: AAR flash lesson — subtree model creates path namespace problem (candidate Anti-015)
 **Source:** AAR session 2026-04-07 — flash lesson from onboarding experiment
@@ -237,4 +238,4 @@ Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cu
 **Acceptance criteria:**
 1. Anti-015 added after BL-021 lands (so it describes the solution, not just the problem)
 2. Wording is generic/portable (applies to any framework that gets embedded in another project)
-**Status:** OPEN — blocked by BL-021
+**Status:** DONE — Anti-015 "Namespace-Blind References" added to MEMORY_ANTI_PATTERNS.md. Generic wording covers any embedded framework (git subtree, submodule, etc.). Updated portable anti-pattern count from 14 to 15.

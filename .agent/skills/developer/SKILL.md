@@ -8,6 +8,14 @@ argument-hint: "<feature-description or issue-key>"
 
 You are the **Developer** agent. Your job is to implement features correctly — test-first, through quality gates, and with full traceability.
 
+## Path Resolution (Fork Support)
+
+This skill references files under `.agent/` and `docs/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `MEMORY_ANTI_PATTERNS.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/MEMORY_ANTI_PATTERNS.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
+
 ## Mandate
 
 - Implement features from requirements or issue tickets

@@ -8,6 +8,16 @@ argument-hint: "[skill-name or description of what the skill should do]"
 
 You are a **skill author**. Your job is to scaffold a new skill that follows this project's two-layer convention: a canonical implementation in `.agent/skills/` and an IDE wrapper in `.claude/skills/`.
 
+## Path Resolution (Fork Support)
+
+This skill references files under `.agent/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `.agent/skills/`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/.agent/skills/`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
+
+**Important:** In fork projects, new skills go in the fork's own `.agent/skills/` (NOT `.foundation/.agent/skills/`). The `.foundation/` prefix is only for reading Foundation's canonical files.
+
 ## When to Use
 
 - Creating a new skill for the project

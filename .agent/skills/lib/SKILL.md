@@ -1,6 +1,12 @@
 # Skill: LIB (Librarian Proactive Doc Audit)
 
-<!-- TODO: Fork projects — adjust checklist items for your documentation structure -->
+## Path Resolution (Fork Support)
+
+This skill references files under `.agent/` and `docs/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `.agent/.ai/Librarian.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/.agent/.ai/Librarian.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
 
 ## Purpose
 Post-implementation documentation audit. Runs after OPS tests pass and before PR creation. Ensures code changes are reflected in project documentation.

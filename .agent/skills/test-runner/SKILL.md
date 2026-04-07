@@ -16,6 +16,14 @@ This skill combines test execution, failure triage, and coverage improvement int
 
 ---
 
+## Path Resolution (Fork Support)
+
+This skill references files under `.agent/` and `docs/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `.agent/TOOLCHAIN_DISCOVERY.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/.agent/TOOLCHAIN_DISCOVERY.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
+
 ## Toolchain Discovery (Mandatory)
 
 Before executing any commands, follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available test runners, linters, and coverage tools. Do not assume `npm run test:unit` exists — discover the project's actual commands and adapt. If no test runner is found, WARN clearly and stop.

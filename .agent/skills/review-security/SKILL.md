@@ -15,7 +15,15 @@ You are the **@SEC Security Auditor** for this project. Perform a comprehensive 
 - **Default mode:** Full interactive output with findings, severity, and recommendations.
 - **Sub-agent mode** (argument contains `sub-agent`): Output structured JSON only (see Output section).
 
-## Step 0.5 — Toolchain Discovery (Mandatory)
+## Step 0.5 — Path Resolution (Fork Support)
+
+This skill references files under `.agent/` and `docs/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `.agent/.ai/Security.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/.agent/.ai/Security.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
+
+## Step 0.6 — Toolchain Discovery (Mandatory)
 
 Follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available linters, dependency audit tools, and config-register checks. Adapt all commands in this skill to the project's actual toolchain. If a tool is unavailable, WARN and mark that check's findings as "skipped — tool not available."
 
@@ -29,26 +37,39 @@ Read these files:
 - `docs/agent/technical/CONFIGURATION_REGISTER.md` — documented security constants
 - `docs/agent/technical/LOW_RISK_WHITELIST.md` — whitelisted patterns
 
-## Step 2 — Secrets scan
+## Step 2 — Secrets scan (always runs — no tooling required)
 
-Run the project secret scanner:
+This step is **grep-based** and works on any project regardless of stack.
+
+Scan source code for secrets patterns:
 
 ```bash
-node scripts/security/secret-scan.js 2>&1
-```
+# API keys, tokens, passwords in source files
+grep -rn "AKIA[0-9A-Z]\{16\}\|sk-[a-zA-Z0-9]\{20,\}\|password\s*=\s*['\"][^'\"]\+['\"]\|api[_-]\?key\s*=\s*['\"][^'\"]\+['\"]" --include="*.js" --include="*.ts" --include="*.py" --include="*.go" --include="*.java" --include="*.rb" --include="*.env" --include="*.yml" --include="*.yaml" --include="*.json" . | grep -v node_modules | grep -v vendor | grep -v '.test.' | head -30
 
-Check for:
-- Secrets in tracked files (`.env`, API keys, private keys, JWTs)
-- Hardcoded credentials in source code
-- Secrets in git history (last 50 commits): `git log -50 --diff-filter=A --name-only -- '*.env' '*.pem' '*.key' 'keys/'`
+# Private keys, certificates
+find . -name "*.pem" -o -name "*.key" -o -name "*.p12" -o -name "*.pfx" | grep -v node_modules | grep -v vendor
+
+# .env files tracked in git
+git ls-files '*.env' '.env.*' | head -10
+
+# Secrets in git history (last 50 commits)
+git log -50 --diff-filter=A --name-only -- '*.env' '*.pem' '*.key' 'keys/' | head -20
+```
 
 ## Step 3 — Dependency audit
 
-Run npm audit for known CVEs:
+Use the project's dependency audit tool (detected via Toolchain Discovery):
 
-```bash
-npm audit --json 2>&1 | head -100
-```
+| Stack | Command |
+|-------|---------|
+| Node.js | `npm audit --json 2>&1 \| head -100` |
+| Python | `pip audit --format json 2>&1` or `safety check --json` |
+| Go | `govulncheck ./...` |
+| Rust | `cargo audit` |
+| Ruby | `bundle audit check` |
+
+If no dependency audit tool is available, skip this step with: "**Skipped:** No dependency audit tool found. Install dependencies and run your stack's audit command (e.g., `npm audit`, `pip audit`) for CVE scanning."
 
 Classify findings:
 - **CRITICAL/HIGH CVE:** Flag as CRITICAL finding
@@ -57,28 +78,24 @@ Classify findings:
 
 ## Step 4 — Auth & access control review
 
-Scan for common auth vulnerabilities:
+Scan for common auth vulnerabilities using **stack-adaptive** patterns:
 
 ```bash
-# Auth bypass patterns outside test code
-grep -rn "x-user-id\|dummy-token\|TEST_AUTH_BYPASS" server/ --include="*.js" | grep -v node_modules | grep -v ".test."
-
-# Missing auth middleware on routes
-grep -rn "router\.\(get\|post\|put\|patch\|delete\)" server/routes/ --include="*.js" | grep -v authenticate | head -20
+# Auth bypass patterns outside test code (adapt paths to project structure)
+grep -rn "dummy.token\|TEST_AUTH_BYPASS\|auth.*disabled\|skip.*auth" . --include="*.js" --include="*.ts" --include="*.py" --include="*.go" | grep -v node_modules | grep -v vendor | grep -v '.test.' | grep -v '__test__' | head -20
 
 # IDOR patterns — fetching by ID without ownership check
-grep -rn "req\.params\.id" server/routes/api/ --include="*.js" | grep -v "req\.user" | head -20
+grep -rn "params\.\(id\|userId\|user_id\)" . --include="*.js" --include="*.ts" --include="*.py" --include="*.go" | grep -v node_modules | grep -v vendor | head -20
 ```
 
 Check:
-- All API routes use `authenticate` middleware
-- Resource access includes ownership checks (`req.user.id`)
+- All API routes use authentication middleware
+- Resource access includes ownership checks
 - No test-only auth bypasses leak into production code
-- Academy-scoped queries use `req.academy.id`
 
-## Step 5 — OWASP Top 10 patterns
+## Step 5 — OWASP Top 10 code-level scan
 
-Scan for common vulnerability patterns:
+Scan for common vulnerability patterns. These checks are **grep-based** and work on any project:
 
 | OWASP Category | Check |
 |----------------|-------|
@@ -87,48 +104,48 @@ Scan for common vulnerability patterns:
 | A03 Injection | SQL string concatenation, unescaped user input in HTML |
 | A04 Insecure Design | Missing rate limiting, no CSRF protection |
 | A05 Security Misconfiguration | Verbose error messages, debug mode, missing security headers |
-| A06 Vulnerable Components | `npm audit` findings (Step 3) |
+| A06 Vulnerable Components | Dependency audit findings (Step 3) |
 | A07 Auth Failures | Weak password policy, missing brute-force protection |
 | A08 Data Integrity Failures | Unsigned/unverified updates, missing integrity checks |
 | A09 Logging Failures | Missing audit logging for security events |
 | A10 SSRF | Unvalidated URLs in server-side requests |
 
 ```bash
-# SQL injection patterns
-grep -rn "query.*\`\|query.*+.*req\.\|query.*\$\{" server/ --include="*.js" | grep -v node_modules | head -20
+# SQL injection patterns (string concatenation in queries)
+grep -rn "query.*+.*\(req\|request\|params\|input\)\|execute.*+\|\.format.*SELECT\|f\"SELECT\|f'SELECT" . --include="*.js" --include="*.ts" --include="*.py" --include="*.go" --include="*.java" | grep -v node_modules | grep -v vendor | grep -v '.test.' | head -20
 
-# XSS patterns (innerHTML without escaping)
-grep -rn "innerHTML\|outerHTML\|document\.write" client/ --include="*.js" | head -20
+# XSS patterns (innerHTML, dangerouslySetInnerHTML, unescaped template output)
+grep -rn "innerHTML\|outerHTML\|document\.write\|dangerouslySetInnerHTML\|v-html\|\|safe\b" . --include="*.js" --include="*.ts" --include="*.jsx" --include="*.tsx" --include="*.html" --include="*.py" | grep -v node_modules | grep -v vendor | head -20
 
-# Missing security headers check
-grep -rn "helmet\|x-content-type\|x-frame-options\|strict-transport" server/ --include="*.js" | head -10
+# Hardcoded credentials
+grep -rn "password\s*[:=]\s*['\"][^'\"]\{3,\}['\"]" . --include="*.js" --include="*.ts" --include="*.py" --include="*.go" --include="*.java" --include="*.yml" --include="*.yaml" | grep -v node_modules | grep -v vendor | grep -v '.test.' | grep -v 'example\|placeholder\|changeme\|TODO' | head -20
 ```
 
 ## Step 6 — Configuration & governance audit
 
 ### Security constants
 
+If a config register linting tool is available (detected via Toolchain Discovery), run it. Otherwise, manually grep for hardcoded security constants:
+
 ```bash
-npm run lint:config-register 2>&1
+# Find hardcoded security-relevant constants (adapt to project structure)
+grep -rn "maxAge\|expiresIn\|algorithm.*HS\|algorithm.*RS\|sameSite\|httpOnly\|secure:\s*\(true\|false\)\|cors\|helmet\|rateLimit\|HSTS" . --include="*.js" --include="*.ts" --include="*.py" --include="*.go" | grep -v node_modules | grep -v vendor | grep -v '.test.' | head -20
 ```
 
-Verify all hardcoded security constants are documented in `CONFIGURATION_REGISTER.md`:
-- HSTS settings, JWT algorithm/expiry, cookie options
-- CORS configuration, CSP headers, rate limits
+If `CONFIGURATION_REGISTER.md` exists, cross-reference found constants against it.
 
 ### Governance compliance
 
-- [ ] `.github/CODEOWNERS` exists and covers security-sensitive paths
-- [ ] Branch protection enabled on `main` and `stage`
-- [ ] CI gate runs on all PRs to `stage`
-- [ ] Secret scanning enabled (`.husky/` hooks, `scripts/security/`)
-- [ ] `SECURITY_OPERATIONS.md` is Active (not Draft)
+- [ ] `.github/CODEOWNERS` or equivalent exists and covers security-sensitive paths
+- [ ] Branch protection enabled on default branch
+- [ ] CI gate runs on all PRs
+- [ ] Secret scanning enabled (pre-commit hooks, CI scanner, or equivalent)
 
 ## Step 7 — Classify and deduplicate
 
 For each finding:
 1. Assign severity: CRITICAL / HIGH / MEDIUM / LOW
-2. Check if already tracked in Jira (`project = WEAP AND labels = security`)
+2. If Jira is available, check if already tracked
 3. Deduplicate (same root cause across multiple files = one finding)
 
 ## Output

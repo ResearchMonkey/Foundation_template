@@ -118,6 +118,37 @@ case "$IDE" in
     ;;
 esac
 
+# ── Generate CLAUDE.md if it doesn't exist ─────────────
+if [ ! -f "CLAUDE.md" ]; then
+  cat > "CLAUDE.md" <<'CLAUDEMD'
+# Project Configuration
+
+This project uses [Foundation_template](https://github.com/ResearchMonkey/Foundation_template) for AI-assisted development governance.
+
+## Foundation
+
+Foundation files are in `.foundation/` (pulled via git subtree). Do not edit files there directly — changes are synced via `/foundation-sync`.
+
+### Available skills
+
+Run `/grill-me intake` to get personalized recommendations, or invoke any activated skill directly.
+
+### Key paths
+
+- `.foundation/.agent/skills/` — canonical skill implementations
+- `.foundation/.agent/.ai/` — Board agent personas and constitution
+- `.foundation/CATALOG.md` — full skill catalog with dependency map
+- `.agent/.mode` — cognitive mode (`prototype` or `production`; default: prototype)
+
+### Sync
+
+- `/foundation-sync pull` — merge upstream Foundation updates
+- `/foundation-sync push` — push contributions back to Foundation
+- `/foundation-sync status` — check sync state
+CLAUDEMD
+  echo "Created CLAUDE.md with Foundation pointers."
+fi
+
 echo ""
 echo "Done. Foundation_template is now at $PREFIX/"
 echo ""

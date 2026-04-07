@@ -18,9 +18,10 @@ Loaded during code review, @QA validation, or when the relevant domain is active
 * **[Anti-012] "Retry-Masked Failures":** Using test retries to make flaky tests pass instead of fixing the root cause. Retries are only acceptable for post-deploy smoke tests, not for pre-merge quality gates.
 * **[Anti-013] "Environment-Blind Tests":** Writing tests that only work in one environment (e.g. direct DB access, hardcoded URLs) without documenting constraints or making them environment-aware.
 * **[Anti-014] "Batch Collapse":** When processing multiple issues in batch mode, collapsing all updates into a single comment instead of updating each issue individually. Each issue must receive its own updates.
+* **[Anti-015] "Namespace-Blind References":** Hardcoding paths that assume a framework or library lives at a fixed location in the file tree (e.g., `.agent/.ai/BOOTSTRAP.md`). When the framework is embedded in another project (e.g., under `.foundation/`), every hardcoded path breaks. Solution: use a path resolution fallback chain — check local path first, fall back to the embedded prefix. This applies to any framework that gets embedded via git subtree, submodule, or similar.
 
 ---
 
 ## Adding Project-Specific Anti-Patterns
 
-Anti-001 through Anti-014 above are generic and portable across all projects. Fork projects may add their own project-specific anti-patterns below this line, using their own numbering scheme. When in doubt: keep project-specific patterns in the fork, don't push them upstream.
+Anti-001 through Anti-015 above are generic and portable across all projects. Fork projects may add their own project-specific anti-patterns below this line, using their own numbering scheme. When in doubt: keep project-specific patterns in the fork, don't push them upstream.

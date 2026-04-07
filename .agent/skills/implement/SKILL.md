@@ -2,7 +2,7 @@
 name: implement
 description: "Unified Board issue processor (ARCH → SEC → QA → OPS → LIB). Accepts Jira keys, URLs, or JSON context files. Auto-detects interactive vs CI mode. Works identically across Claude Code, Cursor, and Grok."
 argument-hint: "<Jira key(s)/URL(s) OR path to JSON context file>"
-allowed-tools: Read, Grep, Glob, Edit, Write, Bash(git checkout:*), Bash(git branch:*), Bash(git remote show origin:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*), Bash(git log:*), Bash(git diff:*), Bash(git stash:*), Bash(cat package.json *), Bash(npm run lint), Bash(npm run lint:fix), Bash(npm run test:unit), Bash(npm run -s test:unit), Bash(npx playwright test:*), Bash(node --test:*), Bash(python3:*), Bash(gh pr create:*), Bash(gh pr merge:*), Bash(gh pr view:*), Bash(gh pr edit:*)
+allowed-tools: Read, Grep, Glob, Edit, Write, Bash(git checkout:*), Bash(git branch:*), Bash(git remote show origin:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*), Bash(git log:*), Bash(git diff:*), Bash(git stash:*), Bash(npm *), Bash(npx *), Bash(node *), Bash(python3 *), Bash(make *), Bash(cargo *), Bash(go *), Bash(gh pr create:*), Bash(gh pr merge:*), Bash(gh pr view:*), Bash(gh pr edit:*)
 ---
 
 # Implement — Unified Board Issue Processor
@@ -92,6 +92,14 @@ At batch end, output a summary table:
 | WEAP-456  | Aborted | —               | Tests failed x3  |
 ```
 
+### Path Resolution (Fork Support)
+
+This skill references files under `.agent/` and `docs/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `.agent/.ai/BOOTSTRAP.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/.agent/.ai/BOOTSTRAP.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
+
 ### Load Board Context (Mandatory)
 
 1. Read `.agent/.ai/BOOTSTRAP.md`, `.agent/.ai/MEMORY.md`, `.agent/.ai/AGENTS.md`.
@@ -108,14 +116,14 @@ At batch end, output a summary table:
 
 - **Coding standards:** Check `docs/CODING_STANDARDS.md`, `CODING_STANDARDS.md`, `.github/CODING_STANDARDS.md`, `CONTRIBUTING.md` in order; use if found.
 - **Lint/Test:** Follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available lint/test commands. Store discovered commands as `LINT_CMD`, `TEST_CMD`. If no test runner is found, WARN and mark test gates as `"skipped"` in `quality_gates`.
-- **Target branch:** `stage` is always the PR target branch. CI mode: use `target_branch` from JSON context (default: `stage`). Interactive mode: use `stage` directly — do NOT use `git remote show origin` (it returns `main`, which is the promotion target, not the PR target). Store as `DEFAULT_BRANCH=stage`.
+- **Target branch:** CI mode: use `target_branch` from JSON context. Interactive mode: detect the default branch via `git remote show origin | grep 'HEAD branch'`. If the project uses a staging branch (e.g., `stage`, `develop`), prefer it as the PR target. Store as `DEFAULT_BRANCH`.
 
 ### Initialization Status Report
 
 Before starting Phase 1 for the first item, output:
 
 - **Mode:** Interactive or CI
-- **Active Epics:** (from Jira project WEAP — query open epics; CI mode: skip)
+- **Active Epics:** (query open epics from the project's Jira; CI mode: skip)
 - **Cognitive Mode:** PROTOTYPE (Alpha) or PRODUCTION
 - **Board Status:** Green / Active Vetoes
 - **Memory Core:** Iron Laws count / Domain files available
@@ -128,7 +136,7 @@ Before starting Phase 1 for the first item, output:
    - **Interactive mode:** Use Jira MCP: `getAccessibleAtlassianResources` for cloud ID; `getJiraIssue` for the issue (summary, description, acceptance criteria, comments, labels, status).
    - **CI mode:** Use the parsed JSON context (already loaded in Phase 0).
 2. **Load** `.agent/.ai/Developer.md`.
-3. **@ARCH** drafts analysis: root cause (2–3 sentences), affected files/components, acceptance criteria list. **Document sourcing:** Only use docs with **Status: Active** (SDLC §4.7.1); never cite Draft or archived.
+3. **@ARCH** drafts analysis: root cause (2–3 sentences), affected files/components, acceptance criteria list. **Document sourcing:** Only use docs with **Status: Active**; never cite Draft or archived.
 4. **Capture analysis text** as `ANALYSIS_TEXT` (used in Phase 4 structured output).
 5. **Interactive mode only:** Post to Jira with `addCommentToJiraIssue`:
 
@@ -154,13 +162,13 @@ Before starting Phase 1 for the first item, output:
 
 - Propose 2–3 sentence approach; list files to modify/create and tests to add.
 - **Doc Impact Scan:** For each file being modified, check whether it contains hardcoded constants (cookie opts, CORS config, rate limits, security headers, feature flags) or configuration values that should be documented. Cross-reference `docs/agent/technical/CONFIGURATION_REGISTER.md` and `docs/agent/technical/API_Reference.md`. If any constant is undocumented, add a **Docs to Update** line to the plan listing the doc and the missing entry. This catches omissions — not just drift.
-- **SDLC §4.2:** Check `docs/agent/technical/LOW_RISK_WHITELIST.md`. If work **matches a whitelisted pattern**, ARCH self-authorizes, **skip @SEC**, proceed to QA. Only "Slow Lane" (Auth, Payments, Core Logic) summons @SEC.
-- **SDLC §4.10 — Enforcement Gate:** If the ticket establishes a process, workflow, governance gate, or architectural constraint, ARCH must include an **Enforcement** section in the plan answering:
+- **Low-risk whitelist:** If `docs/agent/technical/LOW_RISK_WHITELIST.md` exists, check it. If work **matches a whitelisted pattern**, ARCH self-authorizes, **skip @SEC**, proceed to QA. Only "Slow Lane" (Auth, Payments, Core Logic) summons @SEC. If no whitelist file exists, always route to @SEC for non-trivial changes.
+- **Enforcement Gate:** If the ticket establishes a process, workflow, governance gate, or architectural constraint, ARCH must include an **Enforcement** section in the plan answering:
   1. What technically enforces this?
   2. Where is enforcement implemented?
   3. What happens if enforcement fails?
   4. How do we verify enforcement is active?
-  If any answer is "convention" or "the agent follows the process," the plan is incomplete — do not proceed. **Method 3 rule:** For MEDIUM+ risk, Board self-review and policy documents do not count as enforcement (SDLC §4.10.2).
+  If any answer is "convention" or "the agent follows the process," the plan is incomplete — do not proceed. **Method 3 rule:** For MEDIUM+ risk, Board self-review and policy documents do not count as enforcement.
 
 ### SEC (when not whitelisted)
 
@@ -177,7 +185,7 @@ Before starting Phase 1 for the first item, output:
 ### QA: Validate Plan
 
 - **Load** `.agent/.ai/QA.md`.
-- Validate test cases per **SDLC §4.3** and quality gates per `.agent/workflows/quality-gates.md` §1–§24. If logic/security or Iron Laws violated, **VETO** with a clear "Path to Green."
+- Validate test cases and quality gates per `.agent/workflows/quality-gates.md` §1–§24. If logic/security or Iron Laws violated, **VETO** with a clear "Path to Green."
 
 ### Post Plan & Branch
 
@@ -196,7 +204,7 @@ Before starting Phase 1 for the first item, output:
 **Docs to Update:** <list docs needing updates, or "No doc-impacting changes">
 **Branch:** `fix/<ISSUE_KEY>-<short-slug>`
 
-<!-- Include Enforcement section ONLY for governance/process/workflow/constraint tickets (SDLC §4.10) -->
+<!-- Include Enforcement section ONLY for governance/process/workflow/constraint tickets -->
 **Enforcement:**
 1. **Enforced by:** <tooling mechanism>
 2. **Implemented in:** <file path(s)>
@@ -205,7 +213,7 @@ Before starting Phase 1 for the first item, output:
 ```
 
 - **Interactive mode only:** Add label `agent-fix-pending` via `editJiraIssue`.
-- Create branch: `git checkout <DEFAULT_BRANCH>` (or `target_branch` from CI context), `git pull`, `git checkout -b fix/<ISSUE_KEY>-<short-slug>`.
+- Create branch: `git checkout <DEFAULT_BRANCH>` (or `target_branch` from CI context), `git pull`, `git checkout -b fix/<ISSUE_KEY>-<short-slug>`. For Local mode without a Jira key, use `fix/LOCAL-<short-slug>` (e.g., `fix/LOCAL-add-path-resolution`).
 
 ---
 
@@ -428,6 +436,6 @@ When an issue is verified as **already resolved in code** (no new changes needed
 - `docs/CODING_STANDARDS.md` — Coding & architecture standards (planning, design, implementation, anti-patterns)
 - `docs/OPS_STANDARDS.md` — Failure classification and deployment rules
 - `docs/DOCUMENTATION_STANDARDS.md` — SSOT, doc lifecycle, doc-code sync
-- `docs/agent/technical/SDLC.md` — §4.2 Whitelist/SEC, §4.3 Test-Informed Planning, §4.6 Quality Gates
-- `docs/agent/technical/LOW_RISK_WHITELIST.md` — Patterns that bypass @SEC
+- `docs/agent/technical/SDLC.md` — §4.2 Whitelist/SEC, §4.3 Test-Informed Planning, §4.6 Quality Gates (if exists)
+- `docs/agent/technical/LOW_RISK_WHITELIST.md` — Patterns that bypass @SEC (if exists)
 - `.agent/workflows/quality-gates.md` — Pre-merge checklist §1–§25

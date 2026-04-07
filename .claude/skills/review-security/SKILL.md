@@ -2,7 +2,7 @@
 name: review-security
 description: "Full-project security sweep — OWASP dependency check, secrets scan, CVE audit, auth pattern review, governance compliance. Use for periodic security audits."
 argument-hint: "[sub-agent]"
-allowed-tools: Read, Grep, Glob, Bash(node scripts/security/*), Bash(npm audit*), Bash(npm run lint:config-register), Bash(git log*), Bash(git diff*), Bash(grep*)
+allowed-tools: Read, Grep, Glob, Bash(npm *), Bash(npx *), Bash(node *), Bash(python3 *), Bash(make *), Bash(cargo *), Bash(go *), Bash(git log:*), Bash(git diff:*)
 ---
 
 # Security Review — Full Project Sweep

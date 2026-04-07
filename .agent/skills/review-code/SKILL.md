@@ -25,6 +25,14 @@ Run the following commands, substituting `<base>` with the resolved base branch 
 2. `git diff <base>...HEAD --name-only` — changed files
 3. `git log <base>...HEAD --oneline` — recent commits on this branch
 
+## Step 1.5 — Path Resolution (Fork Support)
+
+This skill references files under `.agent/` and `docs/`. In fork projects using Foundation via git subtree, these files live under `.foundation/`. For every path referenced in this skill:
+1. Check the **local path** first (e.g., `.agent/workflows/quality-gates.md`)
+2. If not found, check with `.foundation/` prefix (e.g., `.foundation/.agent/workflows/quality-gates.md`)
+3. If both exist, prefer the **local** version (fork override)
+4. If neither exists, WARN and continue — do not fail silently
+
 ## Step 2 — Review against Quality Gates
 
 Read `.agent/workflows/quality-gates.md` and `docs/CODING_STANDARDS.md` for the full rules. Apply every applicable gate to the diff.
