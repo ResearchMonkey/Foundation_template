@@ -39,9 +39,9 @@ Determine the source from the argument:
 
 Each Board member gives their **unfiltered first reaction** to the material, labeled clearly. Every persona must speak. Keep each reaction focused and concise — 2-4 sentences per persona.
 
-**@Developer** — How does this fit the current architecture? What would need to change? Is this a natural extension or a paradigm shift?
+**@Developer** — How does this fit the current architecture? What would need to change? Is this a natural extension or a paradigm shift? What risk does this introduce from a design perspective?
 
-**@Security** — What risk does this introduce? What attack surface changes? What compliance or data concerns come to mind?
+**@Security** — What attack surface changes? What compliance or data concerns come to mind?
 
 **@QA** — How would we test this? What's hard to validate? What edge cases jump out immediately?
 
@@ -74,7 +74,7 @@ After reactions, the Board **grills the user** to sharpen the idea. This is coll
 
 ### Interrogation priorities per persona
 
-- **@Developer**: feasibility, scope, integration points, technical debt implications
+- **@Developer**: feasibility, scope, integration points, technical debt, architectural fit
 - **@Security**: threat model, data flow, auth/authz impact, secret handling
 - **@QA**: testability, acceptance criteria, regression risk, edge cases
 - **@DevOps**: deployability, monitoring, rollback plan, infrastructure cost
@@ -99,7 +99,6 @@ When the Board is satisfied (or the user says "enough"), offer to synthesize:
 | @Security | ... | ... | Yes/No |
 | @QA | ... | ... | Yes/No |
 | @DevOps | ... | ... | Yes/No |
-| @Librarian | ... | ... | Yes/No |
 
 ### Consensus View
 

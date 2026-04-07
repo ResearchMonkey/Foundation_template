@@ -36,7 +36,7 @@ Run periodically:
 2. **Contain** — Revoke tokens, rotate secrets, disable affected endpoints.
 3. **Notify** — Alert stakeholders per `APPROVAL_POLICY.md`.
 4. **Fix** — Patch the vulnerability with CRITICAL risk classification.
-5. **Review** — Post-incident AAR; update `MEMORY_SECURITY.md` with lessons.
+5. **Review** — Post-incident AAR; record lessons in domain memory (create `MEMORY_SECURITY.md` if needed).
 
 ## References
 

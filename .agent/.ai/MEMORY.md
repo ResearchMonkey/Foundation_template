@@ -6,7 +6,7 @@ Domain knowledge and active decisions. Skills load this file during Step 0 to pi
 
 - [AGENTS.md](AGENTS.md) — Board constitution and agent roles
 - [MEMORY_ANTI_PATTERNS.md](MEMORY_ANTI_PATTERNS.md) — Portable anti-patterns (14 entries)
-- [Developer.md](Developer.md) — Developer agent persona
+- [Developer.md](Developer.md) — Developer agent persona (includes ARCH role)
 - [Security.md](Security.md) — Security agent persona and risk classification rubric
 - [QA.md](QA.md) — QA agent persona
 - [DevOps.md](DevOps.md) — DevOps agent persona

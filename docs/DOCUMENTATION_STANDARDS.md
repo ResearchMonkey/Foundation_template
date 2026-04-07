@@ -36,8 +36,7 @@ When code changes, documentation must stay in sync:
 - Domain memory files:
   - `MEMORY.md` — Iron Laws and domain index
   - `MEMORY_ANTI_PATTERNS.md` — code smells and process anti-patterns (defers to `docs/CODING_STANDARDS.md`)
-  - `MEMORY_SECURITY.md` — auth, data security
-  - `MEMORY_OPS.md` — CI/CD, deployment, infrastructure
+  - Fork projects create additional domain memory files as needed (e.g., `MEMORY_SECURITY.md`, `MEMORY_OPS.md`)
 
 ## 5. What Must Be Documented
 

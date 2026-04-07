@@ -12,20 +12,14 @@ This directory contains the AI agent framework: role personas, skills, workflows
 .agent/
 ├── .ai/                    # Role personas and memory
 │   ├── AGENTS.md           # Role definitions and authority
-│   ├── ARCHITECT.md        # @ARCH persona
 │   ├── BOOTSTRAP.md        # Board activation sequence
-│   ├── Developer.md        # @DEV persona
+│   ├── Developer.md        # @DEV / @ARCH persona
 │   ├── DevOps.md           # @OPS persona
 │   ├── Librarian.md        # @LIB persona
 │   ├── MEMORY.md           # Iron Laws and domain index
 │   ├── MEMORY_ANTI_PATTERNS.md
-│   ├── MEMORY_OPS.md
-│   ├── MEMORY_SECURITY.md
-│   ├── MEMORY_UI.md
 │   ├── QA.md               # @QA persona + validation rules
-│   ├── RISK_LEVELS.md      # → redirect to docs/SECURITY_STANDARDS.md
-│   ├── Security.md         # @SEC persona
-│   └── TEST_QUALITY_RULES.md  # → redirect to docs/TESTING_STANDARDS.md
+│   └── Security.md         # @SEC persona
 ├── skills/                 # Canonical skill definitions
 │   ├── aar/                # After Action Review
 │   ├── board-meeting/      # Multi-perspective review
@@ -74,10 +68,9 @@ Agent personas define **authority and workflow**. The rules they follow live in 
 
 | Standards Doc | Consumer Agent | What It Controls |
 |--------------|----------------|------------------|
-| `docs/CODING_STANDARDS.md` | @Developer | Implementation checklist, anti-patterns, quality scoring |
+| `docs/CODING_STANDARDS.md` | @Developer | Planning, design, implementation checklist, anti-patterns, quality scoring |
 | `docs/TESTING_STANDARDS.md` | @QA | Pre-merge review, test strategy, coverage requirements |
 | `docs/SECURITY_STANDARDS.md` | @Security | Risk classification, security checklists, approval policy |
-| `docs/ARCHITECTURE_STANDARDS.md` | @Architect | Planning checklist, design doc requirements, file organization |
 | `docs/OPS_STANDARDS.md` | @DevOps | Failure classification, deployment rules, CI/CD conventions |
 | `docs/DOCUMENTATION_STANDARDS.md` | @Librarian | SSOT rules, doc lifecycle, doc-code sync |
 

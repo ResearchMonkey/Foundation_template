@@ -45,9 +45,10 @@ Before granting "Green" status on any PR, verify:
 
 ## 6. Test Anti-Patterns
 
+See `docs/CODING_STANDARDS.md` §12 for the full anti-pattern list. Anti-002 (Happy-path-only testing) and Anti-011 (Dropped planned tests) are particularly relevant to testing.
+
 | ID | Anti-Pattern | Rule |
 |----|-------------|------|
-| Anti-002 | Happy-path-only testing | Must include at least one failure case |
 | T-001 | Test depends on execution order | Each test must be independently runnable |
 | T-002 | Overly broad mocks | Mock at boundaries, not internals |
 | T-003 | Snapshot overuse | Snapshots for stable output only; not for evolving UI |

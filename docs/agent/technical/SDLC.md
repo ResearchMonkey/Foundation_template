@@ -4,14 +4,14 @@
 
 ## §1 — Issue Intake
 - Ticket arrives (Jira, GitHub Issue, or ad-hoc request).
-- ARCH triages: assigns risk tier per `docs/SECURITY_STANDARDS.md`, identifies affected files.
+- @Developer triages: assigns risk tier per `docs/SECURITY_STANDARDS.md`, identifies affected files.
 
 ## §2 — Planning
-- ARCH produces a plan: scope, files, risks, test strategy.
+- @Developer produces a plan: scope, files, risks, test strategy.
 - For MEDIUM+ risk: plan is reviewed before implementation begins.
 
 ## §3 — Implementation
-- OPS (Developer) implements per ARCH plan.
+- @Developer implements per plan.
 - Follow `docs/CODING_STANDARDS.md`.
 - TDD: write failing test first, then code to pass it.
 

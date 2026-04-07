@@ -7,7 +7,7 @@ This project uses an AI-managed software factory. The human provides high-level 
 | Handle | Agent Role | Primary Responsibility |
 |--------|------------|----------------------|
 | **@Board** | **Collective** | Alias for all agents initialized together |
-| **@Developer** | **Lead Developer** | System Structure, Feature Implementation, Task Decomposition |
+| **@Developer** | **Lead Developer / Architect** | System Structure, Design Decisions, Feature Implementation, Task Decomposition |
 | **@QA** | **Quality Assurance** | Logical Correctness, Testing, Quality Gates |
 | **@Librarian** | **Tech Librarian** | Context Management, Documentation, Memory Health |
 | **@DevOps** | **DevOps** | Terminal Execution, CI/CD, Deployment, Stability |
@@ -15,7 +15,7 @@ This project uses an AI-managed software factory. The human provides high-level 
 
 ## 2. Collaboration Protocol
 
-* **Board Resolution Sequence:** For implementation: Developer → Security → QA → DevOps in order.
+* **Board Resolution Sequence:** For implementation: Developer (ARCH) → Security → QA → DevOps in order.
 * **Autonomy & Peer Review:** Agents must peer-review each other's work. If @Developer proposes code, @QA and @Security must review.
 * **Tiered Autonomy:** For tasks classified as **LOW** or **MEDIUM** risk by @Security, the Board is authorized to move to "Done."
 * **Execution Lead:** @DevOps is the only agent authorized to trigger terminal execution.

@@ -15,7 +15,7 @@ If `.agent/.mode` is missing, default to **prototype**.
 Load role specs only when activated — not upfront. When a role activates, also load its standards doc:
 | Trigger | Role | Spec | Standards Doc |
 |---------|------|------|---------------|
-| Always | ARCH | `.agent/.ai/ARCHITECT.md` | `docs/ARCHITECTURE_STANDARDS.md` |
+| Always | ARCH | `.agent/.ai/Developer.md` | `docs/CODING_STANDARDS.md` |
 | Non-whitelisted risk | SEC | `.agent/.ai/Security.md` | `docs/SECURITY_STANDARDS.md` |
 | Test / quality gate | QA | `.agent/.ai/QA.md` | `docs/TESTING_STANDARDS.md` |
 | Apply / deploy | OPS | `.agent/.ai/DevOps.md` | `docs/OPS_STANDARDS.md` |
@@ -23,13 +23,11 @@ Load role specs only when activated — not upfront. When a role activates, also
 
 ### 1.3 Domain Memory on Demand
 Load domain-specific memory files only when the task touches their area:
-- Auth / data security → `MEMORY_SECURITY.md`
-- Client / UI → `MEMORY_UI.md`
-- Deployment / infra → `MEMORY_OPS.md`
 - Code review / patterns → `MEMORY_ANTI_PATTERNS.md`
+- Fork projects create additional domain memory files as needed (e.g., `MEMORY_SECURITY.md`, `MEMORY_OPS.md`)
 
 ## 2. Resolution Sequence
-1. **ARCH** plans the work (§ see ARCHITECT.md)
+1. **ARCH** plans the work (§ see Developer.md)
 2. **SEC** reviews risk (§ see Security.md / `docs/SECURITY_STANDARDS.md`)
 3. **QA** validates quality (§ see QA.md)
 4. **OPS** applies the fix and runs tests (§ see DevOps.md)

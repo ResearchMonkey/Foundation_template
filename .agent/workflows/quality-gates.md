@@ -4,7 +4,7 @@
 
 > **Note:** Detailed standards behind these gates are maintained in the `docs/*.md` standards documents.  
 > This file defines the operational checklist; the standards docs define the rules.  
-> See: `docs/CODING_STANDARDS.md`, `docs/TESTING_STANDARDS.md`, `docs/SECURITY_STANDARDS.md`, `docs/OPS_STANDARDS.md`.
+> See: `docs/CODING_STANDARDS.md` (includes architecture standards), `docs/TESTING_STANDARDS.md`, `docs/SECURITY_STANDARDS.md`, `docs/OPS_STANDARDS.md`.
 
 Every PR must pass applicable gates before merge. In **prototype** mode, gates marked *(production only)* are advisory.
 

@@ -29,7 +29,7 @@ Roles activated within `implement`. Pull these if you're using the full board.
 
 | Role | Purpose | Works with |
 |------|---------|------------|
-| **Developer** | Feature implementation, TDD flow | QA, Security, DevOps |
+| **Developer** | Design decisions, feature implementation, TDD flow | QA, Security, DevOps |
 | **QA** | Testing strategy, quality gate enforcement | Developer, review-tests, test-runner |
 | **Security** | Risk classification, auth review, secrets scanning | Developer, review-security |
 | **Librarian** | Doc-code sync, SSOT enforcement, memory health | All (post-implementation audit) |

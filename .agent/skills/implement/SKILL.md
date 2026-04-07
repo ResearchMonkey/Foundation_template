@@ -97,12 +97,12 @@ At batch end, output a summary table:
 1. Read `.agent/.ai/BOOTSTRAP.md`, `.agent/.ai/MEMORY.md`, `.agent/.ai/AGENTS.md`.
 2. Read `.agent/.mode` → set **cognitive mode** (`prototype` | `production`). If missing, default to **prototype**.
 3. **Progressive loading:** Load each role spec only when that role activates (BOOTSTRAP §1.2). When a role activates, also load its standards doc:
-   - ARCH → `.agent/.ai/ARCHITECT.md` + `docs/ARCHITECTURE_STANDARDS.md`
+   - ARCH → `.agent/.ai/Developer.md` + `docs/CODING_STANDARDS.md`
    - SEC → `.agent/.ai/Security.md` + `docs/SECURITY_STANDARDS.md`
    - QA → `.agent/.ai/QA.md` + `docs/TESTING_STANDARDS.md`
    - OPS → `.agent/.ai/DevOps.md` + `docs/OPS_STANDARDS.md`
    - LIB → `.agent/.ai/Librarian.md` + `docs/DOCUMENTATION_STANDARDS.md` (on Reflexion/error path)
-4. **Domain memory on demand** (BOOTSTRAP §1.3): Load `MEMORY_SECURITY.md`, `MEMORY_UI.md`, `MEMORY_OPS.md`, or `MEMORY_ANTI_PATTERNS.md` when the task touches auth/client/deployment/code review.
+4. **Domain memory on demand** (BOOTSTRAP §1.3): Load `MEMORY_ANTI_PATTERNS.md` when the task touches code review/patterns. Load any additional domain memory files (e.g., `MEMORY_SECURITY.md`, `MEMORY_OPS.md`) if they exist in the project.
 
 ### Resolve Toolchain & Branch
 
@@ -127,7 +127,7 @@ Before starting Phase 1 for the first item, output:
 1. **Gather issue context:**
    - **Interactive mode:** Use Jira MCP: `getAccessibleAtlassianResources` for cloud ID; `getJiraIssue` for the issue (summary, description, acceptance criteria, comments, labels, status).
    - **CI mode:** Use the parsed JSON context (already loaded in Phase 0).
-2. **Load** `.agent/.ai/ARCHITECT.md`.
+2. **Load** `.agent/.ai/Developer.md`.
 3. **@ARCH** drafts analysis: root cause (2–3 sentences), affected files/components, acceptance criteria list. **Document sourcing:** Only use docs with **Status: Active** (SDLC §4.7.1); never cite Draft or archived.
 4. **Capture analysis text** as `ANALYSIS_TEXT` (used in Phase 4 structured output).
 5. **Interactive mode only:** Post to Jira with `addCommentToJiraIssue`:
@@ -423,10 +423,9 @@ When an issue is verified as **already resolved in code** (no new changes needed
 - `.agent/.ai/AGENTS.md` — Roles, autonomy, veto, output economy
 - `.agent/.ai/MEMORY.md` — Iron Laws; domain memory index
 - `.agent/README.md` — Canonical paths
-- `docs/CODING_STANDARDS.md` — Coding standards and anti-patterns
 - `docs/TESTING_STANDARDS.md` — Testing standards and quality review
 - `docs/SECURITY_STANDARDS.md` — Risk tiers, security checklists, Human-in-the-Loop template
-- `docs/ARCHITECTURE_STANDARDS.md` — Planning checklist and design doc requirements
+- `docs/CODING_STANDARDS.md` — Coding & architecture standards (planning, design, implementation, anti-patterns)
 - `docs/OPS_STANDARDS.md` — Failure classification and deployment rules
 - `docs/DOCUMENTATION_STANDARDS.md` — SSOT, doc lifecycle, doc-code sync
 - `docs/agent/technical/SDLC.md` — §4.2 Whitelist/SEC, §4.3 Test-Informed Planning, §4.6 Quality Gates

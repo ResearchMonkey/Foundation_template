@@ -83,6 +83,8 @@ A change is CRITICAL if **any** of the following are true:
 - [ ] Auth middleware on all protected routes
 - [ ] Error responses don't leak stack traces or secrets
 
+For CI/CD security conventions, see `docs/OPS_STANDARDS.md` §4.
+
 ## 5. Human-in-the-Loop Template
 
 For HIGH/CRITICAL tasks, present this to the user before proceeding:

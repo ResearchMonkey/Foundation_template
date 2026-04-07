@@ -76,7 +76,7 @@ Rate each agent on:
 ```
 | Agent | Mandate Coverage | Bugs Escaped | Blind Spots | Memory Staleness | Grade |
 |-------|-----------------|-------------|-------------|------------------|-------|
-| @ARCH | Strong/Adequate/Weak | N | X, Y | N days stale | A/B/C |
+| @DEV | Strong/Adequate/Weak | N | X, Y | N days stale | A/B/C |
 | @QA | Strong/... | N | X, Y | N days stale | A/B/C |
 | @SEC | Strong/... | N | X, Y | N days stale | A/B/C |
 | @OPS | Strong/... | N | X, Y | N days stale | A/B/C |

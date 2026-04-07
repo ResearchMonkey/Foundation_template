@@ -1,8 +1,8 @@
-# Coding Standards
+# Coding & Architecture Standards
 
 <!-- TODO: Fork projects — customize these standards for your team and stack -->
 
-> **Owner:** This is a user-owned standards document. Edit this file to change the rules your AI agents follow when writing code.  
+> **Owner:** This is a user-owned standards document. Edit this file to change the rules your AI agents follow when planning, designing, and writing code.  
 > **Consumer:** `@Developer` persona, `implement` skill, `review-code` skill.
 
 ## 1. General Principles
@@ -24,7 +24,60 @@
 - Use typed errors where the language supports them.
 - Validate at system boundaries (user input, external APIs); trust internal code.
 
-## 4. Implementation Checklist
+## 4. Planning Checklist
+
+Before handing off to SEC/OPS:
+
+- [ ] Scope is clear — files, functions, and tests identified
+- [ ] Risk tier assigned (LOW / MEDIUM / HIGH / CRITICAL) per `docs/SECURITY_STANDARDS.md`
+- [ ] Breaking changes flagged (API, DB, config)
+- [ ] "Docs to Update" line included if constants/API fields change
+- [ ] Test plan sketched (happy path + failure cases)
+
+## 5. When Planning Is Required
+
+Produce a written plan (steps, files, risks) before generating code when:
+
+- Change spans **3+ files**
+- Change touches **auth, data, or payments**
+- Change involves **database schema migrations**
+- Change introduces a **new module or subsystem**
+
+For smaller changes, inline reasoning is sufficient.
+
+## 6. Design Doc Requirements
+
+A design doc or architecture note is required when:
+
+- A new module or subsystem is created (new file > 200 lines)
+- A significant architectural pattern is introduced
+- Multiple services or systems are affected
+
+Design docs should include: problem statement, proposed approach, alternatives considered, and risks.
+
+## 7. File Organization
+
+- Files over **300 lines** should be evaluated for splitting
+- Files over **500 lines** require justification for keeping as a single file
+- Each module should have a **single clear responsibility**
+- Cross-module dependencies must be documented
+
+## 8. API Design
+
+- Follow RESTful conventions (or project-specific conventions)
+- Document all endpoints in `docs/agent/technical/API_Reference.md`
+- Breaking changes require migration notes in the PR description
+- Version APIs when backward compatibility cannot be maintained
+
+## 9. Doc Impact Scan
+
+For each file being modified, check for hardcoded constants or config values that should be documented:
+
+- Cross-reference `docs/agent/technical/CONFIGURATION_REGISTER.md` for constants
+- Cross-reference `docs/agent/technical/API_Reference.md` for API fields
+- If any constant is undocumented, add a "Docs to Update" line to the plan
+
+## 10. Implementation Checklist
 
 Before committing, verify:
 
@@ -37,7 +90,7 @@ Before committing, verify:
 - [ ] **Lint Passes**
 - [ ] **Tests Pass**
 
-## 5. Quality Score (Self-Assessment)
+## 11. Quality Score (Self-Assessment)
 
 Rate code before presenting to @QA:
 
@@ -51,7 +104,7 @@ Rate code before presenting to @QA:
 * **7.5–8.9** → Fix issues before presenting
 * **<7.5** → Escalate to @QA early
 
-## 6. Anti-Patterns
+## 12. Anti-Patterns
 
 These patterns are prohibited. The highest-numbered matching anti-pattern determines severity.
 
@@ -74,7 +127,7 @@ These patterns are prohibited. The highest-numbered matching anti-pattern determ
 
 Anti-001 through Anti-014 above are generic and portable across all projects. Fork projects may add their own project-specific anti-patterns below this line, using their own numbering scheme.
 
-## 7. Key Anti-Patterns for Implementation
+## 13. Key Anti-Patterns for Implementation
 
 These are the most common violations during code generation — check these first:
 
@@ -84,20 +137,20 @@ These are the most common violations during code generation — check these firs
 - Anti-007: Context-blind navigation
 - Anti-008: ID format mismatch
 
-## 8. Security
+## 14. Security
 
 - No secrets in source code — use environment variables or secret managers.
 - Sanitize user input before use in queries, HTML, or shell commands.
 - Use parameterized queries — never string-concatenate SQL.
 - See `docs/SECURITY_STANDARDS.md` for risk classification and security checklists.
 
-## 9. Dependencies
+## 15. Dependencies
 
 - Justify new dependencies in the PR description.
 - Prefer well-maintained packages with active security support.
 - Pin versions in lock files.
 
-## 10. Git Hygiene
+## 16. Git Hygiene
 
 - Conventional commit messages (or project-specific format).
 - No merge commits on feature branches — rebase onto main.
