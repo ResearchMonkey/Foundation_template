@@ -130,3 +130,19 @@ Items discovered during project grilling sessions. Implement after each round.
 **Source:** Board meeting — @Librarian found 404 on skill load target
 **Problem:** Multiple skills reference `.agent/.ai/MEMORY.md` as a load target during Step 0, but the file doesn't exist. Skills silently skip it.
 **Status:** DONE — created with references to all persona files, active decisions index, and domain memory section for forks.
+
+---
+
+## RTO Portability Test — Session 2026-04-07
+
+### BL-020: Bootstrap is incomplete and Claude Code-only
+**Source:** RTO_Toolkit portability test — bootstrap succeeded but `/grill-me` was "unknown skill"
+**Problem:** `bootstrap.sh` adds the `foundation` remote and pulls `.foundation/` via git subtree, but does NOT create `.claude/skills/` symlinks. After bootstrap, all skill files exist in `.foundation/.claude/skills/` but Claude Code can't discover them. The bootstrap output tells users to "Run: /grill-me intake" — which is impossible because grill-me isn't linked yet.
+
+Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cursor Agents), not `.claude/skills/`. The canonical skill layer (`.agent/skills/`) is IDE-agnostic by design, but bootstrap only generates Claude Code wrappers — and doesn't even do that correctly.
+
+**Fix (three parts):**
+1. `bootstrap.sh` must auto-link at minimum `grill-me` and `foundation-sync` into `.claude/skills/` so the entry-point skills work immediately
+2. Bootstrap should detect or ask which IDE the user is using and generate appropriate wrappers (`.claude/skills/` for Claude Code, `.cursor/rules/` for Cursor)
+3. `grill-me intake` Step 3 install instructions should cover multiple IDEs, not just Claude Code symlinks
+**Status:** DONE — bootstrap.sh now detects/asks IDE (Claude Code, Cursor, or skip), auto-links grill-me + foundation-sync as entry-point skills in the correct format. grill-me intake Step 3 updated with multi-IDE install instructions.

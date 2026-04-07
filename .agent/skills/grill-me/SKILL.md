@@ -140,17 +140,29 @@ Output a tailored recommendation:
 - skill-name — why it's not needed now, when to reconsider
 
 ### Install
-# If foundation-sync is already initialized:
+
+#### Claude Code
 # Skills are in .foundation/ — symlink or copy what you need:
 ln -s .foundation/.agent/skills/{skill} .agent/skills/{skill}
 ln -s .foundation/.claude/skills/{skill} .claude/skills/{skill}
 cp .foundation/.agent/TOOLCHAIN_DISCOVERY.md .agent/
 
-# If starting fresh, run foundation-sync init first:
-/foundation-sync init
+#### Cursor
+# Create rules pointing to canonical skills:
+mkdir -p .cursor/rules
+# For each skill, create a .cursor/rules/{skill}.md that references
+# .foundation/.agent/skills/{skill}/SKILL.md
+# Also symlink canonical skills for direct access:
+ln -s .foundation/.agent/skills/{skill} .agent/skills/{skill}
+cp .foundation/.agent/TOOLCHAIN_DISCOVERY.md .agent/
+
+#### Other IDEs
+# Canonical skills are IDE-agnostic at .foundation/.agent/skills/
+# Point your IDE's custom rules/agents at those files.
+# See .foundation/CATALOG.md for the full skill list.
 ```
 
-After the recommendation, offer: "Want me to run `foundation-sync init` and set these up?"
+After the recommendation, ask which IDE the user is using (Claude Code, Cursor, or other) and generate the appropriate wrappers. Offer: "Want me to set these up now?"
 
 ## Output
 
