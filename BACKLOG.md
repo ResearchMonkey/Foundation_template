@@ -10,7 +10,9 @@ Items discovered during project grilling sessions. Implement after each round.
 **Source:** Grill question — sync contract has no conflict resolution
 **Problem:** Current `foundation-sync` drops conflicts silently ("drop, log, continue"). Customized skills in forks get overwritten.
 **Decision:** Use git subtree. Sync skill becomes a thin wrapper around `git subtree pull/push`.
-**Status:** DONE — Rewrote foundation-sync to use `git subtree` with `.foundation/` prefix. Pull uses 3-way merge (conflicts surface for manual resolution, never auto-dropped). Push goes to `contrib/<project>` branch for review. Added `init` command for first-time setup. Migration path documented for existing file-copy forks. Portability check (BL-013) integrated into push workflow.
+**Status:** DONE — Rewrote foundation-sync to use `git subtree` with `.foundation/` prefix. Pull uses 3-way merge (conflicts surface for manual resolution, never auto-dropped). Push goes to two separate contribution branches (canonical + contributions) merged via combined PR. Added `init` command for first-time setup. Migration path documented for existing file-copy forks. Portability check (BL-013) integrated into push workflow.
+
+**BL-001 AAR (2026-04-07):** Experiment C revealed that `git subtree push` with `--prefix=.foundation` only transmits `.foundation/` content. Root-level `skills/contributions/` were invisible to push. Fixed by implementing two-channel sync: separate subtree prefixes for canonical content and fork contributions, each to its own branch.
 
 ### BL-002: Define success criteria for RTO portability test
 **Source:** Grill question — how to validate the template is portable
