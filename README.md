@@ -46,18 +46,34 @@ See [CATALOG.md](CATALOG.md) for the full dependency map and recommended sets.
 
 ## Getting Started
 
-### New project? Start here:
+### First-time setup (bootstrap)
+
+From your project's root directory:
+
+```bash
+curl -s https://raw.githubusercontent.com/ResearchMonkey/Foundation_template/main/bootstrap.sh | bash
+```
+
+Or manually:
+
+```bash
+git remote add foundation https://github.com/ResearchMonkey/Foundation_template.git
+git subtree add --prefix=.foundation foundation main
+```
+
+This pulls the full template into `.foundation/` in your project.
+
+### Then, open your project in Claude Code and run:
 
 ```
 /grill-me intake
 ```
 
-This interviews you about your project and recommends which skills, agents, and anti-patterns to pull. See [CATALOG.md](CATALOG.md) for the menu.
+This interviews you about your project and recommends which skills, agents, and anti-patterns to activate. See [CATALOG.md](CATALOG.md) for the menu.
 
-### Existing project? Sync:
+### Ongoing sync:
 
 ```
-/foundation-sync init    — first-time setup (adds git subtree remote + .foundation/ prefix)
 /foundation-sync pull    — merge upstream changes into .foundation/ (git subtree pull)
 /foundation-sync push    — push .foundation/ commits to contrib/<project> branch for review
 /foundation-sync status  — check sync state and divergence
