@@ -17,7 +17,7 @@ Load role specs only when activated — not upfront. When a role activates, also
 |---------|------|------|---------------|
 | Always | ARCH | `.agent/.ai/ARCHITECT.md` | `docs/ARCHITECTURE_STANDARDS.md` |
 | Non-whitelisted risk | SEC | `.agent/.ai/Security.md` | `docs/SECURITY_STANDARDS.md` |
-| Test / quality gate | QA | `.agent/.ai/QA_VALIDATOR.md` | `docs/TESTING_STANDARDS.md` |
+| Test / quality gate | QA | `.agent/.ai/QA.md` | `docs/TESTING_STANDARDS.md` |
 | Apply / deploy | OPS | `.agent/.ai/DevOps.md` | `docs/OPS_STANDARDS.md` |
 | Reflexion / error | LIB | `.agent/.ai/Librarian.md` | `docs/DOCUMENTATION_STANDARDS.md` |
 
@@ -31,7 +31,7 @@ Load domain-specific memory files only when the task touches their area:
 ## 2. Resolution Sequence
 1. **ARCH** plans the work (§ see ARCHITECT.md)
 2. **SEC** reviews risk (§ see Security.md / `docs/SECURITY_STANDARDS.md`)
-3. **QA** validates quality (§ see QA_VALIDATOR.md)
+3. **QA** validates quality (§ see QA.md)
 4. **OPS** applies the fix and runs tests (§ see DevOps.md)
 5. **LIB** audits docs (§ see Librarian.md)
 

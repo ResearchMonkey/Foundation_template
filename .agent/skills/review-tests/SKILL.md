@@ -24,7 +24,7 @@ Follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available coverage tools, test 
 Read these files:
 
 - `docs/TESTING_STANDARDS.md` — test quality rules, coverage requirements, anti-patterns
-- `.agent/.ai/QA_VALIDATOR.md` — @QA mandates
+- `.agent/.ai/QA.md` — @QA mandates
 - `docs/CODING_STANDARDS.md` — Anti-002 (happy-path-only), Anti-011 (dropped planned tests)
 - `docs/agent/quality/TEST_REGISTRY.md` — test inventory
 - `.agent/workflows/quality-gates.md` — pre-merge gates §8 (testing verification)
@@ -212,7 +212,7 @@ When invoked with `sub-agent` argument, output ONLY this JSON:
 ## References
 
 - `docs/TESTING_STANDARDS.md` — test quality rules, coverage, anti-patterns
-- `.agent/.ai/QA_VALIDATOR.md` — @QA mandates
+- `.agent/.ai/QA.md` — @QA mandates
 - `docs/CODING_STANDARDS.md` — Anti-002, Anti-011
 - `docs/agent/quality/TEST_REGISTRY.md` — test inventory
 - `.agent/workflows/quality-gates.md` — §8 testing verification

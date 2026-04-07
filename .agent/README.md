@@ -22,8 +22,7 @@ This directory contains the AI agent framework: role personas, skills, workflows
 │   ├── MEMORY_OPS.md
 │   ├── MEMORY_SECURITY.md
 │   ├── MEMORY_UI.md
-│   ├── QA.md               # @QA persona (base)
-│   ├── QA_VALIDATOR.md     # @QA validation rules
+│   ├── QA.md               # @QA persona + validation rules
 │   ├── RISK_LEVELS.md      # → redirect to docs/SECURITY_STANDARDS.md
 │   ├── Security.md         # @SEC persona
 │   └── TEST_QUALITY_RULES.md  # → redirect to docs/TESTING_STANDARDS.md

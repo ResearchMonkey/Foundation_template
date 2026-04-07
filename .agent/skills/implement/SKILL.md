@@ -99,7 +99,7 @@ At batch end, output a summary table:
 3. **Progressive loading:** Load each role spec only when that role activates (BOOTSTRAP §1.2). When a role activates, also load its standards doc:
    - ARCH → `.agent/.ai/ARCHITECT.md` + `docs/ARCHITECTURE_STANDARDS.md`
    - SEC → `.agent/.ai/Security.md` + `docs/SECURITY_STANDARDS.md`
-   - QA → `.agent/.ai/QA_VALIDATOR.md` + `docs/TESTING_STANDARDS.md`
+   - QA → `.agent/.ai/QA.md` + `docs/TESTING_STANDARDS.md`
    - OPS → `.agent/.ai/DevOps.md` + `docs/OPS_STANDARDS.md`
    - LIB → `.agent/.ai/Librarian.md` + `docs/DOCUMENTATION_STANDARDS.md` (on Reflexion/error path)
 4. **Domain memory on demand** (BOOTSTRAP §1.3): Load `MEMORY_SECURITY.md`, `MEMORY_UI.md`, `MEMORY_OPS.md`, or `MEMORY_ANTI_PATTERNS.md` when the task touches auth/client/deployment/code review.
@@ -176,7 +176,7 @@ Before starting Phase 1 for the first item, output:
 
 ### QA: Validate Plan
 
-- **Load** `.agent/.ai/QA_VALIDATOR.md`.
+- **Load** `.agent/.ai/QA.md`.
 - Validate test cases per **SDLC §4.3** and quality gates per `.agent/workflows/quality-gates.md` §1–§24. If logic/security or Iron Laws violated, **VETO** with a clear "Path to Green."
 
 ### Post Plan & Branch
