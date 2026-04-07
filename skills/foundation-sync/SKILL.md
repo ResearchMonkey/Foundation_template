@@ -24,7 +24,7 @@ EDI, run foundation-sync status [local-project-path]  # show sync state
 
 ## Concepts
 
-- **Foundation_template:** The upstream template repo (`https://github.com/ResearchMonkey/Foundation_template.git`)
+- **Foundation_template:** The upstream template repo (`https://github.com/Echo8Lore/Foundation_template.git`)
 - **Fork (local project):** A project that uses Foundation_template's skills/agents
 - **Subtree prefix:** `.foundation/` — a directory in the fork containing synced Foundation_template content
 - **Pull:** `git subtree pull` — merges upstream changes into `.foundation/`, preserving fork edits
@@ -97,7 +97,7 @@ if [git status shows uncommitted changes]:
 existing = git remote -v | grep Foundation_template
 
 if [not exists]:
-  git remote add foundation https://github.com/ResearchMonkey/Foundation_template.git
+  git remote add foundation https://github.com/Echo8Lore/Foundation_template.git
   git fetch foundation
 else:
   echo "Remote 'foundation' already configured."
@@ -355,7 +355,7 @@ echo "(yes/no)"
 if yes:
   # Switch context to Foundation_template or use gh CLI
   gh pr create \
-    --repo ResearchMonkey/Foundation_template \
+    --repo Echo8Lore/Foundation_template \
     --base main \
     --head "contrib/<project-name>" \
     --title "contrib: changes from <project-name>" \
@@ -411,7 +411,7 @@ outgoing = git log --oneline foundation/main..HEAD -- .foundation/ (count)
 ```
 Foundation Sync Status
 ──────────────────────
-Remote:     foundation (https://github.com/ResearchMonkey/Foundation_template.git)
+Remote:     foundation (https://github.com/Echo8Lore/Foundation_template.git)
 Prefix:     .foundation/
 Last sync:  <from SYNC_LOG.md or git log>
 

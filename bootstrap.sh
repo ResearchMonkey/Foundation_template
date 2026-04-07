@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO="https://github.com/ResearchMonkey/Foundation_template.git"
+REPO="https://github.com/Echo8Lore/Foundation_template.git"
 PREFIX=".foundation"
 REMOTE="foundation"
 
