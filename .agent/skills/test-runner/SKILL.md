@@ -167,8 +167,8 @@ Commit `docs/agent/quality/TEST_REGISTRY.md`.
 ## References
 
 - `docs/agent/quality/TEST_REGISTRY.md` — test inventory
-- `.agent/workflows/test-registry.md` — maintenance rules
+- `.agent/.ai/TEST_QUALITY_RULES.md` — test quality standards
 - `.agent/workflows/quality-gates.md` §16 — init race safety
 - `.agent/.ai/MEMORY_ANTI_PATTERNS.md` — Anti-002 (happy-path-only)
-- `.agent/board/coverage-increase-plan.md` — full coverage plan
+- `.agent/workflows/quality-gates.md` — pre-merge quality gates
 - `tests/api/api_validation.test.js` — existing pattern

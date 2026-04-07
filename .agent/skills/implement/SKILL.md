@@ -98,10 +98,10 @@ At batch end, output a summary table:
 2. Read `.agent/.mode` → set **cognitive mode** (`prototype` | `production`). If missing, default to **prototype**.
 3. **Progressive loading:** Load each role spec only when that role activates (BOOTSTRAP §1.2):
    - ARCH → `.agent/.ai/ARCHITECT.md`
-   - SEC → `.agent/.ai/SECURITY.md`
+   - SEC → `.agent/.ai/Security.md`
    - QA → `.agent/.ai/QA_VALIDATOR.md`
-   - OPS → `.agent/.ai/DEVOPS.md`
-   - LIB → `.agent/.ai/LIBRARIAN.md` (on Reflexion/error path)
+   - OPS → `.agent/.ai/DevOps.md`
+   - LIB → `.agent/.ai/Librarian.md` (on Reflexion/error path)
 4. **Domain memory on demand** (BOOTSTRAP §1.3): Load `MEMORY_SECURITY.md`, `MEMORY_UI.md`, `MEMORY_OPS.md`, or `MEMORY_ANTI_PATTERNS.md` when the task touches auth/client/deployment/code review.
 
 ### Resolve Toolchain & Branch
@@ -164,7 +164,7 @@ Before starting Phase 1 for the first item, output:
 
 ### SEC (when not whitelisted)
 
-- **Load** `.agent/.ai/SECURITY.md`.
+- **Load** `.agent/.ai/Security.md`.
 - Classify risk (LOW / MEDIUM / HIGH / CRITICAL) per `.agent/.ai/RISK_LEVELS.md`.
 - **If HIGH or CRITICAL:** **Stop.** Present risk summary:
   - **Change:** <brief description>
@@ -218,7 +218,7 @@ Before starting Phase 1 for the first item, output:
 
 ### OPS: Apply Fix
 
-- **Load** `.agent/.ai/DEVOPS.md`.
+- **Load** `.agent/.ai/DevOps.md`.
 - Apply fix per ARCH plan and project CODING_STANDARDS; for UI/API changes apply `.agent/workflows/quality-gates.md`.
 - **Mandates (BOOTSTRAP §2–3):**
   - **Chain-of-Thought:** Before generating code, output `<details><summary>Thinking...</summary> [Analysis] </details>`.
@@ -240,7 +240,7 @@ Complete only when: code standards, quality gates (§1–§21), tests per plan, 
 
 After OPS tests pass and before `review-code` / PR creation, run the **LIB proactive doc audit** (`.agent/skills/lib/SKILL.md`):
 
-1. **Load** `.agent/.ai/LIBRARIAN.md`.
+1. **Load** `.agent/.ai/Librarian.md`.
 2. **Run `npm run lint:doc-coverage`** — automated check for unregistered constants in changed files. If it reports gaps, add entries to `CONFIGURATION_REGISTER.md` before proceeding.
 3. **Run the mandatory checklist below.** Each item must be answered with evidence (file checked, grep result, or "N/A — no X in this change"). Answering "no doc changes required" without completing this checklist is a process violation.
 4. **Classify findings** by severity: HIGH (blocks PR), MED (creates linked ticket), LOW (comment only).

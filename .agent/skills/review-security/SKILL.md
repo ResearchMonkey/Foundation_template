@@ -23,7 +23,7 @@ Follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available linters, dependency a
 
 Read these files:
 
-- `.agent/.ai/SECURITY.md` — security constitution
+- `.agent/.ai/Security.md` — security constitution
 - `.agent/.ai/RISK_LEVELS.md` — risk tier definitions
 - `docs/agent/technical/SECURITY_OPERATIONS.md` — OWASP mapping, incident response
 - `docs/agent/technical/CONFIGURATION_REGISTER.md` — documented security constants
@@ -209,7 +209,7 @@ When invoked with `sub-agent` argument, output ONLY this JSON (no markdown):
 
 ## References
 
-- `.agent/.ai/SECURITY.md` — @SEC constitution
+- `.agent/.ai/Security.md` — @SEC constitution
 - `.agent/.ai/RISK_LEVELS.md` — risk tiers
 - `docs/agent/technical/SECURITY_OPERATIONS.md` — OWASP mapping, incident response
 - `docs/agent/technical/CONFIGURATION_REGISTER.md` — security constants
