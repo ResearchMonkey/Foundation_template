@@ -254,7 +254,7 @@ Five structured experiments run against Foundation_template (Experiments A–E).
 1. Add Go patterns: `go test ./...`, `go vet ./...`, `golangci-lint run`
 2. Also add: Rust (`cargo test`, `cargo clippy`), Ruby (`bundle exec rake test`)
 3. Update discovery table to show all supported language stacks
-**Status:** OPEN
+**Status:** DONE — Added golangci-lint to lint options, added Rust and Ruby to discovery procedure. Go patterns (`go test`, `go vet`) were already present.
 
 ### BL-030: Intake output not persisted to file
 **Source:** Experiment B (intake flow)
