@@ -21,10 +21,6 @@ Loaded during code review, @QA validation, or when the relevant domain is active
 
 ---
 
-## Anti-Patterns Not Applicable to General Template
+## Adding Project-Specific Anti-Patterns
 
-These anti-patterns exist in Weapons_Lore specifically and should NOT be generalized:
-
-* Anti-001 through Anti-014 above are generic and portable
-* Weapons_Lore-specific patterns (WEAP-XXX ticket refs, `CODING_STANDARDS.md` section refs, project file paths) stay in the Weapons_Lore fork
-* When in doubt: keep it local, don't force it upstream
+Anti-001 through Anti-014 above are generic and portable across all projects. Fork projects may add their own project-specific anti-patterns below this line, using their own numbering scheme. When in doubt: keep project-specific patterns in the fork, don't push them upstream.

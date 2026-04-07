@@ -14,8 +14,13 @@ Items discovered during project grilling sessions. Implement after each round.
 
 ### BL-002: Define success criteria for RTO portability test
 **Source:** Grill question — how to validate the template is portable
-**Criteria:** Skills execute successfully, board functions across all agents, tests get added by QA, security flags real issues.
-**Status:** Pending RTO integration
+**Acceptance Criteria (defined in board meeting 2026-04-07):**
+1. `foundation-sync init` completes without error on a fresh repo
+2. `grill-me intake` runs, classifies the project, and recommends a skill set appropriate to the project's stack and risk profile
+3. At least one skill from each category (workflow, review, standalone) executes without project-specific errors or missing references
+4. `implement` processes a real ticket end-to-end (ARCH → SEC → QA → OPS → LIB) with no template-origin references in output
+5. `aar` runs against the session and produces actionable findings (not empty/boilerplate)
+**Status:** Criteria defined — pending RTO integration test
 
 ### BL-003: Implement skill emits machine-readable gate checklist
 **Source:** Grill question — no automation on quality gates
@@ -94,3 +99,34 @@ Items discovered during project grilling sessions. Implement after each round.
 **Why:** README, grill-me intake, and AGENTS.md all described the old file-copy model after BL-001 shipped. The checklist passed because there were no new constants or API fields — it never asked "did anything *change* that other files still describe the old way?"
 **How to apply:** Added checklist item #7: "Stale references to old behavior?" — grep for old command names, workflow descriptions, and contract terms when a skill or interface changes behavior. Severity: HIGH (blocks merge).
 **Status:** DONE — item #7 added to LIB Doc Audit checklist, STALE_REFS_CHECKED gate added to quality_gates JSON
+
+---
+
+## Board Meeting Findings — Session 2026-04-07
+
+### BL-015: CATALOG.md and AGENTS.md missing skills added after initial catalog
+**Source:** Board meeting — release readiness review
+**Problem:** `board-meeting` was missing from CATALOG.md. `validate-gates` and `aar` were missing from AGENTS.md skill list. These skills were added after the catalog/constitution were written, and no step in the skill-creation workflow updates those indexes.
+**Why:** `write-a-skill` scaffolds the canonical + wrapper skill files but does not update CATALOG.md or AGENTS.md. The LIB doc audit checklist catches *changes* to existing skills but not *additions* of new ones.
+**How to apply:** `write-a-skill` should include a step to add the new skill to CATALOG.md and AGENTS.md, or at minimum warn if the skill isn't listed in either.
+**Status:** DONE — indexes fixed manually. Process gap noted for write-a-skill improvement.
+
+### BL-016: Template shipped with project-specific data in projects.json and MEMORY_ANTI_PATTERNS.md
+**Source:** Board meeting — release readiness review
+**Problem:** `projects.json` contained a Weapons_Lore entry. `MEMORY_ANTI_PATTERNS.md` referenced Weapons_Lore by name. A template should not contain another project's real data.
+**Status:** DONE — projects.json emptied to `[]`. MEMORY_ANTI_PATTERNS.md rewritten to generic guidance.
+
+### BL-017: No LICENSE file
+**Source:** Board meeting — @Security flagged as release blocker
+**Problem:** No license file means no legal clarity for users. Hard blocker for any public or shared use.
+**Status:** DONE — MIT LICENSE added.
+
+### BL-018: Pre-commit hook security risk not documented
+**Source:** Board meeting — @Security noted opt-in hook with no warning
+**Problem:** The pre-commit hook (secrets scanning) is opt-in but the README didn't explain the security implications of skipping it. New users who skip setup have no automated secrets protection.
+**Status:** DONE — README updated with explicit security warning and install instructions.
+
+### BL-019: No .agent/.ai/MEMORY.md index file
+**Source:** Board meeting — @Librarian found 404 on skill load target
+**Problem:** Multiple skills reference `.agent/.ai/MEMORY.md` as a load target during Step 0, but the file doesn't exist. Skills silently skip it.
+**Status:** DONE — created with references to all persona files, active decisions index, and domain memory section for forks.

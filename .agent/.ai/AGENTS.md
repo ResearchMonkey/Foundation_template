@@ -40,11 +40,13 @@ This project uses an AI-managed software factory. The human provides high-level 
 
 Each agent also has skill implementations in `.agent/skills/`:
 - `implement` — Unified board issue processor
+- `validate-gates` — Second-pass audit of implement's quality gate output
+- `aar` — After Action Review
+- `board-meeting` — Multi-persona brainstorm and interrogation
 - `review-code` — Code review with impact analysis
 - `review-security` — Security sweep
 - `review-tests` — Test quality review
 - `test-runner` — Test execution and triage
-- `board-meeting` — Multi-persona brainstorm and interrogation
-- `grill-me` — Design interrogation
+- `grill-me` — Design interrogation and project intake
 - `write-a-skill` — Skill authoring
 - `foundation-sync` — Bidirectional sync with Foundation_template (git subtree)

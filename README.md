@@ -87,6 +87,25 @@ Uses `git subtree` with prefix `.foundation/` in each fork.
 }
 ```
 
+## Pre-commit Hook (Recommended)
+
+The template includes a generic pre-commit hook at `.agent/hooks/pre-commit` with secrets detection, TODO-without-ticket warnings, and skipped-test warnings.
+
+**Security note:** Without this hook, there is no automated check preventing secrets (API keys, tokens, credentials) from being committed. Install it early:
+
+```bash
+cp .agent/hooks/pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+## CI/CD (Optional)
+
+This template does not ship with a CI pipeline — forks define their own based on their stack. If you want automated checks on PRs, consider a GitHub Actions workflow that runs:
+
+- Markdown linting (e.g., `markdownlint`)
+- Secrets scanning (e.g., `trufflehog`, `gitleaks`)
+- Portability check (grep for project-specific references in `.foundation/`)
+
 ## Known Forks
 
-- **Weapons_Lore** — original upstream contributor; seeded this template
+See `projects.json` for registered forks.

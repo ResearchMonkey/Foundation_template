@@ -21,6 +21,7 @@ Pick what your project needs. Skills marked **Standalone** work independently. O
 | **grill-me** | Design interrogation and stress testing | Yes | None |
 | **validate-gates** | Second-pass audit of implement's quality gate output | Yes | Requires implement output to validate |
 | **aar** | After Action Review — catches dropped tests, missing docs, process gaps | Yes | None |
+| **board-meeting** | Multi-persona brainstorm and interrogation on any topic | Yes | None |
 
 ## Agent Roles
 
@@ -50,6 +51,9 @@ validate-gates (post-implement verifier)
 
 aar (standalone retrospective)
 └── no dependencies — works on any scope
+
+board-meeting (standalone brainstorm)
+└── no dependencies — works on any topic
 
 foundation-sync
 └── grill-me (validation gate)
