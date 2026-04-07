@@ -44,8 +44,8 @@ Read `.agent/workflows/quality-gates.md` and `docs/CODING_STANDARDS.md` for the 
 
 ### Additional checks:
 
-11. **Security (CODING_STANDARDS §8):** Parameterized SQL, `escapeHtml()` on user content, no leaked secrets/stack traces
-12. **Testing (CODING_STANDARDS §7):** Happy path + negative path + null/empty user + mutation verification
+11. **Security (CODING_STANDARDS §14):** Parameterized SQL, `escapeHtml()` on user content, no leaked secrets/stack traces
+12. **Testing (CODING_STANDARDS §13):** Happy path + negative path + null/empty user + mutation verification
 13. **Anti-Pattern Sweep (Anti-001 – Anti-009):** Check for all documented anti-patterns in `.agent/.ai/MEMORY_ANTI_PATTERNS.md`
 14. **Pattern Bug Sweep (Gate §15):** If a fix touches a pattern, verify all instances of that pattern are addressed
 

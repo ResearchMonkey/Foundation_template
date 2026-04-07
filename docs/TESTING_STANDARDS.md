@@ -65,5 +65,5 @@ Before granting "Green" status:
 - [ ] Tests pass (unit + integration as applicable)
 - [ ] Quality gates from `.agent/workflows/quality-gates.md` satisfied
 - [ ] No new lint errors introduced
-- [ ] Anti-patterns from `docs/CODING_STANDARDS.md` §6 not violated
+- [ ] Anti-patterns from `docs/CODING_STANDARDS.md` §12 not violated
 - [ ] TEST_REGISTRY updated if test files changed

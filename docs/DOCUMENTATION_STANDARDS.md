@@ -26,7 +26,7 @@ When code changes, documentation must stay in sync:
 
 - New API routes → `docs/agent/technical/API_Reference.md` updated
 - New patterns → `docs/CODING_STANDARDS.md` updated
-- New anti-patterns encountered → `docs/CODING_STANDARDS.md` §6 updated
+- New anti-patterns encountered → `docs/CODING_STANDARDS.md` §12 updated
 - Architectural decisions → architecture decision records updated
 - **Verified-Against Markers:** Documented values must be verified against implementation and include a marker noting the source file and commit.
 

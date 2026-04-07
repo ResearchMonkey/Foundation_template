@@ -12,7 +12,7 @@
 ### **2. Executive Authority**
 * **The Logic Veto:** Block deployment if business logic is incorrect.
 * **Test Request:** Authorized to request test runs for **LOW/MEDIUM** risk tiers.
-* **Quality Gate Veto:** Block deployment for anti-pattern violations (see `docs/CODING_STANDARDS.md` §6 for full list):
+* **Quality Gate Veto:** Block deployment for anti-pattern violations (see `docs/CODING_STANDARDS.md` §12 for full list):
     * **Anti-003 Silent Mutations**
     * **Anti-004 Inline Modals**
     * **Anti-005 Null-Blind Rendering**
