@@ -241,3 +241,34 @@ Additionally, bootstrap assumes Claude Code. Cursor uses `.cursor/rules/` (or Cu
 1. Anti-015 added after BL-021 lands (so it describes the solution, not just the problem)
 2. Wording is generic/portable (applies to any framework that gets embedded in another project)
 **Status:** DONE — Anti-015 "Namespace-Blind References" added to MEMORY_ANTI_PATTERNS.md. Generic wording covers any embedded framework (git subtree, submodule, etc.). Updated portable anti-pattern count from 14 to 15.
+
+## Structured Experiments — Session 2026-04-07
+
+Five structured experiments run against Foundation_template (Experiments A–E).
+
+### BL-029: Go toolchain patterns missing from TOOLCHAIN_DISCOVERY.md
+**Source:** Experiment B (intake) + Experiment E (Python portability)
+**Problem:** TOOLCHAIN_DISCOVERY.md covers Node.js and Python toolchains (`npm`, `pytest`, `ruff`, `coverage.py`) but has no Go patterns. A Go project would pass toolchain discovery with "no testing tools found" even though `go test` is built in.
+**Affected files:** `.agent/TOOLCHAIN_DISCOVERY.md`
+**Acceptance criteria:**
+1. Add Go patterns: `go test ./...`, `go vet ./...`, `golangci-lint run`
+2. Also add: Rust (`cargo test`, `cargo clippy`), Ruby (`bundle exec rake test`)
+3. Update discovery table to show all supported language stacks
+**Status:** OPEN
+
+### BL-030: Intake output not persisted to file
+**Source:** Experiment B (intake flow)
+**Problem:** The grill-me intake interview concludes with recommendations in chat, but produces no output file. Other skills (implement, validate-gates) produce structured output files. Without a file, the next session has no record of the intake decision — risk profile, recommended skills, or collision resolutions.
+**Affected files:** `.agent/skills/grill-me/SKILL.md`
+**Acceptance criteria:**
+1. After intake completes, write a `PROJECT_INTAKE.md` or `project.json` to the project root
+2. Record: risk profile, recommended skills/agents/anti-patterns, collision decisions, `.agent/.mode` value
+3. On re-run, load existing intake file and offer to update rather than re-interview
+**Status:** OPEN
+
+### BL-031: projects.json in Foundation_template root is empty `[]`
+**Source:** Experiment C (sync)
+**Problem:** After BL-016 (template must not contain project-specific data), `projects.json` was emptied to `[]`. The portability scan (BL-013) reads fork names from `projects.json` — an empty array means no portability warnings ever fire on pull.
+**Affected files:** `projects.json`, `skills/foundation-sync/SKILL.md`
+**Decision:** Keep `projects.json` empty in the template (correct — template should not hardcode fork names). Document that forks must populate it with their own name after init.
+**Status:** OPEN — decision made, documentation update needed
