@@ -23,9 +23,9 @@ Follow `.agent/TOOLCHAIN_DISCOVERY.md` to detect available coverage tools, test 
 
 Read these files:
 
-- `.agent/.ai/TEST_QUALITY_RULES.md` — test quality rules (TQR)
+- `docs/TESTING_STANDARDS.md` — test quality rules, coverage requirements, anti-patterns
 - `.agent/.ai/QA_VALIDATOR.md` — @QA mandates
-- `.agent/.ai/MEMORY_ANTI_PATTERNS.md` — Anti-002 (happy-path-only), Anti-011 (dropped planned tests)
+- `docs/CODING_STANDARDS.md` — Anti-002 (happy-path-only), Anti-011 (dropped planned tests)
 - `docs/agent/quality/TEST_REGISTRY.md` — test inventory
 - `.agent/workflows/quality-gates.md` — pre-merge gates §8 (testing verification)
 
@@ -78,7 +78,7 @@ Cross-reference:
 
 ## Step 5 — Test quality rules audit
 
-Check compliance with `.agent/.ai/TEST_QUALITY_RULES.md`:
+Check compliance with `docs/TESTING_STANDARDS.md`:
 
 1. **TQR-001 Observable assertions:** Tests assert observable behavior (response status/body, DB state), not mock internals
 2. **TQR-002 Environment parity:** Tests can run against both SQLite and PostgreSQL
@@ -211,9 +211,9 @@ When invoked with `sub-agent` argument, output ONLY this JSON:
 
 ## References
 
-- `.agent/.ai/TEST_QUALITY_RULES.md` — TQR rules
+- `docs/TESTING_STANDARDS.md` — test quality rules, coverage, anti-patterns
 - `.agent/.ai/QA_VALIDATOR.md` — @QA mandates
-- `.agent/.ai/MEMORY_ANTI_PATTERNS.md` — Anti-002, Anti-011
+- `docs/CODING_STANDARDS.md` — Anti-002, Anti-011
 - `docs/agent/quality/TEST_REGISTRY.md` — test inventory
 - `.agent/workflows/quality-gates.md` — §8 testing verification
 - `.agent/skills/test-runner/SKILL.md` — test execution (complementary skill)

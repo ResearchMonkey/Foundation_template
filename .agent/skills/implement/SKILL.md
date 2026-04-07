@@ -96,12 +96,12 @@ At batch end, output a summary table:
 
 1. Read `.agent/.ai/BOOTSTRAP.md`, `.agent/.ai/MEMORY.md`, `.agent/.ai/AGENTS.md`.
 2. Read `.agent/.mode` → set **cognitive mode** (`prototype` | `production`). If missing, default to **prototype**.
-3. **Progressive loading:** Load each role spec only when that role activates (BOOTSTRAP §1.2):
-   - ARCH → `.agent/.ai/ARCHITECT.md`
-   - SEC → `.agent/.ai/Security.md`
-   - QA → `.agent/.ai/QA_VALIDATOR.md`
-   - OPS → `.agent/.ai/DevOps.md`
-   - LIB → `.agent/.ai/Librarian.md` (on Reflexion/error path)
+3. **Progressive loading:** Load each role spec only when that role activates (BOOTSTRAP §1.2). When a role activates, also load its standards doc:
+   - ARCH → `.agent/.ai/ARCHITECT.md` + `docs/ARCHITECTURE_STANDARDS.md`
+   - SEC → `.agent/.ai/Security.md` + `docs/SECURITY_STANDARDS.md`
+   - QA → `.agent/.ai/QA_VALIDATOR.md` + `docs/TESTING_STANDARDS.md`
+   - OPS → `.agent/.ai/DevOps.md` + `docs/OPS_STANDARDS.md`
+   - LIB → `.agent/.ai/Librarian.md` + `docs/DOCUMENTATION_STANDARDS.md` (on Reflexion/error path)
 4. **Domain memory on demand** (BOOTSTRAP §1.3): Load `MEMORY_SECURITY.md`, `MEMORY_UI.md`, `MEMORY_OPS.md`, or `MEMORY_ANTI_PATTERNS.md` when the task touches auth/client/deployment/code review.
 
 ### Resolve Toolchain & Branch
@@ -165,7 +165,7 @@ Before starting Phase 1 for the first item, output:
 ### SEC (when not whitelisted)
 
 - **Load** `.agent/.ai/Security.md`.
-- Classify risk (LOW / MEDIUM / HIGH / CRITICAL) per `.agent/.ai/RISK_LEVELS.md`.
+- Classify risk (LOW / MEDIUM / HIGH / CRITICAL) per `docs/SECURITY_STANDARDS.md`.
 - **If HIGH or CRITICAL:** **Stop.** Present risk summary:
   - **Change:** <brief description>
   - **Risk:** <tier>
@@ -422,9 +422,13 @@ When an issue is verified as **already resolved in code** (no new changes needed
 - `.agent/.ai/BOOTSTRAP.md` — Board activation, cognitive mode, resolution sequence
 - `.agent/.ai/AGENTS.md` — Roles, autonomy, veto, output economy
 - `.agent/.ai/MEMORY.md` — Iron Laws; domain memory index
-- `.agent/.ai/RISK_LEVELS.md` — Risk tiers, Human-in-the-Loop template
 - `.agent/README.md` — Canonical paths
+- `docs/CODING_STANDARDS.md` — Coding standards and anti-patterns
+- `docs/TESTING_STANDARDS.md` — Testing standards and quality review
+- `docs/SECURITY_STANDARDS.md` — Risk tiers, security checklists, Human-in-the-Loop template
+- `docs/ARCHITECTURE_STANDARDS.md` — Planning checklist and design doc requirements
+- `docs/OPS_STANDARDS.md` — Failure classification and deployment rules
+- `docs/DOCUMENTATION_STANDARDS.md` — SSOT, doc lifecycle, doc-code sync
 - `docs/agent/technical/SDLC.md` — §4.2 Whitelist/SEC, §4.3 Test-Informed Planning, §4.6 Quality Gates
 - `docs/agent/technical/LOW_RISK_WHITELIST.md` — Patterns that bypass @SEC
 - `.agent/workflows/quality-gates.md` — Pre-merge checklist §1–§25
-- `docs/CODING_STANDARDS.md` — Project coding standards

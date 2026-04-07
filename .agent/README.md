@@ -24,9 +24,9 @@ This directory contains the AI agent framework: role personas, skills, workflows
 │   ├── MEMORY_UI.md
 │   ├── QA.md               # @QA persona (base)
 │   ├── QA_VALIDATOR.md     # @QA validation rules
-│   ├── RISK_LEVELS.md      # Risk tier definitions
+│   ├── RISK_LEVELS.md      # → redirect to docs/SECURITY_STANDARDS.md
 │   ├── Security.md         # @SEC persona
-│   └── TEST_QUALITY_RULES.md
+│   └── TEST_QUALITY_RULES.md  # → redirect to docs/TESTING_STANDARDS.md
 ├── skills/                 # Canonical skill definitions
 │   ├── aar/                # After Action Review
 │   ├── board-meeting/      # Multi-perspective review
@@ -68,3 +68,18 @@ This directory contains the AI agent framework: role personas, skills, workflows
 | `test-runner` | Run, triage, improve tests | Test execution, CI fails |
 | `validate-gates` | Quality gate validator | Post-implement |
 | `write-a-skill` | Scaffold a new skill | "write a skill" |
+
+## Standards Docs (User-Owned)
+
+Agent personas define **authority and workflow**. The rules they follow live in `docs/`:
+
+| Standards Doc | Consumer Agent | What It Controls |
+|--------------|----------------|------------------|
+| `docs/CODING_STANDARDS.md` | @Developer | Implementation checklist, anti-patterns, quality scoring |
+| `docs/TESTING_STANDARDS.md` | @QA | Pre-merge review, test strategy, coverage requirements |
+| `docs/SECURITY_STANDARDS.md` | @Security | Risk classification, security checklists, approval policy |
+| `docs/ARCHITECTURE_STANDARDS.md` | @Architect | Planning checklist, design doc requirements, file organization |
+| `docs/OPS_STANDARDS.md` | @DevOps | Failure classification, deployment rules, CI/CD conventions |
+| `docs/DOCUMENTATION_STANDARDS.md` | @Librarian | SSOT rules, doc lifecycle, doc-code sync |
+
+To change a rule, edit the standards doc — agents pick it up automatically.

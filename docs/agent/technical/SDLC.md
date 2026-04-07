@@ -4,7 +4,7 @@
 
 ## §1 — Issue Intake
 - Ticket arrives (Jira, GitHub Issue, or ad-hoc request).
-- ARCH triages: assigns risk tier per `RISK_LEVELS.md`, identifies affected files.
+- ARCH triages: assigns risk tier per `docs/SECURITY_STANDARDS.md`, identifies affected files.
 
 ## §2 — Planning
 - ARCH produces a plan: scope, files, risks, test strategy.
@@ -30,7 +30,7 @@ Tests are part of the plan, not an afterthought. ARCH specifies expected test ca
 All applicable gates from `.agent/workflows/quality-gates.md` must pass before merge.
 
 ### §4.5 — Security Review
-HIGH/CRITICAL risk tasks require SEC sign-off with the Human-in-the-Loop template from `RISK_LEVELS.md`.
+HIGH/CRITICAL risk tasks require SEC sign-off with the Human-in-the-Loop template from `docs/SECURITY_STANDARDS.md`.
 
 ### §4.6 — Quality Gates (Detail)
 See `.agent/workflows/quality-gates.md` §1–§25 for the full pre-merge checklist.

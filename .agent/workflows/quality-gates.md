@@ -2,6 +2,10 @@
 
 <!-- TODO: Fork projects — enable/disable gates and add project-specific checks -->
 
+> **Note:** Detailed standards behind these gates are maintained in the `docs/*.md` standards documents.  
+> This file defines the operational checklist; the standards docs define the rules.  
+> See: `docs/CODING_STANDARDS.md`, `docs/TESTING_STANDARDS.md`, `docs/SECURITY_STANDARDS.md`, `docs/OPS_STANDARDS.md`.
+
 Every PR must pass applicable gates before merge. In **prototype** mode, gates marked *(production only)* are advisory.
 
 ## §1 — Lint Clean
@@ -65,7 +69,7 @@ Constants, config values, and API fields are documented in the appropriate regis
 If test files were added or modified, `TEST_REGISTRY.md` has corresponding entries.
 
 ## §21 — Security Review *(when required)*
-HIGH/CRITICAL risk tasks have SEC sign-off per `RISK_LEVELS.md`.
+HIGH/CRITICAL risk tasks have SEC sign-off per `docs/SECURITY_STANDARDS.md`.
 
 ## §22 — Accessibility *(production only)*
 Interactive elements have labels, focus management, and keyboard support.

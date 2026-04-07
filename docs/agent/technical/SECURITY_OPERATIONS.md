@@ -41,5 +41,5 @@ Run periodically:
 ## References
 
 - `.agent/.ai/Security.md` — SEC constitution
-- `.agent/.ai/RISK_LEVELS.md` — risk tier definitions
+- `docs/SECURITY_STANDARDS.md` — risk tier definitions
 - `docs/agent/technical/APPROVAL_POLICY.md` — escalation and sign-off

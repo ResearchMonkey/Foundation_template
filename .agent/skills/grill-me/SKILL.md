@@ -63,8 +63,8 @@ For each resolved decision, briefly probe:
 
 - **Failure modes** — what breaks if this assumption is wrong?
 - **Edge cases** — what about empty states, concurrent users, offline?
-- **Existing patterns** — does this conflict with patterns in `CODING_STANDARDS.md` or `MEMORY_ANTI_PATTERNS.md`?
-- **Security** — does this introduce risk per `RISK_LEVELS.md`?
+- **Existing patterns** — does this conflict with patterns in `docs/CODING_STANDARDS.md`?
+- **Security** — does this introduce risk per `docs/SECURITY_STANDARDS.md`?
 - **Reversibility** — how hard is it to change this decision later?
 
 Only raise concerns that are genuine — do not manufacture objections for completeness.
@@ -170,7 +170,6 @@ Interactive Q&A session (Steps 0–3) concluding with the synthesis table (Step 
 
 ## References
 
-- `.agent/.ai/RISK_LEVELS.md` — risk classification for decision assessment
-- `docs/CODING_STANDARDS.md` — coding patterns to check against
-- `.agent/.ai/MEMORY_ANTI_PATTERNS.md` — known pitfalls to probe for
+- `docs/SECURITY_STANDARDS.md` — risk classification for decision assessment
+- `docs/CODING_STANDARDS.md` — coding patterns and anti-patterns to check against
 - `docs/agent/requirements/FR_CATALOG.md` — requirements catalog for traceability
