@@ -21,6 +21,7 @@ MEMORY_ANTI_PATTERNS.md — Generalized anti-patterns
 - **review-tests** — Test quality and coverage review
 - **test-runner** — Test execution and triage
 - **write-a-skill** — Skill authoring
+- **board-meeting** — Multi-persona brainstorm and interrogation
 - **grill-me** — Design interrogation
 - **foundation-sync** — Bidirectional sync engine
 

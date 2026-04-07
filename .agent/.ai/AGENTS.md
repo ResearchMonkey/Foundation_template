@@ -44,6 +44,7 @@ Each agent also has skill implementations in `.agent/skills/`:
 - `review-security` — Security sweep
 - `review-tests` — Test quality review
 - `test-runner` — Test execution and triage
+- `board-meeting` — Multi-persona brainstorm and interrogation
 - `grill-me` — Design interrogation
 - `write-a-skill` — Skill authoring
 - `foundation-sync` — Bidirectional sync with Foundation_template
