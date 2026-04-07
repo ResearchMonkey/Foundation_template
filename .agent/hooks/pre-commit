@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Foundation_template — generic pre-commit hook
+# Stack-agnostic checks that work in any project.
+# Install: cp .agent/hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+# Or with husky: npx husky add .husky/pre-commit '.agent/hooks/pre-commit'
+
+set -euo pipefail
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+
+if [ -z "$STAGED" ]; then
+  exit 0
+fi
+
+ERRORS=0
+
+# --- 1. Secrets detection (regex-based) ---
+SECRETS_PATTERN='(PRIVATE.KEY|SECRET_KEY|API_KEY|PASSWORD|TOKEN|aws_secret|ssh-rsa|-----BEGIN)'
+MATCHES=$(echo "$STAGED" | xargs grep -lEi "$SECRETS_PATTERN" 2>/dev/null || true)
+if [ -n "$MATCHES" ]; then
+  echo "ERROR: Possible secrets detected in staged files:"
+  echo "$MATCHES" | sed 's/^/  /'
+  echo "  Review these files before committing. Use 'git reset HEAD <file>' to unstage."
+  ERRORS=$((ERRORS + 1))
+fi
+
+# --- 2. TODO without ticket ID ---
+TODO_PATTERN='TODO[^(]|TODO$|FIXME[^(]|FIXME$|HACK[^(]|HACK$'
+TODO_MATCHES=$(echo "$STAGED" | xargs grep -nE "$TODO_PATTERN" 2>/dev/null || true)
+if [ -n "$TODO_MATCHES" ]; then
+  echo "WARN: TODOs without ticket IDs found (use TODO(PROJ-123) format):"
+  echo "$TODO_MATCHES" | head -10 | sed 's/^/  /'
+  # Warning only — does not block commit
+fi
+
+# --- 3. Skipped tests ---
+SKIP_PATTERN='\.skip\(|\.only\(|@pytest\.mark\.skip|#.*noqa.*test|xit\(|xdescribe\('
+SKIP_MATCHES=$(echo "$STAGED" | xargs grep -nE "$SKIP_PATTERN" 2>/dev/null || true)
+if [ -n "$SKIP_MATCHES" ]; then
+  echo "WARN: Skipped/focused tests found in staged files:"
+  echo "$SKIP_MATCHES" | head -10 | sed 's/^/  /'
+  # Warning only — does not block commit
+fi
+
+# --- 4. Large files (>1MB) ---
+for file in $STAGED; do
+  if [ -f "$file" ]; then
+    SIZE=$(wc -c < "$file")
+    if [ "$SIZE" -gt 1048576 ]; then
+      echo "WARN: Large file staged: $file ($(( SIZE / 1024 ))KB)"
+    fi
+  fi
+done
+
+# --- 5. Detect available linter and run it ---
+if [ -f "package.json" ] && grep -q '"lint"' package.json 2>/dev/null; then
+  echo "Running linter..."
+  npm run lint --silent 2>&1 || { echo "ERROR: Lint failed."; ERRORS=$((ERRORS + 1)); }
+elif command -v ruff &>/dev/null && [ -f "pyproject.toml" ]; then
+  echo "Running ruff..."
+  ruff check . 2>&1 || { echo "ERROR: Lint failed."; ERRORS=$((ERRORS + 1)); }
+elif [ -f "Makefile" ] && grep -q '^lint:' Makefile 2>/dev/null; then
+  echo "Running make lint..."
+  make lint 2>&1 || { echo "ERROR: Lint failed."; ERRORS=$((ERRORS + 1)); }
+fi
+
+if [ "$ERRORS" -gt 0 ]; then
+  echo ""
+  echo "Pre-commit blocked: $ERRORS error(s). Fix before committing."
+  exit 1
+fi
