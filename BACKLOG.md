@@ -264,7 +264,7 @@ Five structured experiments run against Foundation_template (Experiments A–E).
 1. After intake completes, write a `PROJECT_INTAKE.md` or `project.json` to the project root
 2. Record: risk profile, recommended skills/agents/anti-patterns, collision decisions, `.agent/.mode` value
 3. On re-run, load existing intake file and offer to update rather than re-interview
-**Status:** OPEN
+**Status:** DONE — Step 4 added: persist PROJECT_INTAKE.md with all intake decisions, collision resolutions, and install state. On re-run, load existing file and offer update. Also creates `.agent/.mode`.
 
 ### BL-031: projects.json in Foundation_template root is empty `[]`
 **Source:** Experiment C (sync)

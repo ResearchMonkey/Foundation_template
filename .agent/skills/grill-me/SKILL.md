@@ -185,6 +185,59 @@ mkdir -p .cursor/rules
 
 After the recommendation, ask which IDE the user is using (Claude Code, Cursor, or other) and generate the appropriate wrappers. Offer: "Want me to set these up now?"
 
+### Intake Step 4 — Persist Intake Record
+
+After the interview and recommendations, write a structured `PROJECT_INTAKE.md` to the project root.
+
+**If `PROJECT_INTAKE.md` already exists:** Load it, show the user: "Found existing intake record. Last updated: [date]. Re-run intake to update, or continue with current settings?" If they confirm update, overwrite.
+
+**Write the record:**
+```markdown
+# Project Intake Record
+
+**Project:** [name or "unknown"]
+**Date:** YYYY-MM-DD
+**Risk profile:** Lightweight / Standard / Full governance
+**Mode:** prototype / production
+
+## Answers
+1. What it does: [answer]
+2. Tech stack: [answer]
+3. Auth: [answer]
+4. Sensitive data: [answer]
+5. Test suite: [answer]
+6. CI/CD: [answer]
+7. Solo/team: [answer]
+8. Pain: [answer]
+
+## Recommended
+
+### Skills
+- [ ] skill-name
+
+### Agents
+- [ ] @Role
+
+### Anti-patterns
+- [ ] Anti-XXX
+
+### Not recommended (yet)
+- skill-name — reason
+
+## Install
+
+IDE: [claude / cursor / other]
+Skills installed: [list or "none yet"]
+
+## Collision decisions
+- [file]: [kept local / used Foundation / merged]
+
+## Notes
+[Any additional notes from the interview]
+```
+
+**Also create** `.agent/.mode` with the mode answer (`prototype` or `production`).
+
 ## Output
 
 Interactive Q&A session (Steps 0–3) concluding with the synthesis table (Step 4), or intake recommendation (Intake Steps 1–3).
