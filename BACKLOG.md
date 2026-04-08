@@ -22,3 +22,15 @@ Five structured experiments run against Foundation_template (Experiments A–E).
 **Affected files:** `projects.json`, `skills/foundation-sync/SKILL.md`
 **Decision:** Keep `projects.json` empty in the template (correct — template should not hardcode fork names). Document that forks must populate it with their own name after init.
 **Status:** OPEN — decision made, documentation update needed
+
+---
+
+### BL-035: Resolve EDI-32 deferred open questions (CLOSED — tracked as Jira sub-tasks)
+**Source:** EDI-32 close-out
+**Decision:** File 4 sub-tasks in Jira to track deferred open questions rather than leaving them in the backlog doc.
+**Sub-tasks filed:**
+- EDI-34: Define periodic pull cadence for foundation-sync
+- EDI-35: Define skill evolution ownership model
+- EDI-36: Automate fork discovery for projects.json
+- EDI-37: Define conflict resolution UX
+**Status:** CLOSED (tracked in Jira)
