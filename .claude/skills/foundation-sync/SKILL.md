@@ -7,7 +7,7 @@ allowed-tools: Read, Write, Glob, Bash(git checkout:*), Bash(git branch:*), Bash
 
 # Foundation Sync (git subtree)
 
-Canonical skill: **`skills/foundation-sync/SKILL.md`**
+Canonical skill: **`.agent/skills/foundation-sync/SKILL.md`**
 
 Bidirectional sync between a fork project and Foundation_template using `git subtree`. See the canonical file for the full protocol.
 
