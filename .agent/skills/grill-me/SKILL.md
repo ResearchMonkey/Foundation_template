@@ -113,7 +113,8 @@ Ask these questions **one at a time** (do not bundle):
 6. **Is there CI/CD?** (if yes, what platform)
 7. **Is this solo or team?**
 8. **What's the current pain?** (bugs, velocity, quality, docs, none — it's new)
-9. **Is this a prototype or production project?** (prototype = move fast, skip ceremony; production = full gates, thorough reviews)
+9. **What kind of project is this?** (web-app, cli, library, automation, fullstack, tui, embedded, lambda, other — suggest based on tech stack, allow freeform)
+10. **Is this a prototype or production project?** (prototype = move fast, skip ceremony; production = full gates, thorough reviews)
 
 Skip questions you can answer by reading the codebase. If the project directory is available, explore it first.
 
@@ -198,6 +199,7 @@ After the interview and recommendations, write a structured `PROJECT_INTAKE.md` 
 **Project:** [name or "unknown"]
 **Date:** YYYY-MM-DD
 **Risk profile:** Lightweight / Standard / Full governance
+**Project type:** web-app / cli / library / automation / fullstack / tui / embedded / lambda / other
 **Mode:** prototype / production
 
 ## Answers
@@ -209,6 +211,12 @@ After the interview and recommendations, write a structured `PROJECT_INTAKE.md` 
 6. CI/CD: [answer]
 7. Solo/team: [answer]
 8. Pain: [answer]
+9. Project type: [answer] — why: [reasoning]
+10. Prototype or production: [answer]
+
+## Recommended Anti-patterns (by project type)
+Anti-patterns tagged with your project type fire first. All anti-patterns apply — tags filter noise:
+- [ ] Anti-XXX — why relevant to [project_type]
 
 ## Recommended
 
@@ -217,9 +225,6 @@ After the interview and recommendations, write a structured `PROJECT_INTAKE.md` 
 
 ### Agents
 - [ ] @Role
-
-### Anti-patterns
-- [ ] Anti-XXX
 
 ### Not recommended (yet)
 - skill-name — reason
