@@ -285,3 +285,14 @@ Five structured experiments run against Foundation_template (Experiments A–E).
 4. "Universal minimums always apply" documented — project_type filters noise, not replaces judgment
 5. BL-002 (portability test) validates project_type tagging end-to-end
 **Status:** PARTIAL — criteria 1-4 done. Criteria 5 (BL-002 end-to-end test) remains.
+
+### BL-033: Audit .claude/ wrappers — all should be pure wrappers
+**Source:** BL backlog cleanup — Caleb requested
+**Problem:** .claude/skills/ wrappers may have contained embedded content instead of delegating to .agent/skills/ canonical files. foundation-sync wrapper pointed to wrong path.
+**Audit result (2026-04-08):**
+- 11 .claude/skills/ wrappers — ALL pure wrappers pointing to .agent/skills/ ✅
+- 6 .agent/skills/ without wrappers (developer, devops, lib, librarian, qa, security) — internal roles, no wrapper needed ✅
+- .claude/settings.local.json — Claude Code project settings, not a skill ✅
+- .claude/projects/ — IDE metadata, not a skill ✅
+**Status:** DONE — audit complete, no issues found
+
