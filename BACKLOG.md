@@ -284,4 +284,4 @@ Five structured experiments run against Foundation_template (Experiments A–E).
 3. Anti-patterns in MEMORY_ANTI_PATTERNS.md tagged with applicable project_type(s)
 4. "Universal minimums always apply" documented — project_type filters noise, not replaces judgment
 5. BL-002 (portability test) validates project_type tagging end-to-end
-**Status:** OPEN
+**Status:** PARTIAL — criteria 1-4 done. Criteria 5 (BL-002 end-to-end test) remains.
