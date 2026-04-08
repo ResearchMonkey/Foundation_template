@@ -296,3 +296,14 @@ Five structured experiments run against Foundation_template (Experiments A–E).
 - .claude/projects/ — IDE metadata, not a skill ✅
 **Status:** DONE — audit complete, no issues found
 
+
+### BL-032: Add project_type to PROJECT_INTAKE.md
+**Source:** Experiment J (board-meeting)
+**Decision:** Add `project_type` field to PROJECT_INTAKE.md with suggested-values taxonomy. Anti-patterns tagged with applicable project types. Skills filter recommendations by type.
+**Acceptance criteria:**
+1. Intake interview adds question: "What kind of project is this?" with suggested values (web-app, cli, library, automation, fullstack, tui, embedded, lambda, other)
+2. PROJECT_INTAKE.md template includes `project_type` field
+3. Anti-patterns in MEMORY_ANTI_PATTERNS.md tagged with applicable project_type(s)
+4. "Universal minimums always apply" documented — project_type filters noise, not replaces judgment
+5. BL-002 (portability test) validates project_type tagging end-to-end
+**Status:** DONE — all 5 criteria validated end-to-end. Validation doc: `docs/temp/BL-002_VALIDATION_BL-032.md`. Implemented: MEMORY_ANTI_PATTERNS.md (all 15 patterns tagged), grill-me/SKILL.md (Q9 + template), quality-gates.md (all 25 gates tagged + filter table).
