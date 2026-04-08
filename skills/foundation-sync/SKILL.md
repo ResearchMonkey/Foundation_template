@@ -146,18 +146,22 @@ The fork can now:
 2. **Copy and customize** specific skills (edits persist across pulls via merge)
 3. **Reference directly** — point tool configs at `.foundation/` paths
 
-### Step 5 — Update projects.json
+### Step 5 — Update projects.json (two registries)
 
-If `projects.json` exists in Foundation_template, add an entry for this fork:
+**Fork-local registry** — update the fork's own `projects.json` (or create it at the repo root) to track this sync:
 ```json
 {
-  "name": "<project-name>",
+  "name": "<fork-name>",
   "url": "<fork-repo-url>",
   "prefix": ".foundation",
   "remote": "foundation",
   "lastSync": "<today's date>"
 }
 ```
+
+**Foundation_template registry** — after the fork syncs for the first time, the fork should contribute a PR to Foundation_template adding its entry to `Foundation_template/projects.json`. This enables the portability check (BL-013) to detect if the fork leaks project-specific language upstream.
+
+> **Why two registries?** Foundation_template/projects.json must not contain fork-specific data (BL-016). It exists solely to support the portability scan — so it starts empty and is only populated when forks voluntarily add themselves. The fork's own projects.json is for local tracking and can contain fork-specific details.
 
 ### Step 6 — Log and commit
 
