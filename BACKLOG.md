@@ -9,7 +9,7 @@ Items discovered during project grilling sessions. Implement after each round.
 **Problem:** Foundation_template has `contributions/` and `foundation-sync/` but is missing canonical skills referenced by the Board workflow — specifically `implement`, `review-code`, `review-security`, `review-tests`, `test-runner`, `write-a-skill`, and `grill-me`. Criteria 3 of BL-002 cannot be fully validated without these.
 **Affected files:** `skills/` (missing: implement/, review-code/, review-security/, review-tests/, test-runner/, write-a-skill/, grill-me/)
 **Note:** Skills exist in Weapons_Lore at `.agent/skills/` and as `.claude/skills/` wrappers. Foundation_template needs generalized versions that work across any fork without project-specific references.
-**Status:** DONE ✅ — implement generalized from 441 to 329 lines, all WEAP-specific refs stripped.
+**Status:** SUPERSEDED by BL-037 — canonical skills removed from skills/, canonical home is .agent/skills/
 
 ---
 
@@ -18,7 +18,7 @@ Items discovered during project grilling sessions. Implement after each round.
 **Problem:** 11 skill directories in `skills/` (aar, board-meeting, foundation-sync, grill-me, implement, review-code, review-security, review-tests, test-runner, validate-gates, write-a-skill) duplicate `.agent/skills/` with no documented rationale. `.agent/skills/` is the canonical source; `.claude/skills/` holds wrappers. The top-level copies add confusion and maintenance burden.
 **Keep:** `skills/contributions/` — it's a separate git subtree channel for fork sync (documented in foundation-sync skill and Experiment C).
 **Action:** Remove the 11 duplicated skill directories from `skills/`. Update README "What's Here" tree to reflect the change. Update any references that point to `skills/<name>` instead of `.agent/skills/<name>`.
-**Status:** OPEN
+**Status:** DONE ✅ — 10 skill dirs removed from skills/, canonical skills consolidated in .agent/skills/. README skill count corrected (14 → 17). Committed edb5204.
 
 ---
 
