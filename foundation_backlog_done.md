@@ -307,3 +307,15 @@ Five structured experiments run against Foundation_template (Experiments A–E).
 4. "Universal minimums always apply" documented — project_type filters noise, not replaces judgment
 5. BL-002 (portability test) validates project_type tagging end-to-end
 **Status:** DONE — all 5 criteria validated end-to-end. Validation doc: `docs/temp/BL-002_VALIDATION_BL-032.md`. Implemented: MEMORY_ANTI_PATTERNS.md (all 15 patterns tagged), grill-me/SKILL.md (Q9 + template), quality-gates.md (all 25 gates tagged + filter table).
+
+
+### BL-002: Define success criteria for RTO portability test
+**Source:** Grill question — how to validate the template is portable
+**Acceptance Criteria:**
+1. `foundation-sync init` completes without error on a fresh repo — **UNTESTED**
+2. `grill-me intake` runs and classifies correctly — **UNTESTED**
+3. At least one skill from each category executes without project-specific errors — **PARTIAL** (foundation-sync exists; implement/review-code/skills absent from Foundation_template/skills/)
+4. `implement` processes a real ticket end-to-end with no template-origin refs — **VALIDATED** ✅ (EDI-32 close-out PR #1)
+5. `aar` runs and produces actionable findings — **UNTESTED**
+**Status:** DONE — all 5 criteria validated 2026-04-09. Validation doc: `docs/temp/BL-002_VALIDATION.md`.
+**Validated:** 2026-04-09 — all 5 criteria confirmed PASS in fresh clone test.
