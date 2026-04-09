@@ -2,6 +2,8 @@
 
 A portable governance framework for AI-managed software development. It codifies agent roles, quality skills, and anti-patterns into a library that projects cherry-pick from based on their needs.
 
+**Target audience:** Solo developers using an AI coding agent (Claude Code, Cursor, Codex, or similar) as their primary developer. If you ship code through an AI agent and want structured quality gates without a large team, this is for you.
+
 This is not an application template — there's no app code here. It's the well your projects draw from.
 
 ## Core Concepts
@@ -15,16 +17,20 @@ This is not an application template — there's no app code here. It's the well 
 
 ```
 .agent/.ai/              — Board constitution and agent personas (5 roles)
-.agent/skills/           — Canonical skill implementations (17 skills)
+.agent/skills/           — 11 canonical skills + 5 agent roles + shared lib
 .agent/hooks/            — Generic pre-commit hook template
 .agent/TOOLCHAIN_DISCOVERY.md — Runtime toolchain detection rules
-.claude/skills/          — Claude Code wrappers (thin pointers to canonical skills)
+.claude/skills/          — Claude Code wrappers (one example integration; see note below)
 skills/contributions/    — Lessons pushed back from fork projects (legacy; new forks use git subtree)
 CATALOG.md               — Skill dependency map and recommended starting sets
 BACKLOG.md               — Open items from project grilling sessions
 projects.json            — Registry of known forks
 SYNC_LOG.md              — Sync history
 ```
+
+### AI tool compatibility
+
+The canonical skills in `.agent/skills/` are tool-agnostic — they contain markdown prompts and logic that any AI coding agent can execute. The `.claude/skills/` directory contains thin wrappers for Claude Code as a reference integration. If you use a different tool (Cursor, Codex, Windsurf, etc.), write equivalent wrappers that point to the same canonical skills. The wrapper pattern is simple: each wrapper just sources the canonical skill and passes context.
 
 ## Skills
 
@@ -44,7 +50,25 @@ See [CATALOG.md](CATALOG.md) for the full dependency map and recommended sets.
 | **write-a-skill** | Scaffold new canonical + wrapper skill | Yes |
 | **foundation-sync** | Bidirectional sync with fork projects (git subtree) | Partial |
 
+## What This Looks Like in Practice
+
+A typical workflow with Foundation in a fork project:
+
+1. **You create a Jira ticket** (or describe a feature/bug in your agent chat)
+2. **Run `/implement PROJ-42`** — the Board picks it up:
+   - Developer designs the approach and writes code
+   - Security reviews for OWASP issues and risk classification
+   - QA enforces test coverage gates and runs the test suite
+   - DevOps validates the build and deployment safety
+   - Librarian checks that docs match the code changes
+3. **Run `/validate-gates`** — a second-pass audit confirms no gates were self-reported or skipped
+4. **Run `/aar`** — catches anything the Board missed: dropped tests, stale docs, process gaps
+
+Each skill outputs structured findings. No step requires human intervention unless a CRITICAL-tier issue is flagged.
+
 ## Getting Started
+
+**Prerequisites:** Git and an AI coding agent of your choice (Claude Code, Cursor, Codex, etc.).
 
 ### First-time setup (bootstrap)
 
@@ -63,13 +87,13 @@ git subtree add --prefix=.foundation foundation main
 
 This pulls the full template into `.foundation/` in your project.
 
-### Then, open your project in Claude Code and run:
+### Then, open your project in your AI coding agent and run the intake:
 
 ```
 /grill-me intake
 ```
 
-This interviews you about your project and recommends which skills, agents, and anti-patterns to activate. See [CATALOG.md](CATALOG.md) for the menu.
+This interviews you about your project and recommends which skills, agents, and anti-patterns to activate. See [CATALOG.md](CATALOG.md) for the menu. (The `/` syntax is Claude Code; other tools may invoke skills differently.)
 
 ### Ongoing sync:
 

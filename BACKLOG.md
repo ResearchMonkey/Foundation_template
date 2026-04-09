@@ -64,7 +64,7 @@ Items discovered during project grilling sessions. Implement after each round.
 3. **Appears Claude-only** — `.claude/skills/` wrappers are everywhere but README never says the framework is AI-tool-agnostic. Should clarify that `.claude/skills/` is one integration and users can write wrappers for Cursor, Codex, etc.
 4. **No practical example** — no "what does this look like in practice" section showing sample output from `/implement` or a board meeting
 5. **Prerequisites unclear** — Getting Started should state: have your AI coding agent of choice installed
-**Status:** OPEN
+**Status:** DONE ✅ — All 5 items addressed: skill count corrected (11 skills + 5 roles + lib), target audience added, AI tool compatibility section added, practical workflow example added, prerequisites and Claude-only framing fixed.
 
 ---
 
