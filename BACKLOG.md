@@ -25,7 +25,26 @@ Items discovered during project grilling sessions. Implement after each round.
 2. `.claude/skills/` (11 wrappers) — Claude Code IDE wrappers pointing to `.agent/skills/`
 3. `skills/` (2 meta skills) — Foundation operations: `foundation-sync/` and `contributions/`
 
-**Open question:** `.claude/skills/` is Claude Code-specific but Foundation_template is tool-agnostic. Options: (a) keep as de-factor wrapper interface, (b) remove `.claude/` from template entirely — wrappers are fork responsibility. Resolution tracked as separate backlog item if needed.
+**Open question:** `.claude/skills/` is Claude Code-specific but Foundation_template is tool-agnostic. Two resolution options:
+
+**Option A — Keep `.claude/skills/` in template (status quo)**
+- `.claude/skills/` is the de-facto standard wrapper interface
+- Document it as the recommended wrapper pattern for any IDE
+- Pro: Zero change, CATALOG.md works as-is
+- Pro: Established pattern, no migration needed
+- Con: Ties Foundation_template to Claude Code specifically
+- Con: Fork projects with different IDEs (Cursor, Codex) get Claude Code wrappers they don't need
+
+**Option B — Remove `.claude/` from template entirely**
+- Wrappers are the fork's responsibility, not the template's
+- Document the wrapper pattern in a new `docs/WRAPPER_PATTERN.md`
+- Fork projects write their own wrappers based on documented interface
+- Pro: Template stays tool-agnostic
+- Pro: No Claude Code assumptions bleed into forks
+- Con: New forks must create wrappers from scratch
+- Con: CATALOG.md must be updated to remove `.claude/` references
+
+**Decision needed:** Tool-agnostic purity (A) vs practical convention (B). Recommend Option B — the template should define the interface, not bake in one IDE's implementation.
 
 ---
 
