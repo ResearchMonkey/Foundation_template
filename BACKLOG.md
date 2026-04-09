@@ -20,6 +20,13 @@ Items discovered during project grilling sessions. Implement after each round.
 **Action:** Remove the 11 duplicated skill directories from `skills/`. Update README "What's Here" tree to reflect the change. Update any references that point to `skills/<name>` instead of `.agent/skills/<name>`.
 **Status:** DONE ✅ — 10 skill dirs removed from skills/, canonical skills consolidated in .agent/skills/. README skill count corrected (14 → 17). Committed edb5204.
 
+**Architectural finding (2026-04-09):** Three-layer skill architecture confirmed:
+1. `.agent/skills/` (17 canonical) — Board execution skills for agent use
+2. `.claude/skills/` (11 wrappers) — Claude Code IDE wrappers pointing to `.agent/skills/`
+3. `skills/` (2 meta skills) — Foundation operations: `foundation-sync/` and `contributions/`
+
+**Open question:** `.claude/skills/` is Claude Code-specific but Foundation_template is tool-agnostic. Options: (a) keep as de-factor wrapper interface, (b) remove `.claude/` from template entirely — wrappers are fork responsibility. Resolution tracked as separate backlog item if needed.
+
 ---
 
 ### BL-042: Selective intake — let users choose full suite or cherry-picked subset
