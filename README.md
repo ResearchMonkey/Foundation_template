@@ -15,7 +15,7 @@ This is not an application template — there's no app code here. It's the well 
 
 ```
 .agent/.ai/              — Board constitution and agent personas (5 roles)
-.agent/skills/           — Canonical skill implementations (14 skills)
+.agent/skills/           — Canonical skill implementations (17 skills)
 .agent/hooks/            — Generic pre-commit hook template
 .agent/TOOLCHAIN_DISCOVERY.md — Runtime toolchain detection rules
 .claude/skills/          — Claude Code wrappers (thin pointers to canonical skills)
