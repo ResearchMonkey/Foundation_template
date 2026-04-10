@@ -318,4 +318,87 @@ Five structured experiments run against Foundation_template (Experiments A–E).
 4. `implement` processes a real ticket end-to-end with no template-origin refs — **VALIDATED** ✅ (EDI-32 close-out PR #1)
 5. `aar` runs and produces actionable findings — **UNTESTED**
 **Status:** DONE — all 5 criteria validated 2026-04-09. Validation doc: `docs/temp/BL-002_VALIDATION.md`.
-**Validated:** 2026-04-09 — all 5 criteria confirmed PASS in fresh clone test.
+**Validated:** 2026-04-09 — all 5 criteria confirmed PASS in fresh clone test.### BL-036: Foundation_template missing canonical skills in skills/
+**Source:** EDI-32 close-out (BL-002 Criteria 3 gap)
+**Problem:** Foundation_template has `contributions/` and `foundation-sync/` but is missing canonical skills referenced by the Board workflow — specifically `implement`, `review-code`, `review-security`, `review-tests`, `test-runner`, `write-a-skill`, and `grill-me`. Criteria 3 of BL-002 cannot be fully validated without these.
+**Affected files:** `skills/` (missing: implement/, review-code/, review-security/, review-tests/, test-runner/, write-a-skill/, grill-me/)
+**Note:** Skills exist at `.agent/skills/` and as `.claude/skills/` wrappers. Foundation_template needs generalized versions that work across any fork without project-specific references.
+**Status:** SUPERSEDED by BL-037 — canonical skills removed from skills/, canonical home is .agent/skills/
+
+---
+
+
+
+---
+
+### BL-037: Consolidate duplicate skills from top-level `skills/` into `.agent/skills/`
+**Source:** Board meeting critical review (2026-04-09)
+**Problem:** 11 skill directories in `skills/` (aar, board-meeting, foundation-sync, grill-me, implement, review-code, review-security, review-tests, test-runner, validate-gates, write-a-skill) duplicate `.agent/skills/` with no documented rationale. `.agent/skills/` is the canonical source; `.claude/skills/` holds wrappers. The top-level copies add confusion and maintenance burden.
+**Keep:** `skills/contributions/` — it's a separate git subtree channel for fork sync (documented in foundation-sync skill and Experiment C).
+**Action:** Remove the 11 duplicated skill directories from `skills/`. Update README "What's Here" tree to reflect the change. Update any references that point to `skills/<name>` instead of `.agent/skills/<name>`.
+**Status:** DONE ✅ — 10 skill dirs removed from skills/, canonical skills consolidated in .agent/skills/. README skill count corrected (14 → 17). Committed edb5204.
+
+**Architectural finding (2026-04-09):** Three-layer skill architecture confirmed:
+1. `.agent/skills/` (17 canonical) — Board execution skills for agent use
+2. `.claude/skills/` (11 wrappers) — Claude Code IDE wrappers pointing to `.agent/skills/`
+3. `skills/` (2 meta skills) — Foundation operations: `foundation-sync/` and `contributions/`
+
+**Open question:** `.claude/skills/` is Claude Code-specific but Foundation_template is tool-agnostic. Two resolution options:
+
+**Option A — Keep `.claude/skills/` in template (status quo)**
+- `.claude/skills/` is the de-facto standard wrapper interface
+- Document it as the recommended wrapper pattern for any IDE
+- Pro: Zero change, CATALOG.md works as-is
+- Pro: Established pattern, no migration needed
+- Con: Ties Foundation_template to Claude Code specifically
+- Con: Fork projects with different IDEs (Cursor, Codex) get Claude Code wrappers they don't need
+
+**Option B — Remove `.claude/` from template entirely**
+- Wrappers are the fork's responsibility, not the template's
+- Document the wrapper pattern in a new `docs/WRAPPER_PATTERN.md`
+- Fork projects write their own wrappers based on documented interface
+- Pro: Template stays tool-agnostic
+- Pro: No Claude Code assumptions bleed into forks
+- Con: New forks must create wrappers from scratch
+- Con: CATALOG.md must be updated to remove `.claude/` references
+
+**Decision needed:** Tool-agnostic purity (A) vs practical convention (B). Recommend Option B — the template should define the interface, not bake in one IDE's implementation.
+
+---
+
+
+
+---
+
+### BL-041: Refresh README for clarity, accuracy, and audience
+**Source:** Board meeting critical review (2026-04-09), @Librarian
+**Problem:** README has several gaps that would confuse new users:
+1. **Stale info** — says "14 skills" but actual count is 17
+2. **No target audience** — should state: solo developers using an AI coding agent as primary/sole developer
+3. **Appears Claude-only** — `.claude/skills/` wrappers are everywhere but README never says the framework is AI-tool-agnostic. Should clarify that `.claude/skills/` is one integration and users can write wrappers for Cursor, Codex, etc.
+4. **No practical example** — no "what does this look like in practice" section showing sample output from `/implement` or a board meeting
+5. **Prerequisites unclear** — Getting Started should state: have your AI coding agent of choice installed
+**Status:** DONE ✅ — All 5 items addressed: skill count corrected (11 skills + 5 roles + lib), target audience added, AI tool compatibility section added, practical workflow example added, prerequisites and Claude-only framing fixed.
+
+---
+
+
+
+---
+
+### BL-039: Add portability and contract tests for Foundation_template
+**Source:** Board meeting critical review (2026-04-09), @QA
+**Problem:** The template has zero automated tests. As a governance library, its tests should validate the consumer experience — not internal logic in isolation.
+**Tests to implement:**
+1. `bootstrap.sh` runs clean on an empty git repo
+2. Skills resolve paths correctly under `.foundation/` prefix (fork mode)
+3. Pre-commit hook catches a planted secret in a test file
+4. README skill count matches actual skill count in `.agent/skills/`
+5. All `.claude/skills/` wrappers point to existing canonical skills in `.agent/skills/`
+**Goal:** Prove the template delivers what it promises before onboarding the next fork project.
+**Status:** DONE ✅ — 5 test files committed (b5cfc0b): test_01_bootstrap.sh, test_02_path_resolution.sh, test_03_precommit_secrets.sh, test_04_skill_count.sh, test_05_wrapper_integrity.sh.
+
+---
+
+
+**Moved to foundation_backlog_done.md:** 2026-04-10
