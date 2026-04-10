@@ -8,7 +8,7 @@ Items discovered during project grilling sessions. Implement after each round.
 **Source:** EDI-32 close-out (BL-002 Criteria 3 gap)
 **Problem:** Foundation_template has `contributions/` and `foundation-sync/` but is missing canonical skills referenced by the Board workflow — specifically `implement`, `review-code`, `review-security`, `review-tests`, `test-runner`, `write-a-skill`, and `grill-me`. Criteria 3 of BL-002 cannot be fully validated without these.
 **Affected files:** `skills/` (missing: implement/, review-code/, review-security/, review-tests/, test-runner/, write-a-skill/, grill-me/)
-**Note:** Skills exist in Weapons_Lore at `.agent/skills/` and as `.claude/skills/` wrappers. Foundation_template needs generalized versions that work across any fork without project-specific references.
+**Note:** Skills exist at `.agent/skills/` and as `.claude/skills/` wrappers. Foundation_template needs generalized versions that work across any fork without project-specific references.
 **Status:** SUPERSEDED by BL-037 — canonical skills removed from skills/, canonical home is .agent/skills/
 
 ---

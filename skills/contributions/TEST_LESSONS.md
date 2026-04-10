@@ -1,6 +1,6 @@
 # Test Lessons — Generalized from Production Experience
 
-**Source:** Weapons_Lore QA Lessons Learned + Periodic Review 2026-03-11
+**Source:** QA Lessons Learned + Periodic Review [DATE]
 **Status:** Active — update when new patterns emerge
 **Purpose:** Lessons that apply to any web project with E2E tests
 

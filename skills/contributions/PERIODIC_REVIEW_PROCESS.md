@@ -1,6 +1,6 @@
 # Periodic Review — 5-Pillar Monthly Audit Process
 
-**Source:** Weapons_Lore Periodic Review 2026-03-11 + Agent Effectiveness Scorecard
+**Source:** Periodic Review [DATE] + Agent Effectiveness Scorecard
 **Status:** Active
 **Purpose:** Generalized monthly audit process for agent-driven development systems
 
@@ -98,7 +98,7 @@ Count the gates referenced in governance documents vs. the actual canonical list
 For each defect, ask: "Which gate SHOULD have caught this?" Build a coverage matrix:
 
 ```
-| WEAP-# | Root Cause | Gate Should Catch | Agent |
+| ISSUE-# | Root Cause | Gate Should Catch | Agent |
 |--------|-----------|-------------------|-------|
 | XXX | Missing Gate | §21 Mobile | @QA |
 | XXX | Spec Gap | §6 API Contract | @QA |
@@ -147,8 +147,8 @@ Prioritized list of process or tooling changes to address the root causes found.
 - **Monthly:** Full 5-pillar review
 - **On-demand:** After a major incident or significant architectural change
 
-## Source Files (Weapons_Lore Reference)
+## Source Files (Reference)
 
-- `WEAPONS_LORE/docs/agent/quality/PERIODIC_REVIEW_YYYY-MM-DD.md` — completed reviews
-- `WEAPONS_LORE/.agent/.ai/quality-gates.md` — current gate definitions
-- `WEAPONS_LORE/docs/agent/quality/QA_LESSONS_LEARNED.md` — accumulated lessons
+- `[PROJECT]/docs/agent/quality/PERIODIC_REVIEW_YYYY-MM-DD.md` — completed reviews
+- `[PROJECT]/.agent/.ai/quality-gates.md` — current gate definitions
+- `[PROJECT]/docs/agent/quality/QA_LESSONS_LEARNED.md` — accumulated lessons

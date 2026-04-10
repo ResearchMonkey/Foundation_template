@@ -92,7 +92,7 @@ Verify the test is in `docs/agent/quality/TEST_REGISTRY.md`. If it's a new test:
 
 1. **Fix root cause** when possible — always preferred
 2. **For Tier B flaky tests:** Add retry or `test.skip()` with a comment explaining why
-3. **Record if not fixed:** Create a Jira bug issue in project WEAP with label `test-failure`
+3. **Record if not fixed:** Create a Jira bug issue in your tracker with label `test-failure`
 
 ### Step 5 — Update Registry
 

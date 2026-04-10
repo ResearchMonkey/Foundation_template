@@ -1,8 +1,8 @@
 # Cross-Project Lessons — Generalized
 
-**Source:** Weapons_Lore EDI-32 contributing back to Foundation_template
+**Source:** [PROJECT] contributing back to Foundation_template
 **Date:** 2026-04-06
-**Purpose:** Standalone lessons extracted via grill-me from Weapons_Lore experience
+**Purpose:** Standalone lessons extracted via grill-me from project experience
 
 > **Note (2026-04-06):** These lessons were pushed under the old file-copy sync model.
 > New contributions flow through `.foundation/` commits via `git subtree push`
@@ -15,7 +15,7 @@
 
 **Pattern:** Multiple defects trace back to a gate that was documented but not automated.
 
-**Example from Weapons_Lore:** §21 (Mobile Responsiveness) existed in quality gates docs for 90 days. During periodic review, 6 of 27 bugs were mobile layout breaks — none were caught by automated tooling.
+**Example:** A quality gate existed in docs for 90 days. During periodic review, 6 of 27 bugs traced back to that gate — none were caught by automated tooling.
 
 **Generalized lesson:** A quality gate that requires manual enforcement will eventually fail. Automate gate checks in CI, or they will be skipped under deadline pressure.
 
@@ -25,7 +25,7 @@
 
 ## Lesson 2: Tool-Specific Bugs Don't Generalize
 
-**Pattern:** Weapons_Lore has recurring bugs from its manual HTML script-tag architecture (no bundler). This is specific to that project's tech stack.
+**Pattern:** Some recurring bugs are tool-specific constraints, not general lessons. Architecture without a bundler creates different failure modes than bundled projects.
 
 **Generalized lesson:** Some "patterns" are actually tool-specific constraints, not general lessons. Before extracting a lesson, ask: "Is this true in any web project, or only in one with this specific architecture?"
 
@@ -35,7 +35,7 @@
 
 ## Lesson 3: Memory Staleness Is a Process Failure
 
-**Pattern:** Weapons_Lore had 3 memory files with 12+ days of staleness despite significant work happening in those domains.
+**Pattern:** Memory files with 12+ days of staleness despite significant work happening in those domains.
 
 **Generalized lesson:** Memory files that humans must manually update will eventually be forgotten. Use a periodic review to catch staleness. Automate where possible (e.g., a cron job that flags files not updated in 7 days).
 
@@ -57,7 +57,7 @@
 
 ## Lesson 5: Anti-Pattern Lists Must Be Project-Agnostic
 
-**Pattern:** Weapons_Lore's anti-patterns reference project-specific files (`CODING_STANDARDS.md §5.4`), ticket numbers (WEAP-XXX), and environment details.
+**Pattern:** anti-patterns reference project-specific files, ticket numbers, and environment details.
 
 **Generalized lesson:** An anti-pattern that says "don't do X because it violates our CODING_STANDARDS §5.4" is not portable — it requires the reader to have that document.
 
@@ -65,12 +65,12 @@
 
 ---
 
-## What Stays Local (Weapons_Lore-Specific)
+## What Stays Local (Project-Specific)
 
 These are NOT for upstream contribution — too project-specific:
 
-- Mobile layout bugs (Weapons_Lore-specific CSS/HTML architecture)
+- Mobile layout bugs (project-specific CSS/HTML architecture)
 - Script tag initialization bugs (manual HTML injection, no bundler)
 - COF/Academy domain validation rules
 - FBI scoring zone specifics
-- Rate limit tuning for Weapons_Lore's specific API endpoints
+- Rate limit tuning for project-specific API endpoints

@@ -19,8 +19,8 @@ Examine the argument to determine **execution mode**:
 
 | Argument pattern | Mode | Jira I/O | Merge | Example |
 |---|---|---|---|---|
-| Path ending in `.json` | **CI** | None (capture for JSON output) | PR only, no merge | `/implement /tmp/ctx/WEAP-123.json` |
-| Jira key (`WEAP-###`) or URL | **Interactive** | Direct MCP tools | Try auto-merge | `/implement WEAP-123` |
+| Path ending in `.json` | **CI** | None (capture for JSON output) | PR only, no merge | `/implement /tmp/ctx/PROJ-123.json` |
+| Jira key (`PROJ-###`) or URL | **Interactive** | Direct MCP tools | Try auto-merge | `/implement PROJ-123` |
 | Backlog ID (`BL-###`) | **Local** | None | Commit to `main` | `/implement BL-001` |
 | Anything else (freeform text) | **Local** | None | Commit to `main` | `/implement add a new agent named joe` |
 
@@ -30,7 +30,7 @@ Examine the argument to determine **execution mode**:
 1. Read the JSON context file. Required structure:
    ```json
    {
-     "issue_key": "WEAP-123",
+     "issue_key": "PROJ-123",
      "summary": "Short description",
      "description": "Full issue description",
      "acceptance_criteria": ["criterion 1", "criterion 2"],
@@ -68,28 +68,28 @@ Examine the argument to determine **execution mode**:
 The argument may contain **one or more** issue keys/URLs, space-separated. CI mode processes one item per invocation (the orchestrator handles batching).
 
 ```
-Input:  "WEAP-123 WEAP-456 https://site.atlassian.net/browse/WEAP-789"
-Parsed: [WEAP-123, WEAP-456, WEAP-789]
+Input:  "PROJ-123 PROJ-456 https://site.atlassian.net/browse/PROJ-789"
+Parsed: [PROJ-123, PROJ-456, PROJ-789]
 ```
 
 **Batch limit:** If more than 5 items, complete the first 5, run a doc-sync pass, then continue.
 
 **Execution order:** Process issues **sequentially** to avoid merge conflicts. Each issue runs through Phases 1–4 before the next begins. If one aborts, continue to the next. **Phase 5 (AAR)** runs once at the end of the batch (or after each issue for single-issue processing).
 
-**Jira I/O is per-issue, not per-batch (WEAP-241).** Each issue must receive its own:
+**Jira I/O is per-issue, not per-batch (per-issue I/O rule).** Each issue must receive its own:
 - Analysis comment (Phase 1)
 - Plan comment + `agent-fix-pending` label (Phase 2)
 - Resolution comment + status transition (Phase 4)
 
-The batch summary table on the epic/parent is **in addition to**, not a replacement for, per-issue Jira updates. Do not collapse per-issue Jira I/O into a single epic-level comment — this was the root cause of WEAP-241.
+The batch summary table on the epic/parent is **in addition to**, not a replacement for, per-issue Jira updates. Do not collapse per-issue Jira I/O into a single epic-level comment.
 
 At batch end, output a summary table:
 
 ```
 | Issue     | Result  | PR              | Notes            |
 |-----------|---------|-----------------|------------------|
-| WEAP-123  | Merged  | #42             |                  |
-| WEAP-456  | Aborted | —               | Tests failed x3  |
+| PROJ-123  | Merged  | #42             |                  |
+| PROJ-456  | Aborted | —               | Tests failed x3  |
 ```
 
 ### Path Resolution (Fork Support)
@@ -271,7 +271,7 @@ After OPS tests pass and before `review-code` / PR creation, run the **LIB proac
 
 > **Rationale for #7 (BL-001 AAR 2026-04-06):** When foundation-sync changed from file-copy to git subtree, the LIB audit passed (no new constants, no new API fields) but README, grill-me intake, and AGENTS.md still described the old file-copy model. The checklist only caught *additions*, not *replacements*. This gate catches stale references to superseded behavior.
 
-> **Rationale (WEAP-49 AAR 2026-03-27):** The previous prose-based audit ("answer three questions") was rubber-stamped on a 1082-line new feature, missing 6 documentation gaps including 14 unregistered constants and missing API field documentation. This checklist makes each verification step explicit and auditable.
+> **Rationale ([AAR-DATE]):** The previous prose-based audit ("answer three questions") was rubber-stamped on a 1082-line new feature, missing 6 documentation gaps including 14 unregistered constants and missing API field documentation. This checklist makes each verification step explicit and auditable.
 
 > **Note:** This proactive audit is separate from the on-error Flash Lesson mechanism during OPS, which remains unchanged. The proactive audit runs on **every** implementation, not just when errors occur.
 
@@ -301,7 +301,7 @@ Push branch.
 - **Transition to Done** only if merge status is "merged" or "queued".
 - **Remove** `agent-fix-pending` only if issue was transitioned to Done.
 
-### Jira State Verification (Interactive mode only — skip for CI and Local; MANDATORY before JSON output, WEAP-241)
+### Jira State Verification (Interactive mode only — skip for CI and Local; MANDATORY before JSON output)
 
 Before emitting the structured JSON, verify that all Jira I/O for this issue has been completed. Answer each question; if any is "no," go back and fix it before proceeding:
 
@@ -320,7 +320,7 @@ Your FINAL output must include a fenced JSON block. CI mode: this is parsed by t
 ```json
 {
   "status": "success|aborted|escalate",
-  "issue_key": "WEAP-123",
+  "issue_key": "PROJ-123",
   "phase_reached": 4,
   "risk_level": "LOW|MEDIUM|HIGH|CRITICAL",
   "analysis_comment": "## Board Analysis (@ARCH)\n...",
@@ -328,7 +328,7 @@ Your FINAL output must include a fenced JSON block. CI mode: this is parsed by t
   "result_comment": "## Board Resolution\n...",
   "pr_url": "https://github.com/.../pull/42",
   "pr_number": 42,
-  "branch": "fix/WEAP-123-short-slug",
+  "branch": "fix/PROJ-123-short-slug",
   "commit_sha": "abc1234",
   "files_changed": ["path/to/file1.js", "path/to/file2.js"],
   "tests_passed": true,
