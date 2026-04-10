@@ -87,7 +87,7 @@ Items discovered during project grilling sessions. Implement after each round.
 4. README skill count matches actual skill count in `.agent/skills/`
 5. All `.claude/skills/` wrappers point to existing canonical skills in `.agent/skills/`
 **Goal:** Prove the template delivers what it promises before onboarding the next fork project.
-**Status:** OPEN
+**Status:** DONE ✅ — 5 test files committed (b5cfc0b): test_01_bootstrap.sh, test_02_path_resolution.sh, test_03_precommit_secrets.sh, test_04_skill_count.sh, test_05_wrapper_integrity.sh.
 
 ---
 
@@ -95,4 +95,17 @@ Items discovered during project grilling sessions. Implement after each round.
 **Source:** Board meeting critical review (2026-04-09), @Security
 **Problem:** SECURITY_STANDARDS.md defines a CRITICAL risk tier requiring "human review," but no mechanism enforces it. The pre-commit hook only catches secrets via regex — it doesn't classify risk tiers or block CRITICAL changes. Enforcement may have existed in the original project and been stripped during generalization.
 **Action:** Investigate what enforcement existed in the original project. Design a portable mechanism (pre-commit gate, implement skill gate, or CI check) that blocks or escalates when a CRITICAL-tier change is detected. Must work across tech stacks without project-specific assumptions.
+**Status:** OPEN
+---
+
+### BL-043: Purge WEAP/Weapons_Lore from historical files
+**Source:** Deep dive scan 2026-04-10
+**Problem:** 68 WEAP/Weapons_Lore references found across the repo. Active files cleaned (implement, test-runner, LESSONS, PERIODIC_REVIEW, TEST_LESSONS, BACKLOG). Remaining historical files still contain WEAP references.
+**Remaining targets:**
+1. `foundation_backlog_done.md` — historical decision records with WEAP references (WEAP-241, WEAP-49, WEAP-specific gate descriptions, BL-011/BL-025 entries)
+2. `docs/temp/EXPERIMENT_*.md` (7 files) — experiment docs with WEAP references in findings
+3. `docs/temp/EXPERIMENT_RESULTS.md` — summary doc referencing WEAP-123, WEAP-specific findings
+4. `SYNC_LOG.md` — sync log with Weapons_Lore as source/destination
+**Redaction rule:** Replace WEAP-### → [ISSUE-###], Weapons_Lore → [PROJECT], keep rationale blocks intact as historical context
+**Note:** git history will still contain original content — file-level redaction is cosmetic only. Full history purge requires `git filter-repo`.
 **Status:** OPEN
